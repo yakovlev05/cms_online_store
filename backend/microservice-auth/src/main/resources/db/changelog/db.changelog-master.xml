@@ -5,5 +5,5 @@
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <include file="/db/changelog/changeset/v1.0.0_init.xml"/>
-
+    <include file="/db/changelog/changeset/v1.0.1_insert_roles.xml"/>
 </databaseChangeLog>
