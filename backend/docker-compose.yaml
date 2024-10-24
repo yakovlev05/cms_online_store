@@ -1,0 +1,45 @@
+name: cms-store-backend
+
+services:
+  cms-infra-database:
+    image: postgres:latest
+    restart: unless-stopped
+    container_name: cms-microservice-database
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+    ports:
+      - "5432:5432"
+    volumes:
+      - "./init-db:/docker-entrypoint-initdb.d" # выполнение кастомных скриптов инициализации
+      - "cms-infra-database:/var/lib/postgresql/data"
+    networks:
+      - cms-store-network
+  cms-backend-auth:
+    build:
+      context: ./microservice-auth
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: cms-backend-auth
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - cms-store-network
+
+
+
+volumes:
+  cms-infra-database:
+    name: cms-infra-database
+
+networks:
+  cms-store-network:
+    name: cms-store-network
