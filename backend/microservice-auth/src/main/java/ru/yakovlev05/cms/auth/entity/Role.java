@@ -1,9 +1,11 @@
 package ru.yakovlev05.cms.auth.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 @Entity
 @Table(name = "role")
 public class Role {

@@ -1,10 +1,12 @@
 package ru.yakovlev05.cms.auth.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Data
 @Entity
 @Table(name = "user")
 public class User {
