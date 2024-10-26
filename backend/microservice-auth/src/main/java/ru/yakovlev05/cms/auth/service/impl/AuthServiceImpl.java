@@ -4,23 +4,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.dto.JwtRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
-import ru.yakovlev05.cms.auth.entity.Role;
 import ru.yakovlev05.cms.auth.entity.User;
-import ru.yakovlev05.cms.auth.entity.UserRole;
 import ru.yakovlev05.cms.auth.security.JwtProvider;
 import ru.yakovlev05.cms.auth.security.JwtUserDetails;
 import ru.yakovlev05.cms.auth.service.AuthService;
 import ru.yakovlev05.cms.auth.service.UserService;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -50,18 +45,20 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponseDto login(JwtRequestDto request) {
-        Authentication authentication = authenticationManager.authenticate(
+        var t = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.login(), request.password())
         );
 
-        JwtUserDetails userDetails = (JwtUserDetails) authentication.getDetails();
+        JwtUserDetails userDetails = (JwtUserDetails) t.getPrincipal();
 
 
         return new JwtResponseDto(
-                jwtProvider.generateToken(
-                        String.valueOf(userDetails.getId()),
-                        new HashMap<>()
+                jwtProvider.generateAccessToken(
+                        userDetails.getId(),
+                        userDetails.getRoles()
                 ),
-                null);
+                jwtProvider.generateRefreshToken(userDetails.getId()),
+                System.currentTimeMillis() + jwtProvider.getAccessTokenValidityInMs(),
+                System.currentTimeMillis() + jwtProvider.getRefreshTokenValidityInMs());
     }
 }
