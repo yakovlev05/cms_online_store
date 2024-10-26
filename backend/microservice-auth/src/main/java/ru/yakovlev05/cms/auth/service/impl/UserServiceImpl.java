@@ -18,4 +18,19 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("TEST TEST TEST"));
     }
+
+    @Override
+    public void create(User user) {
+        if (userRepository.existsByUsername(user.getUsername()) || userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("User already exists");
+        }
+
+        userRepository.save(user);
+    }
+
+    @Override
+    public User getByLogin(String login) {
+        return userRepository.findByUsernameOrEmail(login, login)
+                .orElseThrow(() -> new RuntimeException("TEST TEST TEST"));
+    }
 }
