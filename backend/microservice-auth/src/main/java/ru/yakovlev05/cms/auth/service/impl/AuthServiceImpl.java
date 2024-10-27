@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.yakovlev05.cms.auth.dto.JwtRefreshRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
@@ -56,7 +58,22 @@ public class AuthServiceImpl implements AuthService {
 
         JwtUserDetails userDetails = (JwtUserDetails) t.getPrincipal();
 
+        return fillJwtResponseDto(userDetails);
+    }
 
+    @Override
+    public JwtResponseDto refresh(JwtRefreshRequestDto request) {
+        if (!jwtProvider.validateRefreshToken(request.refreshToken())) {
+            throw new RuntimeException("Invalid refresh token");
+        }
+
+        Authentication authentication = jwtProvider.getAuthentication(request.refreshToken());
+        JwtUserDetails userDetails = (JwtUserDetails) authentication.getPrincipal();
+
+        return fillJwtResponseDto(userDetails);
+    }
+
+    private JwtResponseDto fillJwtResponseDto(JwtUserDetails userDetails) {
         return new JwtResponseDto(
                 jwtProvider.generateAccessToken(
                         userDetails.getId(),

@@ -22,6 +22,8 @@ public class JwtProvider {
 
     private final JwtUserDetailsByUserIdService userDetailsByUserIdService;
 
+    private static final String TOKEN_TYPE = "token_type";
+
     private SecretKey getSignKey() {
         String encodedKey = Base64.getEncoder().encodeToString(jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8));
         return new SecretKeySpec(encodedKey.getBytes(), "HmacSHA256");
@@ -49,7 +51,7 @@ public class JwtProvider {
         return extractAllClaims(token).getSubject();
     }
 
-    public boolean validateToken(String token) {
+    private boolean validateToken(String token, String tokenType) {
         try {
             Claims claims = Jwts.parser()
                     .verifyWith(getSignKey())
@@ -57,23 +59,32 @@ public class JwtProvider {
                     .parseSignedClaims(token)
                     .getPayload();
 
-            return !claims.getExpiration().before(new Date());
+            return !claims.getExpiration().before(new Date())
+                    && claims.get(TOKEN_TYPE).equals(tokenType);
         } catch (Exception e) {
             throw new RuntimeException("JWT TOKEN EXPIRED");
         }
+    }
+
+    public boolean validateAccessToken(String token) {
+        return validateToken(token, "access_token");
+    }
+
+    public boolean validateRefreshToken(String token) {
+        return validateToken(token, "refresh_token");
     }
 
     public String generateAccessToken(long userId, Set<UserRole> roles) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", roles);
 
-        claims.put("token_type", "access_token");
+        claims.put(TOKEN_TYPE, "access_token");
         return createToken(claims, String.valueOf(userId), jwtProperties.getAccessTokenValidityInMs());
     }
 
     public String generateRefreshToken(long userId) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("token_type", "refresh_token");
+        claims.put(TOKEN_TYPE, "refresh_token");
         return createToken(claims, String.valueOf(userId), jwtProperties.getRefreshTokenValidityInMs());
     }
 

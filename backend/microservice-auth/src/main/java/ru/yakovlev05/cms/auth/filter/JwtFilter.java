@@ -30,7 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         String token = resolveToken(request);
-        if (token != null && jwtProvider.validateToken(token)) {
+        if (token != null && jwtProvider.validateAccessToken(token)) {
             Authentication auth = jwtProvider.getAuthentication(token);
 
             SecurityContextHolder.getContext().setAuthentication(auth);
