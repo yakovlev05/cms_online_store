@@ -33,4 +33,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsernameOrEmail(login, login)
                 .orElseThrow(() -> new RuntimeException("TEST TEST TEST"));
     }
+
+    @Override
+    public void update(User user) {
+        userRepository.save(user);
+    }
 }
