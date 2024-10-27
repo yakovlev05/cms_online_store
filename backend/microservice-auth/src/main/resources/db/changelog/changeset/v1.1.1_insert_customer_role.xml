@@ -4,8 +4,9 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
-    <include file="/db/changelog/changeset/v1.0.0_init.xml"/>
-    <include file="/db/changelog/changeset/v1.0.1_insert_roles.xml"/>
-    <include file="/db/changelog/changeset/v1.1.0_add_pk_users_roles.xml"/>
-    <include file="/db/changelog/changeset/v1.1.1_insert_customer_role.xml"/>
+    <changeSet id="27-10-2024-insert-customer-role" author="Alexey Yakovlev">
+        <insert tableName="role">
+            <column name="name">ROLE_CUSTOMER</column>
+        </insert>
+    </changeSet>
 </databaseChangeLog>
