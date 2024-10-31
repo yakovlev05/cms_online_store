@@ -33,6 +33,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.liquibase:liquibase-core")
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion") // jwt
+    implementation("org.springframework.kafka:spring-kafka")
+
 
     compileOnly("org.projectlombok:lombok")
 
@@ -44,6 +46,7 @@ dependencies {
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
 
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
