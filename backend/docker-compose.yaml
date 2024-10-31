@@ -64,6 +64,18 @@ services:
       - "cms-infra-kafka:/var/lib/kafka/data"
     networks:
       - cms-store-network
+  cms-manage-kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    restart: unless-stopped
+    container_name: cms-manage-kafka-ui
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=cms-infra-kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
+    ports:
+      - "8091:8080"
+    networks:
+      - cms-store-network
 
 
 volumes:
