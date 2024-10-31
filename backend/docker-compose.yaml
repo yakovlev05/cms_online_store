@@ -33,12 +33,46 @@ services:
       - "8080:8080"
     networks:
       - cms-store-network
-
+  cms-infra-zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    restart: unless-stopped
+    container_name: cms-infra-zookeeper
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+    ports:
+      - "22181:2181"
+    volumes:
+      - "cms-infra-zookeeper:/var/lib/zookeeper"
+    networks:
+      - cms-store-network
+  cms-infra-kafka:
+    image: confluentinc/cp-kafka:latest
+    restart: unless-stopped
+    container_name: cms-infra-kafka
+    environment:
+      - KAFKA_BROKER_ID=1 # уникальный номер инстанса
+      - KAFKA_ZOOKEEPER_CONNECT=cms-infra-zookeeper:2181 # подключение к zookeeper
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://cms-infra-kafka:9092,PLAINTEXT_HOST://localhost:29092 # задаются слушатели
+      # слушатель PLAINTEXT для внутреннего взаимодействия, PLAINTEXT_HOST для подключений извне
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT # оба типа слушателей используют протокол PLAINTEXT
+      - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT # какой слушатель для внутреннего взаимодействия
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 # количество реплик
+    ports:
+      - "29092:29092"
+    volumes:
+      - "cms-infra-kafka:/var/lib/kafka/data"
+    networks:
+      - cms-store-network
 
 
 volumes:
   cms-infra-database:
     name: cms-infra-database
+  cms-infra-zookeeper:
+    name: cms-infra-zookeeper
+  cms-infra-kafka:
+    name: cms-infra-kafka
 
 networks:
   cms-store-network:
