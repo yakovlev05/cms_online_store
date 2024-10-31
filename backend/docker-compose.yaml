@@ -31,6 +31,9 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     ports:
       - "8080:8080"
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
     networks:
       - cms-store-network
   cms-infra-zookeeper:
@@ -42,8 +45,6 @@ services:
       - ZOOKEEPER_TICK_TIME=2000
     ports:
       - "22181:2181"
-    volumes:
-      - "cms-infra-zookeeper:/var/lib/zookeeper"
     networks:
       - cms-store-network
   cms-infra-kafka:
@@ -58,10 +59,11 @@ services:
       - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT # оба типа слушателей используют протокол PLAINTEXT
       - KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT # какой слушатель для внутреннего взаимодействия
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 # количество реплик
+      - KAFKA_CLUSTER_ID=-KhL6czPT5e_oBJQkmSmpA
     ports:
       - "29092:29092"
-    volumes:
-      - "cms-infra-kafka:/var/lib/kafka/data"
+    depends_on:
+      - cms-infra-zookeeper
     networks:
       - cms-store-network
   cms-manage-kafka-ui:
@@ -74,6 +76,8 @@ services:
       - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
     ports:
       - "8091:8080"
+    depends_on:
+      - cms-infra-kafka
     networks:
       - cms-store-network
 
@@ -81,10 +85,6 @@ services:
 volumes:
   cms-infra-database:
     name: cms-infra-database
-  cms-infra-zookeeper:
-    name: cms-infra-zookeeper
-  cms-infra-kafka:
-    name: cms-infra-kafka
 
 networks:
   cms-store-network:
