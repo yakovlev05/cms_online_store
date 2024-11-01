@@ -14,6 +14,7 @@ import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.entity.User;
 import ru.yakovlev05.cms.auth.entity.UserRole;
+import ru.yakovlev05.cms.auth.exception.BadRequestException;
 import ru.yakovlev05.cms.auth.security.JwtProvider;
 import ru.yakovlev05.cms.auth.security.JwtUserDetails;
 import ru.yakovlev05.cms.auth.service.AuthService;
@@ -77,7 +78,7 @@ public class AuthServiceImpl implements AuthService {
     public JwtResponseDto refresh(JwtRefreshRequestDto request) {
         log.info("Refresh request received, refreshToken:  {}", request.refreshToken());
         if (!jwtProvider.validateRefreshToken(request.refreshToken())) {
-            throw new RuntimeException("Invalid refresh token");
+            throw new BadRequestException("Invalid refresh token");
         }
         log.info("Refresh token validated successful, refreshToken: {}", request.refreshToken());
 

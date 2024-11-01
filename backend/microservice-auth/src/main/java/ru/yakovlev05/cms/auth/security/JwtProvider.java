@@ -63,7 +63,7 @@ public class JwtProvider {
             return !claims.getExpiration().before(new Date())
                     && claims.get(TOKEN_TYPE).equals(tokenType);
         } catch (Exception e) {
-            throw new RuntimeException("JWT TOKEN EXPIRED");
+            return false;
         }
     }
 

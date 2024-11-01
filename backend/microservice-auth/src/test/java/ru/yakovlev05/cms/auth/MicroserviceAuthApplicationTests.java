@@ -8,6 +8,7 @@ class MicroserviceAuthApplicationTests {
 
     @Test
     void contextLoads() {
+        // pass
     }
 
 }

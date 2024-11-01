@@ -17,7 +17,6 @@ public class JwtUserDetailsByUserIdServiceImpl implements JwtUserDetailsByUserId
     public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
         User user = userService.getById(Long.parseLong(userId));
 
-        JwtUserDetails jwtUserDetails = JwtUserDetailFactory.create(user);
-        return jwtUserDetails;
+        return JwtUserDetailFactory.create(user);
     }
 }
