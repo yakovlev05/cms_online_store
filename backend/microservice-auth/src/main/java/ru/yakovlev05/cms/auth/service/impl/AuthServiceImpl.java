@@ -16,10 +16,12 @@ import ru.yakovlev05.cms.auth.entity.UserRole;
 import ru.yakovlev05.cms.auth.security.JwtProvider;
 import ru.yakovlev05.cms.auth.security.JwtUserDetails;
 import ru.yakovlev05.cms.auth.service.AuthService;
+import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.auth.service.RoleService;
 import ru.yakovlev05.cms.auth.service.UserService;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Service
@@ -27,6 +29,8 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
     private final RoleService roleService;
+
+    private final KafkaService kafkaService;
 
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
@@ -46,6 +50,8 @@ public class AuthServiceImpl implements AuthService {
         userService.create(user);
 
         roleService.assignRoleToUser(user.getId(), UserRole.ROLE_CUSTOMER);
+
+        kafkaService.sendUserCreatedEvent(user, Set.of(UserRole.ROLE_CUSTOMER));
 
         return ResponseEntity.ok("User registered successfully");
     }
