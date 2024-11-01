@@ -1,6 +1,7 @@
 package ru.yakovlev05.cms.auth.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,6 +24,7 @@ import ru.yakovlev05.cms.auth.service.UserService;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -39,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<String> registration(UserDto request) {
+        log.info("Registration request received, username: {}", request.username());
         User user = User.builder()
                 .username(request.username())
                 .email(request.email())
@@ -50,6 +53,7 @@ public class AuthServiceImpl implements AuthService {
         userService.create(user);
 
         roleService.assignRoleToUser(user.getId(), UserRole.ROLE_CUSTOMER);
+        log.info("Registration successful, username: {}", request.username());
 
         kafkaService.sendUserCreatedEvent(user, Set.of(UserRole.ROLE_CUSTOMER));
 
@@ -58,9 +62,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponseDto login(JwtRequestDto request) {
+        log.info("Login request received, login: {}", request.login());
         var t = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.login(), request.password())
         );
+        log.info("Authentication successful, login: {}", request.login());
 
         JwtUserDetails userDetails = (JwtUserDetails) t.getPrincipal();
 
@@ -69,9 +75,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public JwtResponseDto refresh(JwtRefreshRequestDto request) {
+        log.info("Refresh request received, refreshToken:  {}", request.refreshToken());
         if (!jwtProvider.validateRefreshToken(request.refreshToken())) {
             throw new RuntimeException("Invalid refresh token");
         }
+        log.info("Refresh token validated successful, refreshToken: {}", request.refreshToken());
 
         Authentication authentication = jwtProvider.getAuthentication(request.refreshToken());
         JwtUserDetails userDetails = (JwtUserDetails) authentication.getPrincipal();
