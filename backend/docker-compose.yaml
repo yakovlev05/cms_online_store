@@ -19,8 +19,9 @@ services:
       - cms-store-network
   cms-backend-auth:
     build:
-      context: ./microservice-auth
+      context: ./cms-backend
       dockerfile: Dockerfile
+      target: microservice-auth
     restart: unless-stopped
     container_name: cms-backend-auth
     env_file:
@@ -29,6 +30,7 @@ services:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
     ports:
       - "8080:8080"
     depends_on:
