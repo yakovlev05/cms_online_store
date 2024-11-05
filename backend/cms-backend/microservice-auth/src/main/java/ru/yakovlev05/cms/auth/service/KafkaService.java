@@ -1,7 +1,7 @@
 package ru.yakovlev05.cms.auth.service;
 
 import ru.yakovlev05.cms.auth.entity.User;
-import ru.yakovlev05.cms.auth.entity.UserRole;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 import java.util.Set;
 

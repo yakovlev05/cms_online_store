@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.entity.Role;
 import ru.yakovlev05.cms.auth.entity.User;
-import ru.yakovlev05.cms.auth.entity.UserRole;
 import ru.yakovlev05.cms.auth.repository.RoleRepository;
 import ru.yakovlev05.cms.auth.service.RoleService;
 import ru.yakovlev05.cms.auth.service.UserService;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 @RequiredArgsConstructor
 @Service

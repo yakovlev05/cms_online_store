@@ -13,7 +13,6 @@ java {
     }
 }
 
-@Suppress("UnstableApiUsage")
 configurations {
     compileOnly {
         extendsFrom(configurations.annotationProcessor.get())
@@ -34,6 +33,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion") // jwt
     implementation("org.springframework.kafka:spring-kafka")
+    implementation(project(":core"))
 
 
     compileOnly("org.projectlombok:lombok")

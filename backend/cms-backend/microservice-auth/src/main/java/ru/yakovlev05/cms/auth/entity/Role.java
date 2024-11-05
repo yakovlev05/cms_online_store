@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 import java.util.List;
 

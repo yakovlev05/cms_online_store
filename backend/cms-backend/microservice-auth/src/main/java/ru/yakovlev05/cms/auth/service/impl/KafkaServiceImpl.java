@@ -6,9 +6,9 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.entity.User;
-import ru.yakovlev05.cms.auth.entity.UserRole;
 import ru.yakovlev05.cms.auth.event.UserCreatedEvent;
 import ru.yakovlev05.cms.auth.service.KafkaService;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;

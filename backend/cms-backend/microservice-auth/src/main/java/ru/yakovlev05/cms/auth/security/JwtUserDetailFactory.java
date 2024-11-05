@@ -4,7 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import ru.yakovlev05.cms.auth.entity.Role;
 import ru.yakovlev05.cms.auth.entity.User;
-import ru.yakovlev05.cms.auth.entity.UserRole;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 import java.util.List;
 import java.util.Set;

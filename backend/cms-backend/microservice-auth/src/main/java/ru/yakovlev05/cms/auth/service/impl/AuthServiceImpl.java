@@ -13,7 +13,6 @@ import ru.yakovlev05.cms.auth.dto.JwtRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.entity.User;
-import ru.yakovlev05.cms.auth.entity.UserRole;
 import ru.yakovlev05.cms.auth.exception.BadRequestException;
 import ru.yakovlev05.cms.auth.security.JwtProvider;
 import ru.yakovlev05.cms.auth.security.JwtUserDetails;
@@ -21,6 +20,7 @@ import ru.yakovlev05.cms.auth.service.AuthService;
 import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.auth.service.RoleService;
 import ru.yakovlev05.cms.auth.service.UserService;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 import java.time.LocalDateTime;
 import java.util.Set;
