@@ -1,4 +1,4 @@
-package ru.yakovlev05.cms.auth.entity;
+package ru.yakovlev05.cms.core.entity;
 
 public enum UserRole {
     ROLE_OWNER,

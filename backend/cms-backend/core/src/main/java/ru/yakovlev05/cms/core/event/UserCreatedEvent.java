@@ -1,4 +1,4 @@
-package ru.yakovlev05.cms.auth.event;
+package ru.yakovlev05.cms.core.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
