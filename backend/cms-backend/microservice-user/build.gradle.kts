@@ -29,6 +29,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.liquibase:liquibase-core")
+    implementation(project(":core"))
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("org.postgresql:postgresql")
     annotationProcessor("org.projectlombok:lombok")
@@ -42,6 +43,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-springBoot{
+springBoot {
     mainClass.set("ru.yakovlev05.cms.user.microserviceuser.MicroserviceUserApplication")
 }

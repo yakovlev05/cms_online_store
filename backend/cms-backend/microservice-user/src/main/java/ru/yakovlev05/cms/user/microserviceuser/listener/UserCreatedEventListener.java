@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import ru.yakovlev05.cms.user.microserviceuser.event.UserCreatedEvent;
+import ru.yakovlev05.cms.core.event.UserCreatedEvent;
 
 @Component
 @Slf4j
