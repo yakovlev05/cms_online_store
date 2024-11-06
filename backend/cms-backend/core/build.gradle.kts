@@ -13,4 +13,5 @@ val lombokVersion = "1.18.34"
 
 dependencies {
     compileOnly("org.projectlombok:lombok:${lombokVersion}")
+    annotationProcessor("org.projectlombok:lombok:${lombokVersion}")
 }
