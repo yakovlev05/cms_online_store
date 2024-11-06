@@ -20,10 +20,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       group-id: user-service-events
       properties:
-        spring.json.trusted.packages: "*"
-  json:
-    trusted:
-      packages:
+        spring.json.trusted.packages: "ru.yakovlev05.cms.core.event"
 
 
 jwt:

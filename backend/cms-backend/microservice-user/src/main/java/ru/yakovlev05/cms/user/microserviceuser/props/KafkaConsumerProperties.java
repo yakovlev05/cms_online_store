@@ -19,4 +19,7 @@ public class KafkaConsumerProperties {
 
     @Value("${spring.kafka.consumer.group-id}")
     private String consumerGroupId;
+
+    @Value("${spring.kafka.consumer.properties.spring.json.trusted.packages}")
+    private String trustedPackages;
 }
