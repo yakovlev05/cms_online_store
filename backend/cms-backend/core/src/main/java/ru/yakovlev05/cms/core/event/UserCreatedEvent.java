@@ -14,7 +14,9 @@ import java.util.Set;
 @Data
 public class UserCreatedEvent {
     private long id;
-    private String username;
-    private String email;
+    private String firstName;
+    private String lastName;
+    private String patronymic;
+    private String phoneNumber;
     private Set<UserRole> roles;
 }

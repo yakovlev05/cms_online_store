@@ -55,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
         roleService.assignRoleToUser(user.getId(), UserRole.ROLE_CUSTOMER);
         log.info("Registration successful, phone number: {}", request.phoneNumber());
 
-        kafkaService.sendUserCreatedEvent(user, Set.of(UserRole.ROLE_CUSTOMER));
+        kafkaService.sendUserCreatedEvent(user.getId(), request, Set.of(UserRole.ROLE_CUSTOMER));
 
         return ResponseEntity.ok("User registered successfully");
     }
