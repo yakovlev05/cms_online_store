@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1730993376644-1" author="alexey">
+        <addColumn tableName="user">
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="patronymic" type="VARCHAR(255)"/>
+            <column name="phone_number" type="VARCHAR(10)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1730993376644-5" author="alexey">
+        <addNotNullConstraint columnName="phone_number" tableName="user"/>
+    </changeSet>
+    <changeSet id="1730993376644-6" author="alexey">
+        <addUniqueConstraint columnNames="phone_number" constraintName="uc_user_phone_number" tableName="user"/>
+    </changeSet>
+    <changeSet id="07-11-2024-drop-column-username-email-password" author="Alexey Yakovlev">
+        <dropColumn tableName="user" columnName="username"/>
+        <dropColumn tableName="user" columnName="email"/>
+        <dropColumn tableName="user" columnName="password"/>
+    </changeSet>
+
+</databaseChangeLog>
