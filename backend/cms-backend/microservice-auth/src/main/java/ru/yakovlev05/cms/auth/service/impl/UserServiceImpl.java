@@ -22,9 +22,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void create(User user) {
-        if (userRepository.existsByUsername(user.getUsername()) || userRepository.existsByEmail(user.getEmail())) {
-            throw new BadRequestException("User with username " + user.getUsername() + " or email "
-                    + user.getEmail() + " already exists");
+        if (userRepository.existsByPhoneNumber(user.getPhoneNumber())) {
+            throw new BadRequestException("User with phone number " + user.getPhoneNumber() + " already exists");
         }
 
         userRepository.save(user);
@@ -32,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getByLogin(String login) {
-        return userRepository.findByUsernameOrEmail(login, login)
+        return userRepository.findByPhoneNumber(login)
                 .orElseThrow(() -> new BadRequestException("User with login " + login + " not found"));
     }
 

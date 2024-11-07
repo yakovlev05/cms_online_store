@@ -6,4 +6,5 @@
 
     <include file="/db/changelog/changeset/v1.0.0_init.xml"/>
     <include file="/db/changelog/changeset/v1.0.1_insert_roles.xml"/>
+    <include file="db/changelog/changeset/v1.1.2_remove_username_add_phone_number.xml"/>
 </databaseChangeLog>

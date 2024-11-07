@@ -19,8 +19,7 @@ public class JwtUserDetailFactory {
     public static JwtUserDetails create(User user) {
         return new JwtUserDetails(
                 user.getId(),
-                user.getUsername(),
-                user.getEmail(),
+                user.getPhoneNumber(),
                 user.getPassword(),
                 mapToUserRoles(user.getRoles()),
                 mapToGrantedAuthorities(user.getRoles())

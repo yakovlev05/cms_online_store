@@ -15,8 +15,7 @@ import java.util.Set;
 public class JwtUserDetails implements UserDetails {
 
     private final long id;
-    private final String username;
-    private final String email;
+    private final String phoneNumber;
     private final String password;
     private final Set<UserRole> roles;
     private final List<GrantedAuthority> authorities;
@@ -33,6 +32,6 @@ public class JwtUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return phoneNumber;
     }
 }

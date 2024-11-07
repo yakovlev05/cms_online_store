@@ -24,11 +24,11 @@ public class KafkaServiceImpl implements KafkaService {
     public void sendUserCreatedEvent(User user, Set<UserRole> roles) {
         UserCreatedEvent data = UserCreatedEvent.builder()
                 .id(user.getId())
-                .username(user.getUsername())
-                .email(user.getEmail())
+                .username("тест")
+                .email("test")
                 .roles(roles)
                 .build();
-
+        // todo: доделать data
         log.info("Send data to topic auth.user.created: {}", data);
         CompletableFuture<SendResult<String, UserCreatedEvent>> future = kafkaTemplate
                 .send("auth.user.created", String.valueOf(user.getId()), data);

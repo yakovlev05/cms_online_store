@@ -42,10 +42,9 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<String> registration(UserDto request) {
-        log.info("Registration request received, username: {}", request.username());
+        log.info("Registration request received, phone number: {}", request.phoneNumber());
         User user = User.builder()
-                .username(request.username())
-                .email(request.email())
+                .phoneNumber(request.phoneNumber())
                 .password(passwordEncoder.encode(request.password()))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
@@ -54,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
         userService.create(user);
 
         roleService.assignRoleToUser(user.getId(), UserRole.ROLE_CUSTOMER);
-        log.info("Registration successful, username: {}", request.username());
+        log.info("Registration successful, phone number: {}", request.phoneNumber());
 
         kafkaService.sendUserCreatedEvent(user, Set.of(UserRole.ROLE_CUSTOMER));
 
