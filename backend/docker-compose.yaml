@@ -4,7 +4,7 @@ services:
   cms-infra-database:
     image: postgres:latest
     restart: unless-stopped
-    container_name: cms-microservice-database
+    container_name: cms-infra-database
     env_file:
       - .env
     environment:
@@ -19,18 +19,20 @@ services:
       - cms-store-network
   cms-backend-auth:
     build:
-      context: ./microservice-auth
+      context: ./cms-backend
       dockerfile: Dockerfile
+      target: microservice-auth
     restart: unless-stopped
     container_name: cms-backend-auth
     env_file:
       - .env
     environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL}
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_AUTH_SERVICE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-    ports:
-      - "8080:8080"
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+    #    ports:
+    #      - "8080:8080"
     depends_on:
       - cms-infra-database
       - cms-infra-kafka
@@ -43,8 +45,8 @@ services:
     environment:
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
-    ports:
-      - "22181:2181"
+    #    ports:
+    #      - "22181:2181"
     networks:
       - cms-store-network
   cms-infra-kafka:
@@ -73,10 +75,50 @@ services:
     environment:
       - KAFKA_CLUSTERS_0_NAME=local
       - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=cms-infra-kafka:9092
-      - KAFKA_CLUSTERS_0_ZOOKEEPER=zookeeper:2181
-    ports:
-      - "8091:8080"
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=cms-infra-zookeeper:2181
+      - AUTH_TYPE=LOGIN_FORM
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=pass
+      - SERVER_SERVLET_CONTEXT_PATH=/kafka-ui
+    #    ports:
+    #      - "8091:8080"
     depends_on:
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
+  cms-infra-nginx:
+    image: nginx:latest
+    restart: unless-stopped
+    container_name: cms-infra-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - "./nginx:/etc/nginx/conf.d"
+    depends_on:
+      - cms-backend-auth
+      - cms-backend-user
+      - cms-manage-kafka-ui
+    networks:
+      - cms-store-network
+  cms-backend-user:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-user
+    restart: unless-stopped
+    container_name: cms-backend-user
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_USER_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+    #    ports:
+    #      - "8080:8080"
+    depends_on:
+      - cms-infra-database
       - cms-infra-kafka
     networks:
       - cms-store-network

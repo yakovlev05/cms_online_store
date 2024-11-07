@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: microservice-user
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/user_service}
+    username: ${POSTGRES_USER:user}
+    password: ${POSTGRES_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: /db/changelog/db.changelog-master.xml
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: user-service-events
+      properties:
+        spring.json.trusted.packages: "ru.yakovlev05.cms.core.event"
+
+
+jwt:
+  secret: ${JWT_SECRET:only_test_123456789123456789}
+  accessTokenValidityInMs: ${ACCESS_TOKEN_VALIDITY_IN_MS:86400000}
+  refreshTokenValidityInMs: ${REFRESH_TOKEN_VALIDITY_IN_MS:2592000000}
+
+server:
+  port: 0
