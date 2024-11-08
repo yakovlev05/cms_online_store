@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: swagger
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    urls:
+      - name: microservice-auth
+        url: /v3/api-docs/microservice-auth
+    path: /swagger

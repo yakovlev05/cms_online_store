@@ -97,29 +97,41 @@ services:
       - "./nginx:/etc/nginx/conf.d"
     depends_on:
       - cms-backend-auth
-      - cms-backend-user
+      #      - cms-backend-user
       - cms-manage-kafka-ui
     networks:
       - cms-store-network
-  cms-backend-user:
+  #  cms-backend-user:
+  #    build:
+  #      context: ./cms-backend
+  #      dockerfile: Dockerfile
+  #      target: microservice-user
+  #    restart: unless-stopped
+  #    container_name: cms-backend-user
+  #    env_file:
+  #      - .env
+  #    environment:
+  #      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_USER_SERVICE}
+  #      - POSTGRES_USER=${POSTGRES_USER}
+  #      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+  #      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+  #    #    ports:
+  #    #      - "8080:8080"
+  #    depends_on:
+  #      - cms-infra-database
+  #      - cms-infra-kafka
+  #    networks:
+  #      - cms-store-network
+  cms-doc-swagger:
     build:
-      context: ./cms-backend
+      context: ./cms-backend/swagger
       dockerfile: Dockerfile
-      target: microservice-user
     restart: unless-stopped
-    container_name: cms-backend-user
-    env_file:
-      - .env
-    environment:
-      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_USER_SERVICE}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
-    #    ports:
-    #      - "8080:8080"
+    container_name: cms-doc-swagger
+#    ports:
+#      - "8080:8080"
     depends_on:
-      - cms-infra-database
-      - cms-infra-kafka
+      - cms-backend-auth
     networks:
       - cms-store-network
 

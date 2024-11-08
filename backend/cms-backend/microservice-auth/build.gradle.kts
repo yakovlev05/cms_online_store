@@ -24,6 +24,7 @@ repositories {
 }
 
 val jjwtVersion = "0.12.6"
+val swaggerVersion = "2.6.0"
 
 dependencies {
     //s
@@ -33,6 +34,7 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion") // jwt
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
     implementation(project(":core"))
 
 
@@ -55,6 +57,6 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
-springBoot{
+springBoot {
     mainClass.set("ru.yakovlev05.cms.auth.MicroserviceAuthApplication")
 }
