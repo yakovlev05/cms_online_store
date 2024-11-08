@@ -32,6 +32,18 @@ public class User {
     @Column(name = "patronymic")
     private String patronymic;
 
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "street")
+    private String street;
+
+    @Column(name = "house_number")
+    private String houseNumber;
+
+    @Column(name = "home_apartment")
+    private String homeApartment;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
