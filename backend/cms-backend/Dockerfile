@@ -34,7 +34,7 @@ COPY microservice-user/src microservice-user/src
 RUN gradle clean build -x test --no-daemon # --info
 
 
-# Этап выполнения
+# Этап выполненияwdwewefefewf
 FROM openjdk:21-slim AS microservice-auth
 WORKDIR /app
 # Копируем собранный JAR файл из этапа сборки
