@@ -1,0 +1,68 @@
+.card {
+    width: 256px;
+    height: 342px;
+    
+    display: flex;
+    flex-direction: column;
+    
+    border: 1px solid rgba(180, 178, 160, 1);
+    border-radius: 12px;
+    
+    overflow: hidden; /* Для "обрезки" изображение */
+}
+
+.cardBottom{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    background-color: rgba(254, 250, 225, 1);
+    
+    padding: 6px 16px;
+
+    flex: 1;
+}
+
+.cardText{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    max-width: 175px;
+
+    font-family: var(--font-open-sans), sans-serif;
+}
+
+.oldPrice{
+    text-decoration: line-through;
+
+    color: rgba(180, 178, 160, 1);
+    
+    margin: 0 0 0 5px;
+}
+
+.buttonCart{
+    background-color: rgba(121, 134, 72, 1);
+    
+    width: 42px;
+    height: 42px;
+
+    
+    border-radius: 10px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    margin: 0 0 0 5px;
+}
+
+.priceLabel{
+    color: rgba(180, 178, 160, 1);
+}
+
+.name{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
