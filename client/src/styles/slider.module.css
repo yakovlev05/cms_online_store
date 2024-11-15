@@ -1,0 +1,25 @@
+.slider{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    height: 100%;
+    
+    background: var(--color-primary-500);
+}
+
+.window{
+    width: 100%;
+    height: 100%;
+    
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    
+    overflow: hidden;
+}
+
+.button{
+    margin: 0 10px 0 10px;
+}

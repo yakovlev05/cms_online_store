@@ -1,0 +1,23 @@
+.tile {
+    width: 180px;
+    height: 229px;
+    padding: 0 0 5px 0;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background: var(--color-primary-500);
+    overflow: hidden;
+}
+
+.name {
+    font-family: var(--font-cormorant-sc), serif;
+    font-size: 28px;
+
+    text-align: center;
+}
+
+.img {
+    border-radius: 20px;
+}
