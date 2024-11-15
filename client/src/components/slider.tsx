@@ -1,6 +1,7 @@
 'use client'
 import styles from '@/src/styles/slider.module.css'
 import React, {useState} from "react";
+import Arrow from "@/src/components/ui/arrow";
 
 interface Props {
     children: React.ReactNode; // элементы для отображения
@@ -34,7 +35,9 @@ const Slider: React.FC<Props> = ({children, countShow = 3, gap = 24, sliderHeigh
                  maxHeight: `${sliderHeight}px`,
              }}
         >
-            <button onClick={handlePrev}>Назад</button>
+            <button onClick={handlePrev} className={styles.button}>
+                <Arrow flipVertical={true}/>
+            </button>
             <div
                 className={styles.window}
                 style={{
@@ -43,7 +46,9 @@ const Slider: React.FC<Props> = ({children, countShow = 3, gap = 24, sliderHeigh
             >
                 {visibleItems}
             </div>
-            <button onClick={handleNext}>Вперёд</button>
+            <button onClick={handleNext} className={styles.button}>
+                <Arrow/>
+            </button>
         </div>
     )
 }
