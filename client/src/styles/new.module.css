@@ -1,0 +1,30 @@
+.new{
+    width: 100%;
+    
+    background: var(--color-primary-500);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.title{
+    color: var(--color-secondary-500);
+    
+    font-family: var(--font-cormorant-sc), serif;
+    font-weight: 700;
+    font-size: 48px;
+}
+
+.cardsContainer{
+    margin: 9px 0 0 0;
+    padding: 15px;
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 34px;
+    
+    max-width: 1156px;
+    width: 100%;
+}

@@ -1,15 +1,22 @@
-import Tile from "@/src/components/tile";
-import Slider from "@/src/components/slider";
+import Header from "@/src/components/header";
+import Banner from "@/src/components/banner";
+import styles from '@/src/styles/home.module.css';
+import Collections from "@/src/components/collections";
+import New from "@/src/components/ui/new";
+import Footer from "@/src/components/footer";
 
 export default function Home() {
     return (
-        <Slider sliderWidth={1156} sliderHeight={229} countShow={3}>
-            <Tile name='Монобукеты' img='/assets/placeholder/tile1.jpg'/>
-            <Tile name='Для мужчин' img='/assets/placeholder/tile2.jpg'/>
-            <Tile name='Для женщин' img='/assets/placeholder/tile3.jpg'/>
-            <Tile name='Сезонные' img='/assets/placeholder/tile4.jpg'/>
-            <Tile name='Классические' img='/assets/placeholder/tile5.jpg'/>
-        </Slider>
-        
+        <div className={styles.home}>
+            <Header logo='/assets/placeholder/logo.svg'/>
+            <Banner img='/assets/placeholder/banner.jpg'
+                    title='Добавьте праздничного блеска!'
+                    description='Мы обновили нашу коллекцию в соответствии с сезоном.
+                    Так что отправьте кому-то самую роскошную доставку цветов на это Рождество!'
+            />
+            <Collections/>
+            <New/>
+            <Footer logo='/assets/placeholder/logo.svg' vk_link='/#' tg_link='/#'/>
+        </div>
     )
 }

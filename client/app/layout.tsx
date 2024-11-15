@@ -11,7 +11,7 @@ const openSans = Open_Sans({
 })
 
 const cormorantSc = Cormorant_SC({
-    weight: ['400'],
+    weight: ['400', '700'],
     variable: '--font-cormorant-sc',
     subsets: ['latin',  'cyrillic'],
     display: 'swap'
