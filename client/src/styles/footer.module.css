@@ -1,0 +1,40 @@
+.footer {
+    height: 172px;
+
+    background: var(--color-secondary-500);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 29px;
+}
+
+.infoContainer {
+    display: flex;
+    gap: 100px;
+}
+
+@media (max-width: 768px) {
+    .infoContainer {
+        gap: 16px;
+    }
+}
+
+.urls {
+    color: var(--color-primary-500);
+
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 19px;
+
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.networks {
+    display: flex;
+    gap: 34px;
+}
