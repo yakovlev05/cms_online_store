@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from './styles.module.css'
+import styles from '../styles/product-card.module.css'
 import React from "react";
 
 interface Props {
