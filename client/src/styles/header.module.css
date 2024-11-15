@@ -1,0 +1,39 @@
+.header {
+    background: var(--color-secondary-500);
+
+    height: 100px;
+
+    padding: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 23px;
+}
+
+.nav {
+    color: var(--color-primary-400);
+
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 19px;
+
+    padding: 25px;
+
+    display: flex;
+    justify-content: space-around;
+
+    max-width: 500px;
+    width: 100%;
+
+    justify-self: center;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-around;
+    
+    padding: 22px;
+
+    max-width: 300px;
+    width: 100%;
+}
