@@ -1,0 +1,29 @@
+.banner {
+    display: flex;
+
+    width: 1128px;
+}
+
+.textContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 48px;
+
+    padding: 33px;
+
+    background: var(--color-secondary-700);
+
+    color: var(--color-primary-500);
+}
+
+.title {
+    font-family: var(--font-cormorant-sc), serif;
+
+    font-size: 40px;
+}
+
+.description {
+    font-family: var(--font-open-sans), sans-serif;
+}
