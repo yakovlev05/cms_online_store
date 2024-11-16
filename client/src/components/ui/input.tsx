@@ -3,7 +3,7 @@ import React from "react";
 
 interface Props {
     label: string;
-    placeholder: string;
+    placeholder?: string;
     inputName: string;
     inputAutoComplete: string;
     inputType: string;

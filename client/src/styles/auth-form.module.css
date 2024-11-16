@@ -1,0 +1,21 @@
+.container {
+    background: var(--color-secondary-700);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.title {
+    font-family: var(--font-cormorant-sc), serif;
+    font-weight: 700;
+    font-size: 48px;
+
+    color: var(--color-primary-500);
+}
