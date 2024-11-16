@@ -1,0 +1,13 @@
+.button{
+    width: 290px;
+    height: 40px;
+    
+    background: var(--color-button-500);
+    
+    border-radius: 4px;
+    
+    color: var(--color-primary-50);
+    
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 19px;
+}
