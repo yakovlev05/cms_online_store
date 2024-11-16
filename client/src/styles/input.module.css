@@ -1,0 +1,30 @@
+.container {
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 19px;
+
+    background: transparent;
+    
+    width: 100%;
+}
+
+.label {
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 19px;
+
+    color: var(--color-primary-500);
+}
+
+.input {
+    width: 290px;
+    height: 40px;
+
+    border-radius: 4px;
+    background: var(--color-primary-500);
+
+    margin: 2px 0 0 0;
+
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 16px;
+
+    padding: 5px;
+}
