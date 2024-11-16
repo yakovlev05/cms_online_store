@@ -1,0 +1,34 @@
+.window {
+    display: flex;
+    align-items: center;
+
+    background: var(--color-secondary-700);
+
+    width: 960px;
+    height: 640px;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    margin: 0 auto 0 auto;
+}
+
+.img {
+    margin-left: auto;
+}
+
+.questions {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    font-family: var(--font-open-sans), sans-serif;
+    color: var(--color-primary-500);
+}
