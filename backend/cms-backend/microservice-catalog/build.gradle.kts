@@ -24,6 +24,7 @@ repositories {
 }
 
 val jjwtVersion = "0.12.6"
+val swaggerVersion = "2.6.0"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -33,6 +34,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion") // jwt
     implementation(project(":core"))
     implementation("org.projectlombok:lombok")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion") //jwt
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion") // jwt
