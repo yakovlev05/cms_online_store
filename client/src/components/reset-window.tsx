@@ -1,18 +1,17 @@
 import styles from '@/src/styles/auth-window.module.css';
-import RegForm from "@/src/components/reg-form";
+import ResetForm from "@/src/components/reset-form";
 import Image from "next/image";
 import NavLink from "@/src/components/nav-link";
 
-const RegWindow = () => {
+const ResetWindow = () => {
     return (
         <div className={styles.window}>
             <div className={styles.formContainer}>
-                <RegForm/>
+                <ResetForm/>
                 <div className={styles.questions}>
-                    <p>У вас уже есть аккаунт?<br/>
+                    <p>Вернуться ко входу?<br/>
                         <NavLink text='Войти' url='/login'/>
                     </p>
-                    <NavLink text='Забыли пароль?' url='/reset'/>
                 </div>
             </div>
             <div className={styles.img}>
@@ -22,4 +21,4 @@ const RegWindow = () => {
     )
 }
 
-export default RegWindow;
+export default ResetWindow;
