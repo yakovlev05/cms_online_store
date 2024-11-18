@@ -10,4 +10,9 @@
     
     font-family: var(--font-open-sans), sans-serif;
     font-size: 19px;
+
+    &:hover {
+        transition: 0.2s ease-in-out;
+        opacity: 0.8;
+    }
 }

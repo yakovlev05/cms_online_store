@@ -3,11 +3,12 @@ import React from "react";
 
 interface Props {
     text: string;
+    onClick?: () => void;
 }
 
-const Button: React.FC<Props> = ({text}) => {
+const Button: React.FC<Props> = ({text, onClick}) => {
     return (
-        <button type='submit' className={styles.button}>{text}</button>
+        <button onClick={onClick} type='submit' className={styles.button}>{text}</button>
     )
 }
 

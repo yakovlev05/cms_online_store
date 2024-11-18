@@ -10,9 +10,9 @@ const AuthWindow = () => {
                 <AuthForm/>
                 <div className={styles.questions}>
                     <p>У вас нет аккаунта?<br/>
-                        Пройдите <NavLink text='регистрацию' url='/#'/>
+                        Пройдите <NavLink text='регистрацию' url='/registration'/>
                     </p>
-                    <NavLink text='Забыли пароль?' url='/#'/>
+                    <NavLink text='Забыли пароль?' url='/reset'/>
                 </div>
             </div>
             <div className={styles.img}>
