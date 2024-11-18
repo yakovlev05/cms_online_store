@@ -1,5 +1,7 @@
 package ru.yakovlev05.cms.catalog.security;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +10,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.props.JwtProperties;
+import ru.yakovlev05.cms.core.entity.UserRole;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -40,11 +44,16 @@ public class JwtProvider {
         return extractAllClaims(token).getSubject();
     }
 
-    private Object extractRoles(String token) {
-        return extractAllClaims(token).get("roles");
+    private List<UserRole> extractRoles(String token) {
+        // (List<UserRole>) extractAllClaims(token).get("roles"); предупреждение при таком подходе
+        ObjectMapper objectMapper = new ObjectMapper();
+        Object roles = extractAllClaims(token).get("roles");
+
+        return objectMapper.convertValue(roles, new TypeReference<>() {
+        });
     }
 
-    private boolean validateToken(String token, String tokenType) {
+    public boolean validateAccessToken(String token) {
         try {
             Claims claims = Jwts.parser()
                     .verifyWith(getSignKey())
@@ -53,23 +62,14 @@ public class JwtProvider {
                     .getPayload();
 
             return !claims.getExpiration().before(new Date())
-                    && claims.get(TOKEN_TYPE).equals(tokenType);
+                    && claims.get(TOKEN_TYPE).equals("access_token");
         } catch (Exception e) {
             return false;
         }
     }
 
-    public boolean validateAccessToken(String token) {
-        return validateToken(token, "access_token");
-    }
-
     public Authentication getAuthentication(String token) {
-        Object u = extractRoles(token);
-        UserDetails userDetails = new JwtUserDetails(
-                Long.parseLong(extractSubject(token)),
-                null,
-                null
-        );
+        UserDetails userDetails = JwtUserDetailsFactory.create(extractSubject(token), extractRoles(token));
         return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }
