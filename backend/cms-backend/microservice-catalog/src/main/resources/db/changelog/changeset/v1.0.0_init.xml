@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1731926742067-1" author="Alexey Yakovlev">
+        <createTable tableName="category">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_category"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME"/>
+            <column name="updated_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731926742067-2" author="Alexey Yakovlev">
+        <createTable tableName="component">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_component"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="count" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731926742067-3" author="Alexey Yakovlev">
+        <createTable tableName="media">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_media"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="file_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731926742067-4" author="Alexey Yakovlev">
+        <createTable tableName="product">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_product"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="url_name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="price" type="DECIMAL(10, 2)"/>
+            <column name="created_at" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated_at" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="main_photo" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731926742067-5" author="Alexey Yakovlev">
+        <createTable tableName="product_category">
+            <column name="category_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731926742067-6" author="Alexey Yakovlev">
+        <createTable tableName="product_media">
+            <column name="media_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1731926742067-7" author="Alexey Yakovlev">
+        <addUniqueConstraint columnNames="url_name" constraintName="uc_category_url_name" tableName="category"/>
+    </changeSet>
+    <changeSet id="1731926742067-8" author="Alexey Yakovlev">
+        <addUniqueConstraint columnNames="name" constraintName="uc_component_name" tableName="component"/>
+    </changeSet>
+    <changeSet id="1731926742067-9" author="Alexey Yakovlev">
+        <addUniqueConstraint columnNames="file_name" constraintName="uc_media_file_name" tableName="media"/>
+    </changeSet>
+    <changeSet id="1731926742067-10" author="Alexey Yakovlev">
+        <addUniqueConstraint columnNames="main_photo" constraintName="uc_product_main_photo" tableName="product"/>
+    </changeSet>
+    <changeSet id="1731926742067-11" author="Alexey Yakovlev">
+        <addUniqueConstraint columnNames="url_name" constraintName="uc_product_url_name" tableName="product"/>
+    </changeSet>
+    <changeSet id="1731926742067-12" author="Alexey Yakovlev">
+        <addForeignKeyConstraint baseColumnNames="main_photo" baseTableName="product"
+                                 constraintName="FK_PRODUCT_ON_MAIN_PHOTO" referencedColumnNames="id"
+                                 referencedTableName="media"/>
+    </changeSet>
+    <changeSet id="1731926742067-13" author="Alexey Yakovlev">
+        <addForeignKeyConstraint baseColumnNames="category_id" baseTableName="product_category"
+                                 constraintName="fk_procat_on_category" referencedColumnNames="id"
+                                 referencedTableName="category"/>
+    </changeSet>
+    <changeSet id="1731926742067-14" author="Alexey Yakovlev">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_category"
+                                 constraintName="fk_procat_on_product" referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+    <changeSet id="1731926742067-15" author="Alexey Yakovlev">
+        <addForeignKeyConstraint baseColumnNames="media_id" baseTableName="product_media"
+                                 constraintName="fk_promed_on_media" referencedColumnNames="id"
+                                 referencedTableName="media"/>
+    </changeSet>
+    <changeSet id="1731926742067-16" author="Alexey Yakovlev">
+        <addForeignKeyConstraint baseColumnNames="product_id" baseTableName="product_media"
+                                 constraintName="fk_promed_on_product" referencedColumnNames="id"
+                                 referencedTableName="product"/>
+    </changeSet>
+
+</databaseChangeLog>

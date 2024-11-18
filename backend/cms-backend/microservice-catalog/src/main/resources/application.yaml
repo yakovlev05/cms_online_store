@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: microservice-catalog
+  datasource:
+    url: jdbc:postgresql://localhost:5432/catalog_service
+    username: ${POSTGRES_USER:user}
+    password: ${POSTGRES_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
