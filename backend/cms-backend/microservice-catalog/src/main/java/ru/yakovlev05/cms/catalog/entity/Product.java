@@ -3,6 +3,7 @@ package ru.yakovlev05.cms.catalog.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @Entity(name = "product")
 public class Product {
 
@@ -45,13 +47,21 @@ public class Product {
     )
     private List<Category> category;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_media",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "media_id", referencedColumnName = "id", nullable = false)
     )
     private List<Media> media;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "product_component",
+            joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false),
+            inverseJoinColumns = @JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
+    )
+    private List<Component> component;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "main_photo", referencedColumnName = "id")
