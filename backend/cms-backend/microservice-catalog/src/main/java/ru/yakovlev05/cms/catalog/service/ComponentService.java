@@ -8,4 +8,6 @@ public interface ComponentService {
     void addComponent(ComponentDto componentDto);
 
     ComponentDto updateComponent(String componentName, ComponentDto componentDto);
+
+    void deleteComponent(String componentName);
 }

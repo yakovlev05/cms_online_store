@@ -29,4 +29,10 @@ public class ComponentController {
     public ComponentDto updateComponent(@PathVariable String componentName, @RequestBody ComponentDto componentDto) {
         return componentService.updateComponent(componentName, componentDto);
     }
+
+    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @DeleteMapping("/{componentName}")
+    public void deleteComponent(@PathVariable String componentName) {
+        componentService.deleteComponent(componentName);
+    }
 }
