@@ -65,8 +65,10 @@ public class ComponentServiceImpl implements ComponentService {
     @Override
     public void deleteComponent(String componentName) {
         Component component = getComponentByName(componentName);
-        if (!component.getProducts().isEmpty()){
+        if (!component.getProducts().isEmpty()) {
             throw new BadRequestException("The component is used");
         }
+
+        componentRepository.delete(component);
     }
 }
