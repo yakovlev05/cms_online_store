@@ -2,7 +2,7 @@ spring:
   application:
     name: microservice-catalog
   datasource:
-    url: jdbc:postgresql://localhost:5432/catalog_service
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/catalog_service}
     username: ${POSTGRES_USER:user}
     password: ${POSTGRES_PASSWORD:password}
   jpa:

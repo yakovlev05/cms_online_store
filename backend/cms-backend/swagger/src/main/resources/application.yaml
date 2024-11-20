@@ -9,4 +9,6 @@ springdoc:
     urls:
       - name: microservice-auth
         url: /v3/api-docs/microservice-auth
+      - name: microservice-catalog
+        url: /v3/api-docs/microservice-catalog
     path: /swagger

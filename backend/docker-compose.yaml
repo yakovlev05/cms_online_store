@@ -122,6 +122,25 @@ services:
   #      - cms-infra-kafka
   #    networks:
   #      - cms-store-network
+  cms-backend-catalog:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-catalog
+    restart: unless-stopped
+    container_name: cms-backend-catalog
+    env_file:
+      - .env
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_CATALOG_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    #    ports:
+    #      - "8080:8080"
+    depends_on:
+      - cms-infra-database
+    networks:
+      - cms-store-network
   cms-doc-swagger:
     build:
       context: ./cms-backend/swagger
@@ -132,6 +151,7 @@ services:
 #      - "8080:8080"
     depends_on:
       - cms-backend-auth
+      - cms-backend-catalog
     networks:
       - cms-store-network
 
