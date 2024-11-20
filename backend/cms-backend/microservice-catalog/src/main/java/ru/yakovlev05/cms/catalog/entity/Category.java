@@ -32,6 +32,6 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "component")
+    @ManyToMany(mappedBy = "category")
     private List<Product> products;
 }
