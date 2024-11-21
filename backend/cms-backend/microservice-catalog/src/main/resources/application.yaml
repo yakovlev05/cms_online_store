@@ -25,3 +25,7 @@ s3:
   secretKey: ${S3_SECRET_KEY:password}
   bucket: ${S3_BUCKET:images}
   url: ${S3_URL:http://localhost:9000}
+
+#logging:
+#  level:
+#    software.amazon.awssdk: TRACE
