@@ -6,4 +6,6 @@ public interface S3Service {
     void putImage(MultipartFile file, String fileName);
 
     void deleteImage(String fileName);
+
+    String getUrl(String fileName);
 }

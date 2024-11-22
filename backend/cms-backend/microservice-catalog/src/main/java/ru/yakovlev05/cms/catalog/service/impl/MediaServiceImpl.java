@@ -55,7 +55,7 @@ public class MediaServiceImpl implements MediaService {
     public List<MediaDto> getMediaPage(int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);
         return mediaRepository.findAll(pageable).getContent().stream()
-                .map(x -> new MediaDto(x.getId(), x.getName(), x.getFileName()))
+                .map(x -> new MediaDto(x.getId(), x.getName(), s3Service.getUrl(x.getFileName())))
                 .toList();
     }
 }

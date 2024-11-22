@@ -9,10 +9,7 @@ import ru.yakovlev05.cms.catalog.props.S3Properties;
 import ru.yakovlev05.cms.catalog.service.S3Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.HeadBucketRequest;
-import software.amazon.awssdk.services.s3.model.NoSuchBucketException;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.*;
 
 import java.io.IOException;
 
@@ -49,6 +46,7 @@ public class S3ServiceImpl implements S3Service {
         } catch (Exception e) {
             throw new S3Exception("Failed to put file " + file.getOriginalFilename() + " to bucket " + bucketName);
         }
+        getUrl(key);
     }
 
     private void deleteFile(String bucketName, String key) {
@@ -75,4 +73,17 @@ public class S3ServiceImpl implements S3Service {
         ensureBucketExists(s3Properties.getBucket());
         deleteFile(s3Properties.getBucket(), fileName);
     }
+
+    @Override
+    public String getUrl(String fileName) {
+        try {
+            return s3Client.utilities().getUrl(GetUrlRequest.builder()
+                    .bucket(s3Properties.getBucket())
+                    .key(fileName)
+                    .build()).toURI().toString();
+        } catch (Exception e) {
+            throw new S3Exception("Failed to get url for file " + fileName);
+        }
+    }
+
 }
