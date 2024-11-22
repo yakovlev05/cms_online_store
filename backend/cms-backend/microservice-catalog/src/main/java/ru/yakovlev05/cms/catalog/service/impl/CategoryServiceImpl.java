@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.RequestCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.entity.Category;
+import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
 import ru.yakovlev05.cms.catalog.repository.CategoryRepository;
 import ru.yakovlev05.cms.catalog.service.CategoryService;
@@ -74,6 +75,13 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public void assignCategoryToProduct(String categoryUrlName, Product product) {
+        Category category = getCategoryByUrlName(categoryUrlName);
+        category.getProducts().add(product);
+        categoryRepository.save(category);
     }
 
 }

@@ -17,11 +17,11 @@ public class ResponseProductDto {
 
     private BigDecimal price;
 
-    private List<ComponentDto> component;
+    private List<ComponentDto> components;
 
-    private List<String> categoryName;
+    private List<ResponseCategoryDto> categories;
 
-    private List<String> photoName;
+    private List<String> photoUrls;
 
-    private String mainPhotoName;
+    private String mainPhotoUrl;
 }

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.ComponentDto;
 import ru.yakovlev05.cms.catalog.entity.Component;
+import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
 import ru.yakovlev05.cms.catalog.repository.ComponentRepository;
 import ru.yakovlev05.cms.catalog.service.ComponentService;
@@ -70,5 +71,12 @@ public class ComponentServiceImpl implements ComponentService {
         }
 
         componentRepository.delete(component);
+    }
+
+    @Override
+    public void assignComponentToProduct(String componentName, Product product) {
+        Component component = getComponentByName(componentName);
+        component.getProducts().add(product);
+        componentRepository.save(component);
     }
 }

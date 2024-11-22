@@ -13,11 +13,11 @@ public class RequestProductDto {
 
     private BigDecimal price;
 
-    private List<String> categoryUrlName;
+    private List<String> categoriesUrlsNames;
 
-    private List<String> componentName;
+    private List<String> componentsNames;
 
-    private List<String> photoName;
+    private List<String> photosFileNames;
 
-    private String mainPhotoName;
+    private String mainPhotoFileName;
 }

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.yakovlev05.cms.catalog.dto.MediaDto;
 import ru.yakovlev05.cms.catalog.entity.Media;
+import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
 import ru.yakovlev05.cms.catalog.repository.MediaRepository;
 import ru.yakovlev05.cms.catalog.service.MediaService;
@@ -57,5 +58,12 @@ public class MediaServiceImpl implements MediaService {
         return mediaRepository.findAll(pageable).getContent().stream()
                 .map(x -> new MediaDto(x.getId(), x.getName(), s3Service.getUrl(x.getFileName())))
                 .toList();
+    }
+
+    @Override
+    public void assignPhotoToProduct(String fileName, Product product) {
+        Media media = getMediaByFileName(fileName);
+        media.getProducts().add(product);
+        mediaRepository.save(media);
     }
 }
