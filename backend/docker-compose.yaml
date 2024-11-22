@@ -41,10 +41,12 @@ services:
     container_name: cms-init-s3
     # ВНИМАНИЕ! Переменные окружения берутся из .env файла напрямую. Вопрос почему так и как так до конца не изучил
     # Используем minio client
-    entrypoint: sh -c
-      "mc alias set myminio http://cms-infra-s3:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY # создание подключения
-      && mc mb myminio/$MINIO_BUCKET || true # создание ведра, если оно существует, то игнорируем ошибку
-      && mc anonymous set download myminio/images" # политику ведра меняем на публичное чтение
+    entrypoint: >
+      sh -c
+      "sleep 2
+      && mc alias set myminio http://cms-infra-s3:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
+      && mc mb myminio/$MINIO_BUCKET || true
+      && mc anonymous set download myminio/images"
     depends_on:
       - cms-infra-s3
     networks:
