@@ -30,8 +30,11 @@ public class Product {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "price", precision = 10, scale = 2)
+    @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
+
+    @Column(name = "price_discount", precision = 10, scale = 2)
+    private BigDecimal priceDiscount;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

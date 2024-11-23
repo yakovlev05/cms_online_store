@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1732353094340-6" author="Alexey Yakovlev">
+        <addColumn tableName="product">
+            <column name="price_discount" type="DECIMAL(10, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1732353094340-1" author="Alexey Yakovlev">
+        <addNotNullConstraint columnDataType="DECIMAL(10, 2)" columnName="price" tableName="product" validate="true"/>
+    </changeSet>
+
+</databaseChangeLog>
