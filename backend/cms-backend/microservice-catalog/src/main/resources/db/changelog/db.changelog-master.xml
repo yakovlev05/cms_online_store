@@ -8,4 +8,5 @@
     <include file="db/changelog/changeset/v1.0.1_add_product_m2m_component.xml"/>
     <include file="db/changelog/changeset/v1.0.2_update_component.xml"/>
     <include file="db/changelog/changeset/v1.0.3_update_product.xml"/>
+    <include file="db/changelog/changeset/v1.0.4_add_collection.xml"/>
 </databaseChangeLog>
