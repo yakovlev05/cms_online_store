@@ -2,6 +2,8 @@ package ru.yakovlev05.cms.catalog.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.ComponentDto;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
@@ -46,10 +48,7 @@ public class ProductServiceImpl implements ProductService {
         return latinName.replace(' ', '-') + random.nextInt(1000, 10000);
     }
 
-    @Override
-    public ResponseProductDto getProduct(String urlName) {
-        Product product = getProductByUrlName(urlName);
-
+    private ResponseProductDto fillResponseProductDto(Product product) {
         List<ComponentDto> componentsDto = product.getComponent().stream()
                 .map(x -> new ComponentDto(x.getName(), x.getCount()))
                 .toList();
@@ -74,6 +73,25 @@ public class ProductServiceImpl implements ProductService {
                 .build();
     }
 
+    private void assignRelatedEntitiesToProduct(RequestProductDto productDto, Product product) {
+        productDto.getComponentsNames()
+                .forEach(x -> componentService.assignComponentToProduct(x, product));
+
+        productDto.getCategoriesUrlsNames()
+                .forEach(x -> categoryService.assignCategoryToProduct(x, product));
+
+        productDto.getPhotosFileNames()
+                .forEach(x -> mediaService.assignPhotoToProduct(x, product));
+
+        mediaService.assignPhotoToProduct(productDto.getMainPhotoFileName(), product);
+    }
+
+    @Override
+    public ResponseProductDto getProduct(String urlName) {
+        Product product = getProductByUrlName(urlName);
+        return fillResponseProductDto(product);
+    }
+
     @Override
     public void addProduct(RequestProductDto productDto) {
         Product product = Product.builder()
@@ -85,17 +103,38 @@ public class ProductServiceImpl implements ProductService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        productDto.getComponentsNames()
-                .forEach(x -> componentService.assignComponentToProduct(x, product));
-
-        productDto.getCategoriesUrlsNames()
-                .forEach(x -> categoryService.assignCategoryToProduct(x, product));
-
-        productDto.getPhotosFileNames()
-                .forEach(x -> mediaService.assignPhotoToProduct(x, product));
-
-        mediaService.assignPhotoToProduct(productDto.getMainPhotoFileName(), product);
+        assignRelatedEntitiesToProduct(productDto, product);
 
         productRepository.save(product);
+    }
+
+    @Override
+    public List<ResponseProductDto> getProductsList(int page, int limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        return productRepository.findAll(pageable).getContent().stream()
+                .map(this::fillResponseProductDto)
+                .toList();
+
+    }
+
+    @Override
+    public ResponseProductDto updateProduct(String urlName, RequestProductDto productDto) {
+        Product product = getProductByUrlName(urlName);
+
+        product.setName(productDto.getName());
+        product.setUrlName(generateProductUrlName(productDto.getName()));
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        product.setUpdatedAt(LocalDateTime.now());
+
+        assignRelatedEntitiesToProduct(productDto, product);
+        productRepository.save(product);
+        return fillResponseProductDto(product);
+    }
+
+    @Override
+    public void deleteProduct(String urlName) {
+        Product product = getProductByUrlName(urlName);
+        productRepository.delete(product);
     }
 }
