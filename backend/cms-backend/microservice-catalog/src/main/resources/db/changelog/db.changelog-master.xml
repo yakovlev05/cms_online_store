@@ -10,4 +10,5 @@
     <include file="db/changelog/changeset/v1.0.3_update_product.xml"/>
     <include file="db/changelog/changeset/v1.0.4_add_collection.xml"/>
     <include file="db/changelog/changeset/v1.0.5_update_relation_collection_category.xml"/>
+    <include file="/db/changelog/changeset/v1.0.6_delete_constraint_uc_product_main_photo.xml"/>
 </databaseChangeLog>
