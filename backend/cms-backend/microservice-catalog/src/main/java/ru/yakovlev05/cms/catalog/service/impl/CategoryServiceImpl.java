@@ -80,10 +80,12 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.delete(category);
     }
 
+    @Transactional
     @Override
     public void assignCategoryToProduct(String categoryUrlName, Product product) {
         Category category = getCategoryByUrlName(categoryUrlName);
-        category.getProducts().add(product);
+        category.addProduct(product);
+        product.addCategory(category);
         categoryRepository.save(category);
     }
 

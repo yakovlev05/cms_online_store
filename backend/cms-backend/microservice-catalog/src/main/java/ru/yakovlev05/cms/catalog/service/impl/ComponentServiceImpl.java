@@ -79,10 +79,15 @@ public class ComponentServiceImpl implements ComponentService {
         componentRepository.delete(component);
     }
 
+    @Transactional
     @Override
     public void assignComponentToProduct(String componentName, Product product) {
         Component component = getComponentByName(componentName);
-        component.getProducts().add(product);
+
+        // Необходимо установить связь с двух сторон
+        component.addProduct(product);
+        product.addComponent(component);
+
         componentRepository.save(component);
     }
 }

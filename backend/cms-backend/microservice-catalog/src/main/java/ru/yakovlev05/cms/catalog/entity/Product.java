@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -69,4 +70,25 @@ public class Product {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "main_photo", referencedColumnName = "id")
     private Media mainPhoto;
+
+    public void addCategory(Category category) {
+        if (this.category == null) {
+            this.category = new ArrayList<>();
+        }
+        this.category.add(category);
+    }
+
+    public void addMedia(Media media) {
+        if (this.media == null) {
+            this.media = new ArrayList<>();
+        }
+        this.media.add(media);
+    }
+
+    public void addComponent(Component component) {
+        if (this.component == null) {
+            this.component = new ArrayList<>();
+        }
+        this.component.add(component);
+    }
 }

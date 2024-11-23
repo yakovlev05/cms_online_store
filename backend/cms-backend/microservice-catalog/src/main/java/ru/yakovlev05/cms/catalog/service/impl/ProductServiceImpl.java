@@ -9,6 +9,7 @@ import ru.yakovlev05.cms.catalog.dto.ComponentDto;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseProductDto;
+import ru.yakovlev05.cms.catalog.entity.Media;
 import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
 import ru.yakovlev05.cms.catalog.repository.ProductRepository;
@@ -84,7 +85,9 @@ public class ProductServiceImpl implements ProductService {
         productDto.getPhotosFileNames()
                 .forEach(x -> mediaService.assignPhotoToProduct(x, product));
 
-        mediaService.assignPhotoToProduct(productDto.getMainPhotoFileName(), product);
+        Media mainPhoto = mediaService.getMediaByFileName(productDto.getMainPhotoFileName());
+        product.setMainPhoto(mainPhoto);
+        productRepository.save(product);
     }
 
     @Override
@@ -105,9 +108,9 @@ public class ProductServiceImpl implements ProductService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        assignRelatedEntitiesToProduct(productDto, product);
-
         productRepository.save(product);
+
+        assignRelatedEntitiesToProduct(productDto, product);
     }
 
     @Override
@@ -130,8 +133,10 @@ public class ProductServiceImpl implements ProductService {
         product.setPriceDiscount(productDto.getPriceDiscount());
         product.setUpdatedAt(LocalDateTime.now());
 
-        assignRelatedEntitiesToProduct(productDto, product);
         productRepository.save(product);
+
+        assignRelatedEntitiesToProduct(productDto, product);
+
         return fillResponseProductDto(product);
     }
 

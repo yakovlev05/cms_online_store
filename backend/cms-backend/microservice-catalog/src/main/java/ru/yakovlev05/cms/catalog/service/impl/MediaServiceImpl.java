@@ -27,7 +27,7 @@ public class MediaServiceImpl implements MediaService {
 
     private final MediaRepository mediaRepository;
 
-    private Media getMediaByFileName(String fileName) {
+    public Media getMediaByFileName(String fileName) {
         return mediaRepository.findByFileName(fileName)
                 .orElseThrow(() ->
                         new BadRequestException("Not found media with file name " + fileName));
@@ -75,10 +75,12 @@ public class MediaServiceImpl implements MediaService {
                 .toList();
     }
 
+    @Transactional
     @Override
     public void assignPhotoToProduct(String fileName, Product product) {
         Media media = getMediaByFileName(fileName);
-        media.getProducts().add(product);
+        media.addProduct(product);
+        product.addMedia(media);
         mediaRepository.save(media);
     }
 
