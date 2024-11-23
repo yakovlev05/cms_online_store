@@ -2,6 +2,7 @@ package ru.yakovlev05.cms.catalog.service;
 
 import ru.yakovlev05.cms.catalog.dto.RequestCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
+import ru.yakovlev05.cms.catalog.entity.Collection;
 import ru.yakovlev05.cms.catalog.entity.Product;
 
 public interface CategoryService {
@@ -14,4 +15,6 @@ public interface CategoryService {
     void deleteCategory(String urlName);
 
     void assignCategoryToProduct(String categoryUrlName, Product product);
+
+    void assignCategoryToCollection(String categoryName, Collection collection);
 }
