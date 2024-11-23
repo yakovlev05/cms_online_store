@@ -36,8 +36,8 @@ public class Media {
     @ManyToMany(mappedBy = "media")
     private List<Product> products;
 
-    @OneToOne(mappedBy = "photo")
-    private Collection collection;
+    @OneToMany(mappedBy = "photo")
+    private List<Collection> collection;
 
     public void addProduct(Product product) {
         if (this.products == null) {

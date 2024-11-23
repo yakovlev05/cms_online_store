@@ -67,7 +67,7 @@ public class Product {
     )
     private List<Component> component;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "main_photo", referencedColumnName = "id")
     private Media mainPhoto;
 

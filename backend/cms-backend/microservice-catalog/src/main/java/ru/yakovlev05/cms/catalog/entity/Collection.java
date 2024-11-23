@@ -21,7 +21,7 @@ public class Collection {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "photo_id", referencedColumnName = "id")
     private Media photo;
 }
