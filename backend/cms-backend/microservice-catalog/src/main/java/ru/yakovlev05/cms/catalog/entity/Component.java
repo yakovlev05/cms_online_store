@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -25,6 +26,12 @@ public class Component {
 
     @Column(name = "count", nullable = false)
     private int count;
+
+    @Column(name = "is_in_stock", nullable = false)
+    private boolean isInStock;
+
+    @Column(name = "price", nullable = false)
+    private BigDecimal price;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
