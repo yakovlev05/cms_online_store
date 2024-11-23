@@ -63,8 +63,10 @@ public class CollectionServiceImpl implements CollectionService {
         Collection collection = new Collection();
         collectionRepository.save(collection);
 
-        categoryService.assignCategoryToCollection(collectionDto.getCategoryName(), collection);
+        categoryService.assignCategoryToCollection(collectionDto.getCategoryUrlName(), collection);
         mediaService.assignPhotoToCollection(collectionDto.getPhotoFileName(), collection);
+
+        collectionRepository.save(collection);
 
         return fillResponseCollectionDto(collection);
     }
@@ -73,7 +75,7 @@ public class CollectionServiceImpl implements CollectionService {
     public ResponseCollectionDto updateCollection(long id, RequestCollectionDto collectionDto) {
         Collection collection = getCollectionById(id);
 
-        categoryService.assignCategoryToCollection(collectionDto.getCategoryName(), collection);
+        categoryService.assignCategoryToCollection(collectionDto.getCategoryUrlName(), collection);
         mediaService.assignPhotoToCollection(collectionDto.getPhotoFileName(), collection);
 
         return fillResponseCollectionDto(collection);

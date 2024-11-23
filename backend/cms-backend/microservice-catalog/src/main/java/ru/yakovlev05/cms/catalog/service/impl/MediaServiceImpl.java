@@ -87,7 +87,8 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public void assignPhotoToCollection(String fileName, Collection collection) {
         Media media = getMediaByFileName(fileName);
-        media.getCollection().setPhoto(media);
+        media.setCollection(collection);
+        collection.setPhoto(media);
         mediaRepository.save(media);
     }
 }

@@ -16,5 +16,5 @@ public interface CategoryService {
 
     void assignCategoryToProduct(String categoryUrlName, Product product);
 
-    void assignCategoryToCollection(String categoryName, Collection collection);
+    void assignCategoryToCollection(String categoryUrlName, Collection collection);
 }

@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class RequestCollectionDto {
-    private String categoryName;
+    private String categoryUrlName;
     private String photoFileName;
 }

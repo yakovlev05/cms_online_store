@@ -89,10 +89,12 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
     }
 
+    @Transactional
     @Override
-    public void assignCategoryToCollection(String categoryName, Collection collection) {
-        Category category = getCategoryByUrlName(categoryName);
-        category.getCollections().add(collection);
+    public void assignCategoryToCollection(String categoryUrlName, Collection collection) {
+        Category category = getCategoryByUrlName(categoryUrlName);
+        category.addCollection(collection);
+        collection.setCategory(category);
         categoryRepository.save(category);
     }
 

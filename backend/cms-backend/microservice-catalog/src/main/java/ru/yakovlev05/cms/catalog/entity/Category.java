@@ -45,4 +45,11 @@ public class Category {
         }
         this.products.add(product);
     }
+
+    public void addCollection(Collection collection) {
+        if (this.collections == null) {
+            this.collections = new ArrayList<>();
+        }
+        this.collections.add(collection);
+    }
 }
