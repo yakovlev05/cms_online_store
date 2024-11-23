@@ -25,6 +25,8 @@ repositories {
 
 val jjwtVersion = "0.12.6"
 val swaggerVersion = "2.6.0"
+val transliterator = "76.1"
+val s3AmazonSdk = "2.29.17"
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -32,9 +34,11 @@ dependencies {
     implementation("org.liquibase:liquibase-core")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion") // jwt
+    implementation("com.ibm.icu:icu4j:$transliterator") // transliterator
     implementation(project(":core"))
     implementation("org.projectlombok:lombok")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
+    implementation("software.amazon.awssdk:s3:$s3AmazonSdk") // s3 amazon SDK
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion") //jwt
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion") // jwt

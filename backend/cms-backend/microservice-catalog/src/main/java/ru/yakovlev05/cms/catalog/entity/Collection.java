@@ -7,34 +7,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "media")
-public class Media {
+@Entity(name = "collection")
+public class Collection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    private Category category;
 
-    @Column(name = "file_name", nullable = false, unique = true)
-    private String fileName;
+    @ManyToOne
+    @JoinColumn(name = "photo_id", referencedColumnName = "id")
+    private Media photo;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
-    @ManyToMany(mappedBy = "media")
-    private List<Product> products;
-
-    @OneToMany(mappedBy = "photo")
-    private List<Collection> collections;
 }
