@@ -32,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private String generateUrlName(String name) {
-        String latinName = transliterationService.toLatin(name);
+        String latinName = transliterationService.toLatin(name).toLowerCase();
         return latinName.replace(' ', '-') + "-" + random.nextInt(1000, 10000);
     }
 
@@ -84,8 +84,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void assignCategoryToProduct(String categoryUrlName, Product product) {
         Category category = getCategoryByUrlName(categoryUrlName);
-        category.addProduct(product);
-        product.addCategory(category);
+        category.getProducts().add(product);
+        product.getCategories().add(category);
         categoryRepository.save(category);
     }
 
@@ -93,7 +93,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void assignCategoryToCollection(String categoryUrlName, Collection collection) {
         Category category = getCategoryByUrlName(categoryUrlName);
-        category.addCollection(collection);
+        category.getCollections().add(collection);
         collection.setCategory(category);
         categoryRepository.save(category);
     }

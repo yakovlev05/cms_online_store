@@ -60,7 +60,7 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public void deletePhoto(String fileName) {
         Media media = getMediaByFileName(fileName);
-        if (!media.getProducts().isEmpty() || media.getCollection() != null) {
+        if (!media.getProducts().isEmpty() || !media.getCollections().isEmpty()) {
             throw new BadRequestException("The media is used. You must delete relations with products and collections.");
         }
         mediaRepository.delete(media);
@@ -79,15 +79,16 @@ public class MediaServiceImpl implements MediaService {
     @Override
     public void assignPhotoToProduct(String fileName, Product product) {
         Media media = getMediaByFileName(fileName);
-        media.addProduct(product);
-        product.addMedia(media);
+        media.getProducts().add(product);
+        product.getMedia().add(media);
         mediaRepository.save(media);
     }
 
+    @Transactional
     @Override
     public void assignPhotoToCollection(String fileName, Collection collection) {
         Media media = getMediaByFileName(fileName);
-        media.setCollection(collection);
+        media.getCollections().add(collection);
         collection.setPhoto(media);
         mediaRepository.save(media);
     }

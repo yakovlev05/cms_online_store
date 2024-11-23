@@ -43,52 +43,34 @@ public class Product {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_category",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
     )
-    private List<Category> category;
+    private List<Category> categories = new ArrayList<>();
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_media",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "media_id", referencedColumnName = "id", nullable = false)
     )
-    private List<Media> media;
+    private List<Media> media = new ArrayList<>();
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "product_component",
             joinColumns = @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "component_id", referencedColumnName = "id", nullable = false)
     )
-    private List<Component> component;
+    private List<Component> components = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "main_photo", referencedColumnName = "id")
     private Media mainPhoto;
-
-    public void addCategory(Category category) {
-        if (this.category == null) {
-            this.category = new ArrayList<>();
-        }
-        this.category.add(category);
-    }
-
-    public void addMedia(Media media) {
-        if (this.media == null) {
-            this.media = new ArrayList<>();
-        }
-        this.media.add(media);
-    }
-
-    public void addComponent(Component component) {
-        if (this.component == null) {
-            this.component = new ArrayList<>();
-        }
-        this.component.add(component);
-    }
 }

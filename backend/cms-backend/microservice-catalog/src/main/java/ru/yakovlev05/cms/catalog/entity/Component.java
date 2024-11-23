@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -40,13 +39,6 @@ public class Component {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "component")
+    @ManyToMany(mappedBy = "components")
     private List<Product> products;
-
-    public void addProduct(Product product) {
-        if (this.products == null) {
-            this.products = new ArrayList<>();
-        }
-        this.products.add(product);
-    }
 }

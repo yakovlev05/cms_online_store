@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -33,23 +32,9 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "categories")
     private List<Product> products;
 
     @OneToMany(mappedBy = "category")
     private List<Collection> collections;
-
-    public void addProduct(Product product) {
-        if (this.products == null) {
-            this.products = new ArrayList<>();
-        }
-        this.products.add(product);
-    }
-
-    public void addCollection(Collection collection) {
-        if (this.collections == null) {
-            this.collections = new ArrayList<>();
-        }
-        this.collections.add(collection);
-    }
 }

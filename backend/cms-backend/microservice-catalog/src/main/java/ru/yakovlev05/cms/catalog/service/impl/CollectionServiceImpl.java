@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.catalog.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +18,7 @@ import ru.yakovlev05.cms.catalog.service.CollectionService;
 import ru.yakovlev05.cms.catalog.service.MediaService;
 import ru.yakovlev05.cms.catalog.service.S3Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -51,6 +53,11 @@ public class CollectionServiceImpl implements CollectionService {
         );
     }
 
+    private void assignRelations(Collection collection, RequestCollectionDto collectionDto) {
+        categoryService.assignCategoryToCollection(collectionDto.getCategoryUrlName(), collection);
+        mediaService.assignPhotoToCollection(collectionDto.getPhotoFileName(), collection);
+    }
+
     @Override
     public ResponseCollectionDto getCollection(long id) {
         Collection collection = getCollectionById(id);
@@ -58,25 +65,28 @@ public class CollectionServiceImpl implements CollectionService {
         return fillResponseCollectionDto(collection);
     }
 
+    @Transactional
     @Override
     public ResponseCollectionDto addCollection(RequestCollectionDto collectionDto) {
-        Collection collection = new Collection();
-        collectionRepository.save(collection);
+        Collection collection = Collection.builder()
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
 
-        categoryService.assignCategoryToCollection(collectionDto.getCategoryUrlName(), collection);
-        mediaService.assignPhotoToCollection(collectionDto.getPhotoFileName(), collection);
+        assignRelations(collection, collectionDto);
 
         collectionRepository.save(collection);
 
         return fillResponseCollectionDto(collection);
     }
 
+    @Transactional
     @Override
     public ResponseCollectionDto updateCollection(long id, RequestCollectionDto collectionDto) {
         Collection collection = getCollectionById(id);
+        collection.setUpdatedAt(LocalDateTime.now());
 
-        categoryService.assignCategoryToCollection(collectionDto.getCategoryUrlName(), collection);
-        mediaService.assignPhotoToCollection(collectionDto.getPhotoFileName(), collection);
+        assignRelations(collection, collectionDto);
 
         return fillResponseCollectionDto(collection);
     }

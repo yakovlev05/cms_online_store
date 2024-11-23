@@ -20,8 +20,8 @@ public class ComponentController {
 
     @PreAuthorize("hasAuthority('ROLE_OWNER')")
     @PostMapping("/add")
-    public void addComponent(@RequestBody ComponentDto componentDto) {
-        componentService.addComponent(componentDto);
+    public ComponentDto addComponent(@RequestBody ComponentDto componentDto) {
+        return componentService.addComponent(componentDto);
     }
 
     @PreAuthorize("hasAuthority('ROLE_OWNER')")

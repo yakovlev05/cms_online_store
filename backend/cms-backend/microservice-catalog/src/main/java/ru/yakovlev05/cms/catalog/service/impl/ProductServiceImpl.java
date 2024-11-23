@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.catalog.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -45,16 +46,16 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private String generateProductUrlName(String name) {
-        String latinName = transliterationService.toLatin(name);
-        return latinName.replace(' ', '-') + random.nextInt(1000, 10000);
+        String latinName = transliterationService.toLatin(name).toLowerCase();
+        return latinName.replace(' ', '-') + "-" + random.nextInt(1000, 10000);
     }
 
     private ResponseProductDto fillResponseProductDto(Product product) {
-        List<ComponentDto> componentsDto = product.getComponent().stream()
+        List<ComponentDto> componentsDto = product.getComponents().stream()
                 .map(x -> new ComponentDto(x.getName(), x.getCount(), x.getPrice(), x.isInStock()))
                 .toList();
 
-        List<ResponseCategoryDto> categoriesDto = product.getCategory().stream()
+        List<ResponseCategoryDto> categoriesDto = product.getCategories().stream()
                 .map(x -> new ResponseCategoryDto(x.getName(), x.getUrlName()))
                 .toList();
 
@@ -96,8 +97,9 @@ public class ProductServiceImpl implements ProductService {
         return fillResponseProductDto(product);
     }
 
+    @Transactional
     @Override
-    public void addProduct(RequestProductDto productDto) {
+    public ResponseProductDto addProduct(RequestProductDto productDto) {
         Product product = Product.builder()
                 .name(productDto.getName())
                 .urlName(generateProductUrlName(productDto.getName()))
@@ -108,9 +110,10 @@ public class ProductServiceImpl implements ProductService {
                 .updatedAt(LocalDateTime.now())
                 .build();
 
-        productRepository.save(product);
-
         assignRelatedEntitiesToProduct(productDto, product);
+
+        productRepository.save(product);
+        return fillResponseProductDto(product);
     }
 
     @Override
@@ -122,6 +125,7 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
+    @Transactional
     @Override
     public ResponseProductDto updateProduct(String urlName, RequestProductDto productDto) {
         Product product = getProductByUrlName(urlName);
@@ -133,9 +137,9 @@ public class ProductServiceImpl implements ProductService {
         product.setPriceDiscount(productDto.getPriceDiscount());
         product.setUpdatedAt(LocalDateTime.now());
 
-        productRepository.save(product);
-
         assignRelatedEntitiesToProduct(productDto, product);
+
+        productRepository.save(product);
 
         return fillResponseProductDto(product);
     }

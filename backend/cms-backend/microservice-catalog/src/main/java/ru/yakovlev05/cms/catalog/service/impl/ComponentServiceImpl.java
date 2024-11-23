@@ -35,15 +35,24 @@ public class ComponentServiceImpl implements ComponentService {
         componentRepository.save(component);
     }
 
+    private ComponentDto fillComponentDto(Component component) {
+        return new ComponentDto(
+                component.getName(),
+                component.getCount(),
+                component.getPrice(),
+                component.isInStock()
+        );
+    }
+
     @Override
     public ComponentDto getComponent(String componentName) {
         Component component = getComponentByName(componentName);
 
-        return new ComponentDto(component.getName(), component.getCount(), component.getPrice(), component.isInStock());
+        return fillComponentDto(component);
     }
 
     @Override
-    public void addComponent(ComponentDto componentDto) {
+    public ComponentDto addComponent(ComponentDto componentDto) {
         Component component = Component.builder()
                 .name(componentDto.getName())
                 .count(componentDto.getCount())
@@ -53,6 +62,7 @@ public class ComponentServiceImpl implements ComponentService {
                 .updatedAt(LocalDateTime.now())
                 .build();
         save(component);
+        return fillComponentDto(component);
     }
 
     @Override
@@ -65,7 +75,7 @@ public class ComponentServiceImpl implements ComponentService {
         component.setUpdatedAt(LocalDateTime.now());
         componentRepository.save(component);
 
-        return new ComponentDto(component.getName(), component.getCount(), component.getPrice(), component.isInStock());
+        return fillComponentDto(component);
     }
 
     @Transactional
@@ -85,8 +95,8 @@ public class ComponentServiceImpl implements ComponentService {
         Component component = getComponentByName(componentName);
 
         // Необходимо установить связь с двух сторон
-        component.addProduct(product);
-        product.addComponent(component);
+        component.getProducts().add(product);
+        product.getComponents().add(component);
 
         componentRepository.save(component);
     }

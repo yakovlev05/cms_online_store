@@ -29,8 +29,8 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public void addProduct(@RequestBody RequestProductDto productDto) {
-        productService.addProduct(productDto);
+    public ResponseProductDto addProduct(@RequestBody RequestProductDto productDto) {
+        return productService.addProduct(productDto);
     }
 
     @PutMapping("/{url-name}")

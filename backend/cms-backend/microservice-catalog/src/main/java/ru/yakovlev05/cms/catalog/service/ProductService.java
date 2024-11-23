@@ -8,7 +8,7 @@ import java.util.List;
 public interface ProductService {
     ResponseProductDto getProduct(String urlName);
 
-    void addProduct(RequestProductDto productDto);
+    ResponseProductDto addProduct(RequestProductDto productDto);
 
     List<ResponseProductDto> getProductsList(int page, int limit);
 

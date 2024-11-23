@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -37,12 +36,5 @@ public class Media {
     private List<Product> products;
 
     @OneToMany(mappedBy = "photo")
-    private List<Collection> collection;
-
-    public void addProduct(Product product) {
-        if (this.products == null) {
-            this.products = new ArrayList<>();
-        }
-        this.products.add(product);
-    }
+    private List<Collection> collections;
 }
