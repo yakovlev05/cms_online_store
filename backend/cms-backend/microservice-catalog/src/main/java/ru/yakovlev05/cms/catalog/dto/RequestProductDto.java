@@ -13,6 +13,8 @@ public class RequestProductDto {
 
     private BigDecimal price;
 
+    private BigDecimal priceDiscount;
+
     private List<String> categoriesUrlsNames;
 
     private List<String> componentsNames;

@@ -39,7 +39,7 @@ public class ComponentServiceImpl implements ComponentService {
     public ComponentDto getComponent(String componentName) {
         Component component = getComponentByName(componentName);
 
-        return new ComponentDto(component.getName(), component.getCount());
+        return new ComponentDto(component.getName(), component.getCount(), component.getPrice(), component.isInStock());
     }
 
     @Override
@@ -47,6 +47,8 @@ public class ComponentServiceImpl implements ComponentService {
         Component component = Component.builder()
                 .name(componentDto.getName())
                 .count(componentDto.getCount())
+                .price(componentDto.getPrice())
+                .isInStock(componentDto.isInStock())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -58,10 +60,12 @@ public class ComponentServiceImpl implements ComponentService {
         Component component = getComponentByName(componentName);
         component.setName(componentDto.getName());
         component.setCount(componentDto.getCount());
+        component.setPrice(componentDto.getPrice());
+        component.setInStock(componentDto.isInStock());
         component.setUpdatedAt(LocalDateTime.now());
         componentRepository.save(component);
 
-        return new ComponentDto(component.getName(), component.getCount());
+        return new ComponentDto(component.getName(), component.getCount(), component.getPrice(), component.isInStock());
     }
 
     @Transactional

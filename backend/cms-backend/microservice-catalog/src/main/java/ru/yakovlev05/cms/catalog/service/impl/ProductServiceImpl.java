@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
 
     private ResponseProductDto fillResponseProductDto(Product product) {
         List<ComponentDto> componentsDto = product.getComponent().stream()
-                .map(x -> new ComponentDto(x.getName(), x.getCount()))
+                .map(x -> new ComponentDto(x.getName(), x.getCount(), x.getPrice(), x.isInStock()))
                 .toList();
 
         List<ResponseCategoryDto> categoriesDto = product.getCategory().stream()
@@ -66,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
                 .urlName(product.getUrlName())
                 .description(product.getDescription())
                 .price(product.getPrice())
+                .priceDiscount(product.getPriceDiscount())
                 .mainPhotoUrl(s3Service.getUrl(product.getMainPhoto().getFileName()))
                 .components(componentsDto)
                 .categories(categoriesDto)
@@ -99,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
                 .urlName(generateProductUrlName(productDto.getName()))
                 .description(productDto.getDescription())
                 .price(productDto.getPrice())
+                .priceDiscount(productDto.getPriceDiscount())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
@@ -125,6 +127,7 @@ public class ProductServiceImpl implements ProductService {
         product.setUrlName(generateProductUrlName(productDto.getName()));
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
+        product.setPriceDiscount(productDto.getPriceDiscount());
         product.setUpdatedAt(LocalDateTime.now());
 
         assignRelatedEntitiesToProduct(productDto, product);
