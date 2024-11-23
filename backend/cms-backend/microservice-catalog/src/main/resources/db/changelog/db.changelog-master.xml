@@ -12,4 +12,5 @@
     <include file="db/changelog/changeset/v1.0.5_update_relation_collection_category.xml"/>
     <include file="/db/changelog/changeset/v1.0.6_delete_constraint_uc_product_main_photo.xml"/>
     <include file="db/changelog/changeset/v1.0.7_drop_unique_constraint.xml"/>
+    <include file="/db/changelog/changeset/v1.0.8_add_timestamp_collection.xml"/>
 </databaseChangeLog>
