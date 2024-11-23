@@ -69,7 +69,7 @@ public class ComponentServiceImpl implements ComponentService {
     public void deleteComponent(String componentName) {
         Component component = getComponentByName(componentName);
         if (!component.getProducts().isEmpty()) {
-            throw new BadRequestException("The component is used");
+            throw new BadRequestException("The component is used. You must delete relations with products.");
         }
 
         componentRepository.delete(component);

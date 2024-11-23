@@ -72,8 +72,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public void deleteCategory(String urlName) {
         Category category = getCategoryByUrlName(urlName);
-        if (!category.getProducts().isEmpty()) {
-            throw new BadRequestException("The category is used");
+        if (!category.getProducts().isEmpty() || !category.getCollections().isEmpty()) {
+            throw new BadRequestException("The category is used. You must delete relations with category.");
         }
 
         categoryRepository.delete(category);

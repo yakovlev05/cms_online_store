@@ -34,4 +34,7 @@ public class Media {
 
     @ManyToMany(mappedBy = "media")
     private List<Product> products;
+
+    @OneToOne(mappedBy = "photo")
+    private Collection collection;
 }

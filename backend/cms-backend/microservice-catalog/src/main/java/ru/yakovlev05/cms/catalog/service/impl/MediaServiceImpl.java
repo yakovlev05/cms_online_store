@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.catalog.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -54,9 +55,13 @@ public class MediaServiceImpl implements MediaService {
         return fillMediaDto(media);
     }
 
+    @Transactional
     @Override
     public void deletePhoto(String fileName) {
         Media media = getMediaByFileName(fileName);
+        if (!media.getProducts().isEmpty() || media.getCollection() != null) {
+            throw new BadRequestException("The media is used. You must delete relations with products and collections.");
+        }
         mediaRepository.delete(media);
         s3Service.deleteImage(fileName);
     }
