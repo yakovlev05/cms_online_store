@@ -17,8 +17,8 @@ public class MediaController {
     private final MediaService mediaService;
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void uploadPhoto(@RequestParam("file") MultipartFile file) {
-        mediaService.uploadPhoto(file);
+    public MediaDto uploadPhoto(@RequestParam("file") MultipartFile file) {
+        return mediaService.uploadPhoto(file);
     }
 
     @DeleteMapping("/{file-name}")

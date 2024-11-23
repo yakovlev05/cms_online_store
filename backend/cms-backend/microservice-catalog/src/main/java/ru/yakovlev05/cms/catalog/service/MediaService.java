@@ -7,7 +7,7 @@ import ru.yakovlev05.cms.catalog.entity.Product;
 import java.util.List;
 
 public interface MediaService {
-    void uploadPhoto(MultipartFile file);
+    MediaDto uploadPhoto(MultipartFile file);
 
     void deletePhoto(String fileName);
 

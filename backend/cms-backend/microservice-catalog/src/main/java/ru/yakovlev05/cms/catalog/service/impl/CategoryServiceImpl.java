@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.catalog.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.RequestCategoryDto;
@@ -31,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private String generateUrlName(String name) {
         String latinName = transliterationService.toLatin(name);
-        return latinName.replace(' ', '-') + random.nextInt(1000, 10000);
+        return latinName.replace(' ', '-') + "-" + random.nextInt(1000, 10000);
     }
 
     @Override
@@ -67,6 +68,7 @@ public class CategoryServiceImpl implements CategoryService {
         return new ResponseCategoryDto(category.getName(), category.getUrlName());
     }
 
+    @Transactional
     @Override
     public void deleteCategory(String urlName) {
         Category category = getCategoryByUrlName(urlName);

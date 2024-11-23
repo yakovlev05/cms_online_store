@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.catalog.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.ComponentDto;
@@ -63,6 +64,7 @@ public class ComponentServiceImpl implements ComponentService {
         return new ComponentDto(component.getName(), component.getCount());
     }
 
+    @Transactional
     @Override
     public void deleteComponent(String componentName) {
         Component component = getComponentByName(componentName);

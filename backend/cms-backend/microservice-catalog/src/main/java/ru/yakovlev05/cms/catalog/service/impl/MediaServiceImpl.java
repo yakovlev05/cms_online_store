@@ -31,8 +31,16 @@ public class MediaServiceImpl implements MediaService {
                         new BadRequestException("Not found media with file name " + fileName));
     }
 
+    private MediaDto fillMediaDto(Media media) {
+        return new MediaDto(
+                media.getName(),
+                s3Service.getUrl(media.getFileName()),
+                media.getFileName()
+        );
+    }
+
     @Override
-    public void uploadPhoto(MultipartFile file) {
+    public MediaDto uploadPhoto(MultipartFile file) {
         String generatedFileName = UUID.randomUUID().toString();
         Media media = Media.builder()
                 .name(file.getOriginalFilename())
@@ -43,6 +51,7 @@ public class MediaServiceImpl implements MediaService {
 
         s3Service.putImage(file, generatedFileName);
         mediaRepository.save(media);
+        return fillMediaDto(media);
     }
 
     @Override
@@ -56,7 +65,7 @@ public class MediaServiceImpl implements MediaService {
     public List<MediaDto> getMediaPage(int page, int limit) {
         Pageable pageable = PageRequest.of(page, limit);
         return mediaRepository.findAll(pageable).getContent().stream()
-                .map(x -> new MediaDto(x.getId(), x.getName(), s3Service.getUrl(x.getFileName())))
+                .map(this::fillMediaDto)
                 .toList();
     }
 

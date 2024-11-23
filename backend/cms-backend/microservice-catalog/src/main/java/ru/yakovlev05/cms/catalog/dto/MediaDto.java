@@ -6,7 +6,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class MediaDto {
-    private long id;
     private String name;
     private String url;
+    private String fileName;
 }
