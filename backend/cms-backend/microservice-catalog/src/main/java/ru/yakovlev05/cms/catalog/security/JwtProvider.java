@@ -9,8 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import ru.yakovlev05.cms.catalog.props.JwtProperties;
 import ru.yakovlev05.cms.core.entity.UserRole;
+import ru.yakovlev05.cms.core.props.JwtProperties;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;

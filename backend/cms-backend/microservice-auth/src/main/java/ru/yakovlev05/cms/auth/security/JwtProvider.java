@@ -7,8 +7,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import ru.yakovlev05.cms.auth.props.JwtProperties;
 import ru.yakovlev05.cms.core.entity.UserRole;
+import ru.yakovlev05.cms.core.props.JwtProperties;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
