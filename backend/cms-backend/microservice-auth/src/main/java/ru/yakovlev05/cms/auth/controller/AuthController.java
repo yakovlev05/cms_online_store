@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.yakovlev05.cms.auth.dto.JwtRefreshRequestDto;
-import ru.yakovlev05.cms.auth.dto.JwtRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.service.AuthService;
@@ -25,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public JwtResponseDto login(@RequestBody JwtRequestDto request) {
+    public JwtResponseDto login(@RequestBody UserDto request) {
         return authService.login(request);
     }
 

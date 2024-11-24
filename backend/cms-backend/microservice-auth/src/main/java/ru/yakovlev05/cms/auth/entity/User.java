@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -33,11 +34,12 @@ public class User {
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    @Builder.Default
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id", nullable = false)
     )
-    private Set<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 }

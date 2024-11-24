@@ -18,8 +18,7 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
-    public void assignRoleToUser(long id, UserRole userRole) {
-        User user = userService.getById(id);
+    public void assignRoleToUser(User user, UserRole userRole) {
         Role role = getByName(userRole);
 
         user.getRoles().add(role);

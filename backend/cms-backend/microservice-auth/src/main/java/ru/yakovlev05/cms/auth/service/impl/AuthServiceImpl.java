@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.auth.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -9,7 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.dto.JwtRefreshRequestDto;
-import ru.yakovlev05.cms.auth.dto.JwtRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.entity.User;
@@ -40,20 +40,22 @@ public class AuthServiceImpl implements AuthService {
 
     private final JwtProvider jwtProvider;
 
+    @Transactional
     @Override
     public ResponseEntity<String> registration(UserDto request) {
-        log.info("Registration request received, phone number: {}", request.phoneNumber());
+        log.info("Registration request received, phone number: {}", request.getPhoneNumber());
         User user = User.builder()
-                .phoneNumber(request.phoneNumber())
-                .password(passwordEncoder.encode(request.password()))
+                .phoneNumber(request.getPhoneNumber())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
         userService.create(user);
 
-        roleService.assignRoleToUser(user.getId(), UserRole.ROLE_CUSTOMER);
-        log.info("Registration successful, phone number: {}", request.phoneNumber());
+        roleService.assignRoleToUser(user, UserRole.ROLE_CUSTOMER);
+
+        log.info("Registration successful, phone number: {}", request.getPhoneNumber());
 
         kafkaService.sendUserCreatedEvent(user.getId(), request, Set.of(UserRole.ROLE_CUSTOMER));
 
@@ -61,12 +63,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtResponseDto login(JwtRequestDto request) {
-        log.info("Login request received, login: {}", request.login());
+    public JwtResponseDto login(UserDto request) {
+        log.info("Login request received, login: {}", request.getPhoneNumber());
         var t = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.login(), request.password())
+                new UsernamePasswordAuthenticationToken(request.getPhoneNumber(), request.getPassword())
         );
-        log.info("Authentication successful, login: {}", request.login());
+        log.info("Authentication successful, login: {}", request.getPhoneNumber());
 
         JwtUserDetails userDetails = (JwtUserDetails) t.getPrincipal();
 
