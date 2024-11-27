@@ -1,4 +1,4 @@
-package ru.yakovlev05.cms.auth.props;
+package ru.yakovlev05.cms.core.props;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

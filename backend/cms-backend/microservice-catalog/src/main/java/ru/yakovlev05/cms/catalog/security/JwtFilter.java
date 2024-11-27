@@ -11,6 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
+import ru.yakovlev05.cms.core.security.TokenType;
+import ru.yakovlev05.cms.core.util.JwtUtil;
 
 import java.io.IOException;
 
@@ -22,7 +24,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
     private static final String HEADER_NAME = "Authorization";
 
-    private final JwtProvider jwtProvider;
+    private final JwtUtil jwtUtil;
 
 
     @Override
@@ -33,9 +35,9 @@ public class JwtFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
         String token = resolveToken(request);
 
-        if (token != null && jwtProvider.validateAccessToken(token)) {
+        if (token != null && jwtUtil.validateToken(token, TokenType.ACCESS_TOKEN)) {
             log.info("Requested valid access token: {}", token);
-            Authentication auth = jwtProvider.getAuthentication(token);
+            Authentication auth = jwtUtil.getAuthenticationOffline(token);
 
             SecurityContextHolder.getContext().setAuthentication(auth);
             log.info("Successfully authenticated user by access token: {}", token);

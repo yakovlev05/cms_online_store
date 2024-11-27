@@ -24,10 +24,10 @@ public class KafkaServiceImpl implements KafkaService {
     public void sendUserCreatedEvent(long userId, UserDto userDto, Set<UserRole> roles) {
         UserCreatedEvent data = UserCreatedEvent.builder()
                 .id(userId)
-                .firstName(userDto.firstName())
-                .lastName(userDto.lastName())
-                .patronymic(userDto.patronymic())
-                .phoneNumber(userDto.phoneNumber())
+                .firstName("")
+                .lastName("")
+                .patronymic("")
+                .phoneNumber(userDto.getPhoneNumber())
                 .roles(roles)
                 .build();
 

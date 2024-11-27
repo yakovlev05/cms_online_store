@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.auth.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -9,18 +10,19 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.dto.JwtRefreshRequestDto;
-import ru.yakovlev05.cms.auth.dto.JwtRequestDto;
 import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.entity.User;
 import ru.yakovlev05.cms.auth.exception.BadRequestException;
-import ru.yakovlev05.cms.auth.security.JwtProvider;
-import ru.yakovlev05.cms.auth.security.JwtUserDetails;
+import ru.yakovlev05.cms.auth.security.UserDetailsImpl;
+import ru.yakovlev05.cms.auth.security.UserDetailsProvider;
 import ru.yakovlev05.cms.auth.service.AuthService;
 import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.auth.service.RoleService;
 import ru.yakovlev05.cms.auth.service.UserService;
 import ru.yakovlev05.cms.core.entity.UserRole;
+import ru.yakovlev05.cms.core.security.TokenType;
+import ru.yakovlev05.cms.core.util.JwtUtil;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -38,22 +40,25 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    private final JwtProvider jwtProvider;
+    private final UserDetailsProvider userDetailsProvider;
+    private final JwtUtil jwtUtil;
 
+    @Transactional
     @Override
     public ResponseEntity<String> registration(UserDto request) {
-        log.info("Registration request received, phone number: {}", request.phoneNumber());
+        log.info("Registration request received, phone number: {}", request.getPhoneNumber());
         User user = User.builder()
-                .phoneNumber(request.phoneNumber())
-                .password(passwordEncoder.encode(request.password()))
+                .phoneNumber(request.getPhoneNumber())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
 
         userService.create(user);
 
-        roleService.assignRoleToUser(user.getId(), UserRole.ROLE_CUSTOMER);
-        log.info("Registration successful, phone number: {}", request.phoneNumber());
+        roleService.assignRoleToUser(user, UserRole.ROLE_CUSTOMER);
+
+        log.info("Registration successful, phone number: {}", request.getPhoneNumber());
 
         kafkaService.sendUserCreatedEvent(user.getId(), request, Set.of(UserRole.ROLE_CUSTOMER));
 
@@ -61,14 +66,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public JwtResponseDto login(JwtRequestDto request) {
-        log.info("Login request received, login: {}", request.login());
+    public JwtResponseDto login(UserDto request) {
+        log.info("Login request received, login: {}", request.getPhoneNumber());
         var t = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.login(), request.password())
+                new UsernamePasswordAuthenticationToken(request.getPhoneNumber(), request.getPassword())
         );
-        log.info("Authentication successful, login: {}", request.login());
+        log.info("Authentication successful, login: {}", request.getPhoneNumber());
 
-        JwtUserDetails userDetails = (JwtUserDetails) t.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) t.getPrincipal();
 
         return fillJwtResponseDto(userDetails);
     }
@@ -76,25 +81,26 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtResponseDto refresh(JwtRefreshRequestDto request) {
         log.info("Refresh request received, refreshToken:  {}", request.refreshToken());
-        if (!jwtProvider.validateRefreshToken(request.refreshToken())) {
+        if (!jwtUtil.validateToken(request.refreshToken(), TokenType.REFRESH_TOKEN)) {
             throw new BadRequestException("Invalid refresh token");
         }
         log.info("Refresh token validated successful, refreshToken: {}", request.refreshToken());
 
-        Authentication authentication = jwtProvider.getAuthentication(request.refreshToken());
-        JwtUserDetails userDetails = (JwtUserDetails) authentication.getPrincipal();
+        Authentication authentication = userDetailsProvider.getAuthentication(request.refreshToken());
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         return fillJwtResponseDto(userDetails);
     }
 
-    private JwtResponseDto fillJwtResponseDto(JwtUserDetails userDetails) {
+    private JwtResponseDto fillJwtResponseDto(UserDetailsImpl userDetails) {
         return new JwtResponseDto(
-                jwtProvider.generateAccessToken(
+                jwtUtil.generateAccessToken(
                         userDetails.getId(),
-                        userDetails.getRoles()
+                        userDetails.getRoles(),
+                        userDetails.getPermissions()
                 ),
-                jwtProvider.generateRefreshToken(userDetails.getId()),
-                System.currentTimeMillis() + jwtProvider.getAccessTokenValidityInMs(),
-                System.currentTimeMillis() + jwtProvider.getRefreshTokenValidityInMs());
+                jwtUtil.generateRefreshToken(userDetails.getId()),
+                System.currentTimeMillis() + jwtUtil.getAccessTokenValidityInMs(),
+                System.currentTimeMillis() + jwtUtil.getRefreshTokenValidityInMs());
     }
 }
