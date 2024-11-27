@@ -14,13 +14,15 @@ import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.entity.User;
 import ru.yakovlev05.cms.auth.exception.BadRequestException;
-import ru.yakovlev05.cms.auth.security.JwtProvider;
-import ru.yakovlev05.cms.auth.security.JwtUserDetails;
+import ru.yakovlev05.cms.auth.security.UserDetailsImpl;
+import ru.yakovlev05.cms.auth.security.UserDetailsProvider;
 import ru.yakovlev05.cms.auth.service.AuthService;
 import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.auth.service.RoleService;
 import ru.yakovlev05.cms.auth.service.UserService;
 import ru.yakovlev05.cms.core.entity.UserRole;
+import ru.yakovlev05.cms.core.security.TokenType;
+import ru.yakovlev05.cms.core.util.JwtUtil;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -38,7 +40,8 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
 
-    private final JwtProvider jwtProvider;
+    private final UserDetailsProvider userDetailsProvider;
+    private final JwtUtil jwtUtil;
 
     @Transactional
     @Override
@@ -70,7 +73,7 @@ public class AuthServiceImpl implements AuthService {
         );
         log.info("Authentication successful, login: {}", request.getPhoneNumber());
 
-        JwtUserDetails userDetails = (JwtUserDetails) t.getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) t.getPrincipal();
 
         return fillJwtResponseDto(userDetails);
     }
@@ -78,25 +81,26 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public JwtResponseDto refresh(JwtRefreshRequestDto request) {
         log.info("Refresh request received, refreshToken:  {}", request.refreshToken());
-        if (!jwtProvider.validateRefreshToken(request.refreshToken())) {
+        if (!jwtUtil.validateToken(request.refreshToken(), TokenType.REFRESH_TOKEN)) {
             throw new BadRequestException("Invalid refresh token");
         }
         log.info("Refresh token validated successful, refreshToken: {}", request.refreshToken());
 
-        Authentication authentication = jwtProvider.getAuthentication(request.refreshToken());
-        JwtUserDetails userDetails = (JwtUserDetails) authentication.getPrincipal();
+        Authentication authentication = userDetailsProvider.getAuthentication(request.refreshToken());
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
         return fillJwtResponseDto(userDetails);
     }
 
-    private JwtResponseDto fillJwtResponseDto(JwtUserDetails userDetails) {
+    private JwtResponseDto fillJwtResponseDto(UserDetailsImpl userDetails) {
         return new JwtResponseDto(
-                jwtProvider.generateAccessToken(
+                jwtUtil.generateAccessToken(
                         userDetails.getId(),
-                        userDetails.getRoles()
+                        userDetails.getRoles(),
+                        userDetails.getPermissions()
                 ),
-                jwtProvider.generateRefreshToken(userDetails.getId()),
-                System.currentTimeMillis() + jwtProvider.getAccessTokenValidityInMs(),
-                System.currentTimeMillis() + jwtProvider.getRefreshTokenValidityInMs());
+                jwtUtil.generateRefreshToken(userDetails.getId()),
+                System.currentTimeMillis() + jwtUtil.getAccessTokenValidityInMs(),
+                System.currentTimeMillis() + jwtUtil.getRefreshTokenValidityInMs());
     }
 }

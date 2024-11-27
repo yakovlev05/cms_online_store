@@ -18,6 +18,6 @@ public class JwtUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = userService.getByLogin(login);
 
-        return JwtUserDetailFactory.create(user);
+        return UserDetailsFactory.create(user);
     }
 }

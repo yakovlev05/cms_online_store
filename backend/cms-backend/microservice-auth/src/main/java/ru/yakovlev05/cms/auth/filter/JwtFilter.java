@@ -7,11 +7,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.web.filter.OncePerRequestFilter;
-import ru.yakovlev05.cms.auth.security.JwtProvider;
+import ru.yakovlev05.cms.auth.security.JwtUserDetailsByUserIdService;
+import ru.yakovlev05.cms.core.security.TokenType;
+import ru.yakovlev05.cms.core.util.JwtUtil;
 
 import java.io.IOException;
 
@@ -23,7 +27,8 @@ public class JwtFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
     private static final String HEADER_NAME = "Authorization";
 
-    private final JwtProvider jwtProvider;
+    private final JwtUserDetailsByUserIdService jwtUserDetailsByUserIdService;
+    private final JwtUtil jwtUtil;
 
     @Override
     protected void doFilterInternal(
@@ -32,9 +37,9 @@ public class JwtFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
         String token = resolveToken(request);
-        if (token != null && jwtProvider.validateAccessToken(token)) {
+        if (token != null && jwtUtil.validateToken(token, TokenType.ACCESS_TOKEN)) {
             log.info("Requested valid access token: {}", token);
-            Authentication auth = jwtProvider.getAuthentication(token);
+            Authentication auth = this.getAuthentication(token);
 
             SecurityContextHolder.getContext().setAuthentication(auth);
             log.info("Successfully authenticated user by access token: {}", token);
@@ -49,5 +54,10 @@ public class JwtFilter extends OncePerRequestFilter {
             return bearerToken.substring(BEARER_PREFIX.length());
         }
         return null;
+    }
+
+    private Authentication getAuthentication(String token) {
+        UserDetails userDetails = jwtUserDetailsByUserIdService.loadUserByUserId(jwtUtil.extractSubject(token));
+        return new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
     }
 }

@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.yakovlev05.cms.auth.UserPermission;
+import ru.yakovlev05.cms.core.entity.UserPermission;
 
 import java.util.List;
 

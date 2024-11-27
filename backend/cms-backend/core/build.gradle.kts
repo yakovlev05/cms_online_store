@@ -23,9 +23,15 @@ repositories {
 	mavenCentral()
 }
 
+val jjwtVersion = "0.12.6"
+
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("io.jsonwebtoken:jjwt-api:$jjwtVersion")
+	implementation("org.springframework.boot:spring-boot-starter-web") // jwt
 	compileOnly("org.projectlombok:lombok")
+	runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion") //jwt
+	runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion") // jwt
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.security:spring-security-test")
