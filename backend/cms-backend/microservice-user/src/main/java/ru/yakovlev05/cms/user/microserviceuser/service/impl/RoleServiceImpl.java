@@ -3,8 +3,6 @@ package ru.yakovlev05.cms.user.microserviceuser.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.core.entity.UserRole;
-import ru.yakovlev05.cms.user.microserviceuser.entity.Role;
-import ru.yakovlev05.cms.user.microserviceuser.entity.User;
 import ru.yakovlev05.cms.user.microserviceuser.repository.RoleRepository;
 import ru.yakovlev05.cms.user.microserviceuser.service.RoleService;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;

@@ -2,7 +2,6 @@ package ru.yakovlev05.cms.user.microserviceuser.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.yakovlev05.cms.user.microserviceuser.entity.User;
 import ru.yakovlev05.cms.user.microserviceuser.exception.BadRequestException;
 import ru.yakovlev05.cms.user.microserviceuser.repository.UserRepository;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;

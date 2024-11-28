@@ -6,7 +6,6 @@ import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import ru.yakovlev05.cms.core.event.UserCreatedEvent;
-import ru.yakovlev05.cms.user.microserviceuser.entity.User;
 import ru.yakovlev05.cms.user.microserviceuser.service.RoleService;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;
 
