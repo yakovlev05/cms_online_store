@@ -13,32 +13,34 @@ import java.time.LocalDateTime;
 @Builder
 @Data
 @Entity
-@Table(name = "\"user\"")
-public class User {
+@Table(name = "address")
+public class Address {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
+    @Column(name = "country", nullable = false)
+    private String country;
 
-    @Column(name = "last_name")
-    private String lastName;
+    @Column(name = "state", nullable = false)
+    private String state;
 
-    @Column(name = "patronymic")
-    private String patronymic;
+    @Column(name = "city", nullable = false)
+    private String city;
 
-    @Column(name = "phone_number", nullable = false, unique = true)
-    private String phoneNumber;
+    @Column(name = "street", nullable = false)
+    private String street;
+
+    @Column(name = "house_number", nullable = false)
+    private String houseNumber;
+
+    @Column(name = "flat_number", nullable = false)
+    private String flatNumber;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
 }

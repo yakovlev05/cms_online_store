@@ -7,7 +7,6 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import ru.yakovlev05.cms.core.event.UserCreatedEvent;
 import ru.yakovlev05.cms.user.microserviceuser.entity.User;
-import ru.yakovlev05.cms.user.microserviceuser.service.RoleService;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;
 
 import java.time.LocalDateTime;
@@ -19,7 +18,6 @@ import java.time.LocalDateTime;
 public class UserCreatedEventListener {
 
     private final UserService userService;
-    private final RoleService roleService;
 
     @KafkaHandler
     public void handleUserCreatedEvent(UserCreatedEvent event) {
@@ -37,10 +35,6 @@ public class UserCreatedEventListener {
 
         userService.create(user);
 
-        event.getRoles()
-                .forEach(role -> roleService.assignRoleToUser(user.getId(), role));
-
         log.info("Created user on event: {}", event);
     }
-
 }

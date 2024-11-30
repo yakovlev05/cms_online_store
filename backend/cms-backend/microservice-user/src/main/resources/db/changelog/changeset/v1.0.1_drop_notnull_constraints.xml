@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1732956697732-4" author="alexey">
+        <addUniqueConstraint columnNames="phone_number" constraintName="uc_user_phone_number" tableName="user"/>
+    </changeSet>
+    <changeSet id="1732956697732-1" author="alexey">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="first_name" tableName="user"/>
+    </changeSet>
+    <changeSet id="1732956697732-2" author="alexey">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="last_name" tableName="user"/>
+    </changeSet>
+    <changeSet id="1732956697732-3" author="alexey">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="patronymic" tableName="user"/>
+    </changeSet>
+
+</databaseChangeLog>
