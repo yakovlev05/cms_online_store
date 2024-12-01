@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: microservice-cart
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/cart_service}
+    username: ${POSTGRES_USER:user}
+    password: ${POSTGRES_PASSWORD:password}
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+  liquibase:
+    enabled: true
+    change-log: classpath:/db/changelog/db.changelog-master.xml
+
+
+jwt:
+  secret: ${JWT_SECRET:only_test_123456789123456789}
+  accessTokenValidityInMs: ${ACCESS_TOKEN_VALIDITY_IN_MS:86400000}
+  refreshTokenValidityInMs: ${REFRESH_TOKEN_VALIDITY_IN_MS:2592000000}
