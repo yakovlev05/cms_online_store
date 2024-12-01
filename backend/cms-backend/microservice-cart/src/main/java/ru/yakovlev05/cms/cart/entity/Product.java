@@ -35,6 +35,9 @@ public class Product {
     @Column(name = "price_discount", precision = 10, scale = 2)
     private BigDecimal discount;
 
+    @Column(name = "is_available", nullable = false)
+    private boolean isAvailable;
+
     @OneToMany(mappedBy = "product")
     private List<Cart> carts;
 }
