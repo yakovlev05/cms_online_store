@@ -175,6 +175,21 @@ services:
       - cms-infra-database
     networks:
       - cms-store-network
+  cms-backend-cart:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-cart
+    restart: unless-stopped
+    container_name: cms-backend-cart
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_CART_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      - cms-infra-database
+    networks:
+      - cms-store-network
   cms-doc-swagger:
     build:
       context: ./cms-backend/swagger

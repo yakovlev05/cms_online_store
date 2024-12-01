@@ -13,4 +13,6 @@ springdoc:
         url: /v3/api-docs/microservice-catalog
       - name: microservice-user
         url: /v3/api-docs/microservice-user
+      - name: microservice-cart
+        url: /v3/api-docs/microservice-cart
     path: /swagger
