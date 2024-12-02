@@ -16,6 +16,14 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/db.changelog-master.xml
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    product-topic-name: product
+    product-topic-partitions: 1
+    product-topic-replicas: 1
 
 s3:
   accessKey: ${S3_ACCESS_KEY:user}

@@ -39,12 +39,14 @@ dependencies {
     implementation("org.projectlombok:lombok")
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
     implementation("software.amazon.awssdk:s3:$s3AmazonSdk") // s3 amazon SDK
+    implementation("org.springframework.kafka:spring-kafka")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion") //jwt
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion") // jwt
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
