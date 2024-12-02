@@ -19,4 +19,9 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() ->
                         new BadRequestException("User with id " + id + " not found"));
     }
+
+    @Override
+    public void create(User user) {
+        userRepository.save(user);
+    }
 }
