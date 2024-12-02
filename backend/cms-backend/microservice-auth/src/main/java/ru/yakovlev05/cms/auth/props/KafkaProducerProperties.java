@@ -18,4 +18,10 @@ public class KafkaProducerProperties {
 
     @Value("${spring.kafka.producer.value-serializer}")
     private String producerValueSerializer;
+
+    private String userTopicName;
+
+    private int userTopicPartitions;
+
+    private int userTopicReplicas;
 }

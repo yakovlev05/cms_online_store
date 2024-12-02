@@ -8,7 +8,6 @@ import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import ru.yakovlev05.cms.auth.props.KafkaProducerProperties;
-import ru.yakovlev05.cms.core.event.UserCreatedEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +19,7 @@ public class KafkaProducerConfig {
     private final KafkaProducerProperties kafkaProducerProperties;
 
     @Bean
-    public ProducerFactory<String, UserCreatedEvent> producerFactory() {
+    public ProducerFactory<String, Object> producerFactory() {
         Map<String, Object> config = new HashMap<>();
 
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProducerProperties.getBootstrapServers());
@@ -31,7 +30,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UserCreatedEvent> kafkaTemplate() {
+    public KafkaTemplate<String, Object> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

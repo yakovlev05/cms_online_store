@@ -18,6 +18,9 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    user-topic-name: user
+    user-topic-partitions: 1
+    user-topic-replicas: 1
 
 jwt:
   secret: ${JWT_SECRET:only_test_123456789123456789}
