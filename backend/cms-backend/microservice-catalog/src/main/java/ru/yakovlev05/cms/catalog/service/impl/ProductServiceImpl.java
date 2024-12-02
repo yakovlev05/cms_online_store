@@ -10,6 +10,7 @@ import ru.yakovlev05.cms.catalog.dto.ComponentDto;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseProductDto;
+import ru.yakovlev05.cms.catalog.entity.Component;
 import ru.yakovlev05.cms.catalog.entity.Media;
 import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
@@ -34,6 +35,8 @@ public class ProductServiceImpl implements ProductService {
     private final ComponentService componentService;
     private final CategoryService categoryService;
     private final MediaService mediaService;
+
+    private final KafkaService kafkaService;
 
     private final Random random = new Random();
 
@@ -91,6 +94,13 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    private boolean getProductAvailable(String urlName) {
+        Product product = getProductByUrlName(urlName);
+
+        return product.getComponents().stream()
+                .allMatch(Component::isInStock);
+    }
+
     @Override
     public ResponseProductDto getProduct(String urlName) {
         Product product = getProductByUrlName(urlName);
@@ -113,6 +123,9 @@ public class ProductServiceImpl implements ProductService {
         assignRelatedEntitiesToProduct(productDto, product);
 
         productRepository.save(product);
+
+        kafkaService.sendProductCreatedEvent(product, getProductAvailable(product.getUrlName()));
+
         return fillResponseProductDto(product);
     }
 
