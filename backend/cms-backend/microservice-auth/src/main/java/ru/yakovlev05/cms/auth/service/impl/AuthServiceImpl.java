@@ -25,7 +25,6 @@ import ru.yakovlev05.cms.core.security.TokenType;
 import ru.yakovlev05.cms.core.util.JwtUtil;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -60,7 +59,7 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("Registration successful, phone number: {}", request.getPhoneNumber());
 
-        kafkaService.sendUserCreatedEvent(user.getId(), request, Set.of(UserRole.ROLE_CUSTOMER));
+        kafkaService.sendUserCreatedEvent(user.getId(), request);
 
         return ResponseEntity.ok("User registered successfully");
     }

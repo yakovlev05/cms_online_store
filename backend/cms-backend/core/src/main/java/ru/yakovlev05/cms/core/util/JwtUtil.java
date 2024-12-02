@@ -78,7 +78,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String generateAccessToken(long userId, Set<UserRole> roles, Set<UserPermission> permissions) {
+    public String generateAccessToken(String userId, Set<UserRole> roles, Set<UserPermission> permissions) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles", roles);
         claims.put("permissions", permissions);
@@ -87,7 +87,7 @@ public class JwtUtil {
         return createToken(claims, String.valueOf(userId), jwtProperties.getAccessTokenValidityInMs());
     }
 
-    public String generateRefreshToken(long userId) {
+    public String generateRefreshToken(String userId) {
         Map<String, Object> claims = new HashMap<>();
         claims.put(TOKEN_TYPE, TokenType.REFRESH_TOKEN);
         return createToken(claims, String.valueOf(userId), jwtProperties.getRefreshTokenValidityInMs());

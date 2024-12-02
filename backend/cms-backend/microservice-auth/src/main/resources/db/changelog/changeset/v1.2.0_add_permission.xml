@@ -20,7 +20,7 @@
             <column name="permission_id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_permission"/>
             </column>
-            <column name="user_id" type="BIGINT">
+            <column name="user_id" type="VARCHAR(255)">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user_permission"/>
             </column>
         </createTable>

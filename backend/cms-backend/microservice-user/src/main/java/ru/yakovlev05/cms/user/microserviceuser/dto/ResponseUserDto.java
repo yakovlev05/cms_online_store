@@ -6,7 +6,7 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class ResponseUserDto {
-    private long id;
+    private String id;
     private String firstName;
     private String lastName;
     private String patronymic;
