@@ -1,9 +1,13 @@
 package ru.yakovlev05.cms.core.event;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class UserEvent {
     private EventType eventType;

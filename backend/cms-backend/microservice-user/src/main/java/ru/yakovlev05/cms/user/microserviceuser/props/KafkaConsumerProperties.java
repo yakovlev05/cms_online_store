@@ -22,4 +22,7 @@ public class KafkaConsumerProperties {
 
     @Value("${spring.kafka.consumer.properties.spring.json.trusted.packages}")
     private String trustedPackages;
+
+    @Value("${spring.kafka.user-topic-name}")
+    private String userTopicName;
 }
