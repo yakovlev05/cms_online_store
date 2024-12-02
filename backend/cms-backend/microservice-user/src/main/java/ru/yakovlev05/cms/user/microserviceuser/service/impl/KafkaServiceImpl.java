@@ -1,17 +1,15 @@
-package ru.yakovlev05.cms.auth.service.impl;
+package ru.yakovlev05.cms.user.microserviceuser.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.yakovlev05.cms.auth.dto.UserDto;
-import ru.yakovlev05.cms.auth.props.KafkaProducerProperties;
-import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.core.event.EventType;
 import ru.yakovlev05.cms.core.event.UserEvent;
-
-import java.util.concurrent.CompletableFuture;
+import ru.yakovlev05.cms.user.microserviceuser.dto.RequestUserDto;
+import ru.yakovlev05.cms.user.microserviceuser.props.KafkaProducerProperties;
+import ru.yakovlev05.cms.user.microserviceuser.service.KafkaService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,23 +20,24 @@ public class KafkaServiceImpl implements KafkaService {
 
     private final KafkaProducerProperties props;
 
+    private final PasswordEncoder passwordEncoder;
+
     @Override
-    public void sendUserCreatedEvent(String userId, UserDto userDto) {
-        UserEvent data = UserEvent.builder()
+    public void sendUserCreatedEvent(String userId, RequestUserDto dto) {
+        UserEvent userEvent = UserEvent.builder()
                 .eventType(EventType.CREATE)
-                .isRegisteredByClient(true)
+                .isRegisteredByClient(false)
                 .id(userId)
-                .firstName(null)
-                .lastName(null)
-                .patronymic(null)
-                .phoneNumber(userDto.getPhoneNumber())
+                .firstName(dto.getFistName())
+                .lastName(dto.getLastName())
+                .patronymic(dto.getPatronymic())
+                .phoneNumber(dto.getPhoneNumber())
+                .encodedPassword(passwordEncoder.encode(dto.getPassword()))
                 .build();
 
-        log.info("Send data to topic auth.user.created: {}", data);
-        CompletableFuture<SendResult<String, Object>> future = kafkaTemplate
-                .send(props.getUserTopicName(), String.valueOf(userId), data);
+        log.info("Send data to topic {}: {}", props.getUserTopicName(), userEvent);
 
-        future
+        kafkaTemplate.send(props.getUserTopicName(), userId, userEvent)
                 .whenComplete((result, exception) -> {
                     if (exception != null) {
                         log.error("Send data to topic {} failed", props.getUserTopicName(), exception);
@@ -47,5 +46,4 @@ public class KafkaServiceImpl implements KafkaService {
                     }
                 });
     }
-
 }

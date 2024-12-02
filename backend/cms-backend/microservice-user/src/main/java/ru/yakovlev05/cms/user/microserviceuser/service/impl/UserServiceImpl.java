@@ -11,10 +11,12 @@ import ru.yakovlev05.cms.user.microserviceuser.entity.User;
 import ru.yakovlev05.cms.user.microserviceuser.exception.BadRequestException;
 import ru.yakovlev05.cms.user.microserviceuser.repository.UserRepository;
 import ru.yakovlev05.cms.user.microserviceuser.service.AddressService;
+import ru.yakovlev05.cms.user.microserviceuser.service.KafkaService;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +25,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final AddressService addressService;
+
+    private final KafkaService kafkaService;
 
     @Override
     public void create(User user) {
@@ -53,6 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseUserDto addAdminUser(RequestUserDto requestUserDto) {
         User user = User.builder()
+                .id(UUID.randomUUID().toString())
                 .firstName(requestUserDto.getFistName())
                 .lastName(requestUserDto.getLastName())
                 .patronymic(requestUserDto.getPatronymic())
@@ -62,6 +67,8 @@ public class UserServiceImpl implements UserService {
                 .build();
 
         this.create(user);
+
+        kafkaService.sendUserCreatedEvent(user.getId(), requestUserDto);
 
         return fillResponseUserDto(user);
     }

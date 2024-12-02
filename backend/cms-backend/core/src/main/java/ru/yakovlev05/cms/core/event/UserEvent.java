@@ -11,10 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserEvent {
     private EventType eventType;
+    private boolean isRegisteredByClient; // создано именно клиентом через сервис авторизации
 
     private String id;
     private String firstName;
     private String lastName;
     private String patronymic;
     private String phoneNumber;
+    private String encodedPassword;
 }
