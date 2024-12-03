@@ -8,6 +8,7 @@ import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.props.KafkaProducerProperties;
 import ru.yakovlev05.cms.catalog.service.KafkaService;
 import ru.yakovlev05.cms.catalog.service.S3Service;
+import ru.yakovlev05.cms.core.event.EventType;
 import ru.yakovlev05.cms.core.event.ProductEvent;
 
 @Slf4j
@@ -23,8 +24,9 @@ public class KafkaServiceImpl implements KafkaService {
 
 
     @Override
-    public void sendProductCreatedEvent(Product product, boolean isAvailable) {
+    public void sendProductEvent(Product product, boolean isAvailable, EventType eventType) {
         ProductEvent event = ProductEvent.builder()
+                .eventType(eventType)
                 .id(product.getId())
                 .name(product.getName())
                 .urlName(product.getUrlName())

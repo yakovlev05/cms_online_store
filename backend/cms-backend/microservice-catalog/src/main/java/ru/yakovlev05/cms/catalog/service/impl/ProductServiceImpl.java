@@ -16,6 +16,7 @@ import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
 import ru.yakovlev05.cms.catalog.repository.ProductRepository;
 import ru.yakovlev05.cms.catalog.service.*;
+import ru.yakovlev05.cms.core.event.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -124,7 +125,7 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
 
-        kafkaService.sendProductCreatedEvent(product, getProductAvailable(product.getUrlName()));
+        kafkaService.sendProductEvent(product, getProductAvailable(product.getUrlName()), EventType.CREATE);
 
         return fillResponseProductDto(product);
     }
@@ -154,12 +155,17 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
 
+        kafkaService.sendProductEvent(product, getProductAvailable(product.getUrlName()), EventType.UPDATE);
+
         return fillResponseProductDto(product);
     }
 
     @Override
     public void deleteProduct(String urlName) {
         Product product = getProductByUrlName(urlName);
+
+        kafkaService.sendProductEvent(product, getProductAvailable(product.getUrlName()), EventType.DELETE);
+
         productRepository.delete(product);
     }
 }
