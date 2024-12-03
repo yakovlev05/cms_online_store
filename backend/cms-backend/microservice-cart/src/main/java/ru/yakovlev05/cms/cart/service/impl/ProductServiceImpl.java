@@ -20,4 +20,14 @@ public class ProductServiceImpl implements ProductService {
                 .orElseThrow(() ->
                         new BadRequestException("Product with url name " + urlName + " not found"));
     }
+
+    @Override
+    public void createOrUpdate(Product event) {
+        productRepository.save(event);
+    }
+
+    @Override
+    public void deleteById(long productId) {
+        productRepository.deleteById(productId);
+    }
 }
