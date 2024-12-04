@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public JwtResponseDto refresh(@RequestBody JwtRefreshRequestDto request){
+    public JwtResponseDto refresh(@RequestBody JwtRefreshRequestDto request) {
         return authService.refresh(request);
     }
 }

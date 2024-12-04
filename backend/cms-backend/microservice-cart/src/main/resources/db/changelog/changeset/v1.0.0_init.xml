@@ -16,7 +16,7 @@
             <column name="count" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="user_id" type="BIGINT">
+            <column name="user_id" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
             <column name="product_id" type="BIGINT">
@@ -46,8 +46,11 @@
     </changeSet>
     <changeSet id="1732986094148-3" author="alexey">
         <createTable tableName="user">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user"/>
+            <column name="id"
+                    type="VARCHAR(255)">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_user"/>
             </column>
         </createTable>
     </changeSet>

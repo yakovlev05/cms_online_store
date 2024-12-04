@@ -1,4 +1,4 @@
-package ru.yakovlev05.cms.user.microserviceuser.config;
+package ru.yakovlev05.cms.auth.config;
 
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -8,7 +8,7 @@ import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
-import ru.yakovlev05.cms.user.microserviceuser.props.KafkaConsumerProperties;
+import ru.yakovlev05.cms.auth.props.KafkaConsumerProperties;
 
 import java.util.HashMap;
 import java.util.Map;

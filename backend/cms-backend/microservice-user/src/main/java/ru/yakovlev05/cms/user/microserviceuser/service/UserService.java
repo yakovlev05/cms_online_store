@@ -10,13 +10,13 @@ import java.util.List;
 public interface UserService {
     void create(User user);
 
-    ResponseUserDto getUser(long userId);
+    ResponseUserDto getUser(String userId);
 
     List<ResponseUserDto> getAllUsers(int page, int limit);
 
     ResponseUserDto addAdminUser(RequestUserDto requestUserDto);
 
-    ResponseUserDto updateUser(long userId, RequestUserDto requestUserDto);
+    ResponseUserDto updateUser(String userId, RequestUserDto requestUserDto);
 
-    void deleteUser(long userId);
+    void deleteUser(String userId);
 }

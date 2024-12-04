@@ -1,4 +1,4 @@
-package ru.yakovlev05.cms.auth.props;
+package ru.yakovlev05.cms.catalog.props;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "spring.kafka")
 public class KafkaProducerProperties {
 
-    @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
     @Value("${spring.kafka.producer.key-serializer}")
@@ -19,9 +18,9 @@ public class KafkaProducerProperties {
     @Value("${spring.kafka.producer.value-serializer}")
     private String producerValueSerializer;
 
-    private String userTopicName;
+    private String productTopicName;
 
-    private int userTopicPartitions;
+    private int productTopicPartitions;
 
-    private int userTopicReplicas;
+    private int productTopicReplicas;
 }

@@ -6,11 +6,11 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.dto.UserDto;
+import ru.yakovlev05.cms.auth.props.KafkaProducerProperties;
 import ru.yakovlev05.cms.auth.service.KafkaService;
-import ru.yakovlev05.cms.core.entity.UserRole;
-import ru.yakovlev05.cms.core.event.UserCreatedEvent;
+import ru.yakovlev05.cms.core.event.EventType;
+import ru.yakovlev05.cms.core.event.UserEvent;
 
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -18,29 +18,32 @@ import java.util.concurrent.CompletableFuture;
 @Service
 public class KafkaServiceImpl implements KafkaService {
 
-    private final KafkaTemplate<String, UserCreatedEvent> kafkaTemplate;
+    private final KafkaTemplate<String, Object> kafkaTemplate;
+
+    private final KafkaProducerProperties props;
 
     @Override
-    public void sendUserCreatedEvent(long userId, UserDto userDto, Set<UserRole> roles) {
-        UserCreatedEvent data = UserCreatedEvent.builder()
+    public void sendUserCreatedEvent(String userId, UserDto userDto) {
+        UserEvent data = UserEvent.builder()
+                .eventType(EventType.CREATE)
+                .isProduceByUserService(false)
                 .id(userId)
-                .firstName("")
-                .lastName("")
-                .patronymic("")
+                .firstName(null)
+                .lastName(null)
+                .patronymic(null)
                 .phoneNumber(userDto.getPhoneNumber())
-                .roles(roles)
                 .build();
 
         log.info("Send data to topic auth.user.created: {}", data);
-        CompletableFuture<SendResult<String, UserCreatedEvent>> future = kafkaTemplate
-                .send("auth.user.created", String.valueOf(userId), data);
+        CompletableFuture<SendResult<String, Object>> future = kafkaTemplate
+                .send(props.getUserTopicName(), String.valueOf(userId), data);
 
         future
                 .whenComplete((result, exception) -> {
                     if (exception != null) {
-                        log.error("Send data to topic auth.user.created failed", exception);
+                        log.error("Send data to topic {} failed", props.getUserTopicName(), exception);
                     } else {
-                        log.info("Send data to topic auth.user.created success: {}", result.getRecordMetadata());
+                        log.info("Send data to topic {} success: {}", props.getUserTopicName(), result.getRecordMetadata());
                     }
                 });
     }

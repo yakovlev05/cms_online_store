@@ -14,7 +14,7 @@ public class JwtUserDetailsByUserIdService {
     private final UserService userService;
 
     public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        User user = userService.getById(Long.parseLong(userId));
+        User user = userService.getById(userId);
 
         return UserDetailsFactory.create(user);
     }

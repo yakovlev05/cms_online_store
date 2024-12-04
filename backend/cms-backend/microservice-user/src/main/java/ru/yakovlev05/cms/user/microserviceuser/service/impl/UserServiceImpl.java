@@ -5,16 +5,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.yakovlev05.cms.core.event.EventType;
 import ru.yakovlev05.cms.user.microserviceuser.dto.RequestUserDto;
 import ru.yakovlev05.cms.user.microserviceuser.dto.ResponseUserDto;
 import ru.yakovlev05.cms.user.microserviceuser.entity.User;
 import ru.yakovlev05.cms.user.microserviceuser.exception.BadRequestException;
 import ru.yakovlev05.cms.user.microserviceuser.repository.UserRepository;
 import ru.yakovlev05.cms.user.microserviceuser.service.AddressService;
+import ru.yakovlev05.cms.user.microserviceuser.service.KafkaService;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +26,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     private final AddressService addressService;
+
+    private final KafkaService kafkaService;
 
     @Override
     public void create(User user) {
@@ -34,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserDto getUser(long userId) {
+    public ResponseUserDto getUser(String userId) {
         User user = getUserById(userId);
 
         return fillResponseUserDto(user);
@@ -53,6 +58,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseUserDto addAdminUser(RequestUserDto requestUserDto) {
         User user = User.builder()
+                .id(UUID.randomUUID().toString())
                 .firstName(requestUserDto.getFistName())
                 .lastName(requestUserDto.getLastName())
                 .patronymic(requestUserDto.getPatronymic())
@@ -63,11 +69,13 @@ public class UserServiceImpl implements UserService {
 
         this.create(user);
 
+        kafkaService.sendUserEvent(user, requestUserDto.getPassword(), EventType.CREATE);
+
         return fillResponseUserDto(user);
     }
 
     @Override
-    public ResponseUserDto updateUser(long userId, RequestUserDto requestUserDto) {
+    public ResponseUserDto updateUser(String userId, RequestUserDto requestUserDto) {
         User user = getUserById(userId);
 
         user.setFirstName(requestUserDto.getFistName());
@@ -78,12 +86,16 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
+        kafkaService.sendUserEvent(user, requestUserDto.getPassword(),EventType.UPDATE);
+
         return fillResponseUserDto(user);
     }
 
     @Override
-    public void deleteUser(long userId) {
+    public void deleteUser(String userId) {
         User user = getUserById(userId);
+
+        kafkaService.sendUserEvent(user, null, EventType.DELETE);
 
         userRepository.delete(user);
     }
@@ -99,7 +111,7 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    private User getUserById(long userId) {
+    private User getUserById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() ->
                         new BadRequestException("User with id " + userId + " does not exist"));

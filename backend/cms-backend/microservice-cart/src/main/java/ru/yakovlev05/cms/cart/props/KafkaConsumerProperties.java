@@ -1,4 +1,4 @@
-package ru.yakovlev05.cms.user.microserviceuser.props;
+package ru.yakovlev05.cms.cart.props;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

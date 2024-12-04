@@ -17,7 +17,7 @@ import java.util.List;
 public class User {
 
     @Id
-    private long id;
+    private String id;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Cart> carts;

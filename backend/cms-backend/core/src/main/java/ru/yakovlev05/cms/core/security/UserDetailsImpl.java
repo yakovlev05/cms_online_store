@@ -15,7 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class UserDetailsImpl implements UserDetails {
 
-    private final long id;
+    private final String id;
     private final Set<UserRole> roles;
     private final Set<UserPermission> permissions;
     private final List<GrantedAuthority> authorities;

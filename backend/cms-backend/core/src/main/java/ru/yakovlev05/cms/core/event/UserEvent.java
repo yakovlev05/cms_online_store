@@ -4,19 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.yakovlev05.cms.core.entity.UserRole;
 
-import java.util.Set;
-
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 @Data
-public class UserCreatedEvent {
-    private long id;
+public class UserEvent {
+    private EventType eventType;
+    private boolean isProduceByUserService; // создано ли сервисом пользователей. true - да, false - сервис авторизации
+
+    private String id;
     private String firstName;
     private String lastName;
     private String patronymic;
     private String phoneNumber;
-    private Set<UserRole> roles;
+    private String encodedPassword;
 }

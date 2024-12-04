@@ -18,7 +18,7 @@ import java.util.Set;
 @Data
 public class UserDetailsImpl implements UserDetails {
 
-    private final long id;
+    private final String id;
     private final String username; // номер телефона
     private final String password;
     private final Set<UserRole> roles;

@@ -15,12 +15,18 @@ spring:
     change-log: /db/changelog/db.changelog-master.xml
   kafka:
     bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      group-id: user-service-events
+      group-id: user-service
       properties:
         spring.json.trusted.packages: "ru.yakovlev05.cms.core.event"
+    user-topic-partitions: 1
+    user-topic-replicas: 1
+    user-topic-name: user
 
 
 jwt:

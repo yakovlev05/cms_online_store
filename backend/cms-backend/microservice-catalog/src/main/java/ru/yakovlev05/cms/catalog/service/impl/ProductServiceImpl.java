@@ -10,11 +10,13 @@ import ru.yakovlev05.cms.catalog.dto.ComponentDto;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseProductDto;
+import ru.yakovlev05.cms.catalog.entity.Component;
 import ru.yakovlev05.cms.catalog.entity.Media;
 import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
 import ru.yakovlev05.cms.catalog.repository.ProductRepository;
 import ru.yakovlev05.cms.catalog.service.*;
+import ru.yakovlev05.cms.core.event.EventType;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,6 +36,8 @@ public class ProductServiceImpl implements ProductService {
     private final ComponentService componentService;
     private final CategoryService categoryService;
     private final MediaService mediaService;
+
+    private final KafkaService kafkaService;
 
     private final Random random = new Random();
 
@@ -91,6 +95,13 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    private boolean getProductAvailable(String urlName) {
+        Product product = getProductByUrlName(urlName);
+
+        return product.getComponents().stream()
+                .allMatch(Component::isInStock);
+    }
+
     @Override
     public ResponseProductDto getProduct(String urlName) {
         Product product = getProductByUrlName(urlName);
@@ -113,6 +124,9 @@ public class ProductServiceImpl implements ProductService {
         assignRelatedEntitiesToProduct(productDto, product);
 
         productRepository.save(product);
+
+        kafkaService.sendProductEvent(product, getProductAvailable(product.getUrlName()), EventType.CREATE);
+
         return fillResponseProductDto(product);
     }
 
@@ -131,7 +145,11 @@ public class ProductServiceImpl implements ProductService {
         Product product = getProductByUrlName(urlName);
 
         product.setName(productDto.getName());
-        product.setUrlName(generateProductUrlName(productDto.getName()));
+        product.setUrlName(
+                product.getName().equals(productDto.getName()) ?
+                        product.getUrlName() :
+                        generateProductUrlName(productDto.getName())
+        );
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setPriceDiscount(productDto.getPriceDiscount());
@@ -141,12 +159,17 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.save(product);
 
+        kafkaService.sendProductEvent(product, getProductAvailable(product.getUrlName()), EventType.UPDATE);
+
         return fillResponseProductDto(product);
     }
 
     @Override
     public void deleteProduct(String urlName) {
         Product product = getProductByUrlName(urlName);
+
+        kafkaService.sendProductEvent(product, getProductAvailable(product.getUrlName()), EventType.DELETE);
+
         productRepository.delete(product);
     }
 }
