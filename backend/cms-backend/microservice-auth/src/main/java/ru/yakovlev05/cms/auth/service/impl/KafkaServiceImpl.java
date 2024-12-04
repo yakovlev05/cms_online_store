@@ -26,7 +26,7 @@ public class KafkaServiceImpl implements KafkaService {
     public void sendUserCreatedEvent(String userId, UserDto userDto) {
         UserEvent data = UserEvent.builder()
                 .eventType(EventType.CREATE)
-                .isRegisteredByClient(true)
+                .isProduceByUserService(false)
                 .id(userId)
                 .firstName(null)
                 .lastName(null)

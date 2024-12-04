@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserEvent {
     private EventType eventType;
-    private boolean isRegisteredByClient; // создано именно клиентом через сервис авторизации
+    private boolean isProduceByUserService; // создано ли сервисом пользователей. true - да, false - сервис авторизации
 
     private String id;
     private String firstName;

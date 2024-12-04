@@ -22,8 +22,10 @@ public class UserCreatedEventListener {
 
     @KafkaHandler
     public void handleUserEvent(UserEvent event) {
-        // обработка только новых (созданных) объектов через сервис авторизации
-        if (!event.getEventType().equals(EventType.CREATE) || !event.isRegisteredByClient()) {
+        if (event.isProduceByUserService()) {
+            return; // Пропускаем сообщения созданные этим же сервисом (сервис пользователей)
+        }
+        if (!event.getEventType().equals(EventType.CREATE)) {
             return;
         }
         log.info("Received user event: {}", event);
