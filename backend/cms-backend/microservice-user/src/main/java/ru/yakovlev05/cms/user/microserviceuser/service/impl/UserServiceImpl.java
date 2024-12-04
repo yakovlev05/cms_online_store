@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import ru.yakovlev05.cms.core.event.EventType;
 import ru.yakovlev05.cms.user.microserviceuser.dto.RequestUserDto;
 import ru.yakovlev05.cms.user.microserviceuser.dto.ResponseUserDto;
 import ru.yakovlev05.cms.user.microserviceuser.entity.User;
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
 
         this.create(user);
 
-        kafkaService.sendUserCreatedEvent(user.getId(), requestUserDto);
+        kafkaService.sendUserEvent(user, requestUserDto.getPassword(), EventType.CREATE);
 
         return fillResponseUserDto(user);
     }
@@ -85,12 +86,16 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(user);
 
+        kafkaService.sendUserEvent(user, requestUserDto.getPassword(),EventType.UPDATE);
+
         return fillResponseUserDto(user);
     }
 
     @Override
     public void deleteUser(long userId) {
         User user = getUserById(userId);
+
+        kafkaService.sendUserEvent(user, null, EventType.DELETE);
 
         userRepository.delete(user);
     }

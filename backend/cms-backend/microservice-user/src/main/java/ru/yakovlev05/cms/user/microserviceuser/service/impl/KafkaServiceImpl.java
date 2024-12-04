@@ -7,7 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.core.event.EventType;
 import ru.yakovlev05.cms.core.event.UserEvent;
-import ru.yakovlev05.cms.user.microserviceuser.dto.RequestUserDto;
+import ru.yakovlev05.cms.user.microserviceuser.entity.User;
 import ru.yakovlev05.cms.user.microserviceuser.props.KafkaProducerProperties;
 import ru.yakovlev05.cms.user.microserviceuser.service.KafkaService;
 
@@ -22,22 +22,27 @@ public class KafkaServiceImpl implements KafkaService {
 
     private final PasswordEncoder passwordEncoder;
 
+    /**
+     * @param user сущность пользователя
+     * @param password пароль (может быть пустым полем, если это запрос на удаление / изменение, например)
+     * @param eventType тип события
+     */
     @Override
-    public void sendUserCreatedEvent(String userId, RequestUserDto dto) {
+    public void sendUserEvent(User user, String password, EventType eventType) {
         UserEvent userEvent = UserEvent.builder()
-                .eventType(EventType.CREATE)
+                .eventType(eventType)
                 .isProduceByUserService(true)
-                .id(userId)
-                .firstName(dto.getFistName())
-                .lastName(dto.getLastName())
-                .patronymic(dto.getPatronymic())
-                .phoneNumber(dto.getPhoneNumber())
-                .encodedPassword(passwordEncoder.encode(dto.getPassword()))
+                .id(user.getId())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .patronymic(user.getPatronymic())
+                .phoneNumber(user.getPhoneNumber())
+                .encodedPassword(passwordEncoder.encode(password))
                 .build();
 
         log.info("Send data to topic {}: {}", props.getUserTopicName(), userEvent);
 
-        kafkaTemplate.send(props.getUserTopicName(), userId, userEvent)
+        kafkaTemplate.send(props.getUserTopicName(), user.getId(), userEvent)
                 .whenComplete((result, exception) -> {
                     if (exception != null) {
                         log.error("Send data to topic {} failed", props.getUserTopicName(), exception);
