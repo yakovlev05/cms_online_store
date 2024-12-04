@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
     @Override
-    public User getUser(long id) {
+    public User getUser(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() ->
                         new BadRequestException("User with id " + id + " not found"));
@@ -23,5 +23,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void create(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(String id) {
+        User user = getUser(id);
+        userRepository.delete(user);
     }
 }
