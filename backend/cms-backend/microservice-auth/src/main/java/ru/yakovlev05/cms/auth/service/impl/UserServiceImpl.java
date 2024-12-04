@@ -15,7 +15,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User getById(long userId) {
+    public User getById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() -> new BadRequestException("User with userId " + userId + " not found"));
     }
@@ -38,5 +38,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void update(User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteById(String userId) {
+        User user = getById(userId);
+
+        userRepository.delete(user);
     }
 }
