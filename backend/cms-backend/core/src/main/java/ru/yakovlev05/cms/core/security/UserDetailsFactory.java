@@ -15,7 +15,7 @@ public class UserDetailsFactory {
 
     public static UserDetailsImpl create(String subject, List<UserRole> roles, List<UserPermission> permissions) {
         return new UserDetailsImpl(
-                Long.parseLong(subject),
+                subject,
                 new HashSet<>(roles),
                 new HashSet<>(permissions),
                 getAuthorities(roles, permissions)

@@ -145,7 +145,11 @@ public class ProductServiceImpl implements ProductService {
         Product product = getProductByUrlName(urlName);
 
         product.setName(productDto.getName());
-        product.setUrlName(generateProductUrlName(productDto.getName()));
+        product.setUrlName(
+                product.getName().equals(productDto.getName()) ?
+                        product.getUrlName() :
+                        generateProductUrlName(productDto.getName())
+        );
         product.setDescription(productDto.getDescription());
         product.setPrice(productDto.getPrice());
         product.setPriceDiscount(productDto.getPriceDiscount());
