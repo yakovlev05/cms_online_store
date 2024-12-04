@@ -25,6 +25,7 @@ import ru.yakovlev05.cms.core.security.TokenType;
 import ru.yakovlev05.cms.core.util.JwtUtil;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -47,6 +48,7 @@ public class AuthServiceImpl implements AuthService {
     public ResponseEntity<String> registration(UserDto request) {
         log.info("Registration request received, phone number: {}", request.getPhoneNumber());
         User user = User.builder()
+                .id(UUID.randomUUID().toString())
                 .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .createdAt(LocalDateTime.now())
