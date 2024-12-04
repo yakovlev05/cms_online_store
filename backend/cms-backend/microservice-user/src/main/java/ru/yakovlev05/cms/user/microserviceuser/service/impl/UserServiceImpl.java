@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserDto getUser(long userId) {
+    public ResponseUserDto getUser(String userId) {
         User user = getUserById(userId);
 
         return fillResponseUserDto(user);
@@ -75,7 +75,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserDto updateUser(long userId, RequestUserDto requestUserDto) {
+    public ResponseUserDto updateUser(String userId, RequestUserDto requestUserDto) {
         User user = getUserById(userId);
 
         user.setFirstName(requestUserDto.getFistName());
@@ -92,7 +92,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(long userId) {
+    public void deleteUser(String userId) {
         User user = getUserById(userId);
 
         kafkaService.sendUserEvent(user, null, EventType.DELETE);
@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    private User getUserById(long userId) {
+    private User getUserById(String userId) {
         return userRepository.findById(userId)
                 .orElseThrow(() ->
                         new BadRequestException("User with id " + userId + " does not exist"));

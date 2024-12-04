@@ -37,8 +37,11 @@ public class KafkaServiceImpl implements KafkaService {
                 .lastName(user.getLastName())
                 .patronymic(user.getPatronymic())
                 .phoneNumber(user.getPhoneNumber())
-                .encodedPassword(passwordEncoder.encode(password))
                 .build();
+
+        if (password != null) {
+            userEvent.setEncodedPassword(passwordEncoder.encode(password));
+        }
 
         log.info("Send data to topic {}: {}", props.getUserTopicName(), userEvent);
 
