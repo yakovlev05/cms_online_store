@@ -7,7 +7,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -51,4 +53,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id", nullable = false)
     )
     private Set<Permission> permissions = new HashSet<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<Otp> otps = new ArrayList<>();
 }
