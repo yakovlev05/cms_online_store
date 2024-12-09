@@ -13,6 +13,7 @@ public class IDigitalTextToSpeechDto {
     private Content content;
 
     @AllArgsConstructor
+    @Data
     public static class Content {
         private String sex;
         private String contentType;

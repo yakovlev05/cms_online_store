@@ -13,6 +13,7 @@ public class IDigitalVoicecodeDto {
     private Content content;
 
     @AllArgsConstructor
+    @Data
     public static class Content {
         private String contentType;
         private String text;
