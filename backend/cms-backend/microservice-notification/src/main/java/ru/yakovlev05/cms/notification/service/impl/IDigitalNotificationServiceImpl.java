@@ -74,7 +74,7 @@ public class IDigitalNotificationServiceImpl implements PhoneNotificationService
 
             ResponseEntity<IDigitalResponseDto> response = restTemplate.postForEntity(BASE_URL, request, IDigitalResponseDto.class);
 
-            log.info("Response IDigital, flashcall: {}", response);
+            log.info("Response IDigital: {}", response);
 
         } catch (Exception e) {
             log.error(e.getMessage(), e);
