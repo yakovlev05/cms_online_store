@@ -21,6 +21,7 @@ public class UserDetailsImpl implements UserDetails {
     private final String id;
     private final String username; // номер телефона
     private final String password;
+    private final boolean isConfirmed;
     private final Set<UserRole> roles;
     private final Set<UserPermission> permissions;
     private final List<GrantedAuthority> authorities;
