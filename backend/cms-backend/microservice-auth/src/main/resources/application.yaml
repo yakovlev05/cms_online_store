@@ -25,8 +25,11 @@ spring:
       properties:
         spring.json.trusted.packages: "ru.yakovlev05.cms.core.event"
     user-topic-name: user
+    notification-topic-name: notification
     user-topic-partitions: 1
+    notification-topic-partitions: 1
     user-topic-replicas: 1
+    notification-topic-replicas: 1
 
 jwt:
   secret: ${JWT_SECRET:only_test_123456789123456789}

@@ -24,4 +24,10 @@ public class KafkaProducerProperties {
     private int userTopicPartitions;
 
     private int userTopicReplicas;
+
+    private String notificationTopicName;
+
+    private int notificationTopicPartitions;
+
+    private int notificationTopicReplicas;
 }

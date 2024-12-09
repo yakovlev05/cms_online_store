@@ -20,4 +20,12 @@ public class KafkaTopicConfig {
                 .replicas(kafkaProducerProperties.getUserTopicReplicas())
                 .build();
     }
+
+    @Bean
+    public NewTopic otpTopic() {
+        return TopicBuilder.name(kafkaProducerProperties.getNotificationTopicName())
+                .partitions(kafkaProducerProperties.getNotificationTopicPartitions())
+                .replicas(kafkaProducerProperties.getNotificationTopicReplicas())
+                .build();
+    }
 }

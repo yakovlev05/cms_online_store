@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.auth.dto.UserDto;
 import ru.yakovlev05.cms.auth.props.KafkaProducerProperties;
 import ru.yakovlev05.cms.auth.service.KafkaService;
+import ru.yakovlev05.cms.core.entity.OtpChannelType;
 import ru.yakovlev05.cms.core.event.EventType;
+import ru.yakovlev05.cms.core.event.NotificationEvent;
 import ru.yakovlev05.cms.core.event.UserEvent;
 
 import java.util.concurrent.CompletableFuture;
@@ -48,4 +50,24 @@ public class KafkaServiceImpl implements KafkaService {
                 });
     }
 
+    @Override
+    public void sendNotificationEvent(String message, String destination, OtpChannelType channelType) {
+        NotificationEvent event = NotificationEvent.builder()
+                .channelType(channelType)
+                .destination(destination)
+                .text(message)
+                .build();
+
+        log.info("Send event to topic {}: {}", props.getNotificationTopicName(), event);
+
+        kafkaTemplate.send(props.getNotificationTopicName(), event)
+                .whenComplete((result, exception) -> {
+                    if (exception != null) {
+                        log.error("Send event to topic {} failed", props.getNotificationTopicName(), exception);
+                    } else {
+                        log.info("Send event to topic {} success: {}", props.getNotificationTopicName(), result.getRecordMetadata());
+                    }
+                });
+
+    }
 }

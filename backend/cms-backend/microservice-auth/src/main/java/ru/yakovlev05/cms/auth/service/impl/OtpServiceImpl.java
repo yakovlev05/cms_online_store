@@ -10,6 +10,7 @@ import ru.yakovlev05.cms.auth.entity.OtpInfo;
 import ru.yakovlev05.cms.auth.exception.BadRequestException;
 import ru.yakovlev05.cms.auth.repository.OtpRepository;
 import ru.yakovlev05.cms.auth.service.CaptchaService;
+import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.auth.service.OtpInfoService;
 import ru.yakovlev05.cms.auth.service.OtpService;
 
@@ -27,8 +28,11 @@ public class OtpServiceImpl implements OtpService {
 
     private final CaptchaService captchaService;
     private final OtpInfoService otpInfoService;
+    private final KafkaService kafkaService;
 
     private final Random random = new Random();
+
+    private static final String MESSAGE_TEMPLATE = "Ваш код: ";
 
     @Override
     public CreateSessionResponseDto createSession(OtpCreateSessionRequestDto request, HttpServletRequest httpServletRequest) {
@@ -83,6 +87,10 @@ public class OtpServiceImpl implements OtpService {
         otp.setSendAttemptsCount(otp.getSendAttemptsCount() + 1);
 
         log.info("Send code {} to destination {}", otp.getCode(), otp.getDestination());
+        kafkaService.sendNotificationEvent(
+                getConfirmationMessage(otp.getCode()),
+                otp.getDestination(),
+                otpInfo.getChannelType());
 
         otpRepository.save(otp);
     }
@@ -122,8 +130,13 @@ public class OtpServiceImpl implements OtpService {
     }
 
     private String generateCode() {
-        int code = 100_000 + random.nextInt(900_000);
+        int code = 1_000 + random.nextInt(9_000);
         return String.valueOf(code);
+    }
+
+    private String getConfirmationMessage(String code) {
+        String formattedCode = String.join("-", code.split(""));
+        return MESSAGE_TEMPLATE + formattedCode;
     }
 
     @Override
