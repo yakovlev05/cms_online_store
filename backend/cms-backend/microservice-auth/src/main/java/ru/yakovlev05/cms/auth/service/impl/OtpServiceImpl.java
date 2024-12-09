@@ -13,6 +13,7 @@ import ru.yakovlev05.cms.auth.service.CaptchaService;
 import ru.yakovlev05.cms.auth.service.KafkaService;
 import ru.yakovlev05.cms.auth.service.OtpInfoService;
 import ru.yakovlev05.cms.auth.service.OtpService;
+import ru.yakovlev05.cms.core.entity.OtpChannelType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -88,7 +89,7 @@ public class OtpServiceImpl implements OtpService {
 
         log.info("Send code {} to destination {}", otp.getCode(), otp.getDestination());
         kafkaService.sendNotificationEvent(
-                getConfirmationMessage(otp.getCode()),
+                getConfirmationMessage(otp.getCode(), otpInfo.getChannelType()),
                 otp.getDestination(),
                 otpInfo.getChannelType());
 
@@ -134,9 +135,14 @@ public class OtpServiceImpl implements OtpService {
         return String.valueOf(code);
     }
 
-    private String getConfirmationMessage(String code) {
-        String formattedCode = String.join("-", code.split(""));
-        return MESSAGE_TEMPLATE + formattedCode;
+    private String getConfirmationMessage(String code, OtpChannelType channelType) {
+        if (channelType.equals(OtpChannelType.FLASHCALL)
+                || channelType.equals(OtpChannelType.VOICECODE)
+                || channelType.equals(OtpChannelType.TEXT_TO_SPEECH)) {
+            String formattedCode = String.join("-", code.split(""));
+            return MESSAGE_TEMPLATE + formattedCode;
+        }
+        return MESSAGE_TEMPLATE + code;
     }
 
     @Override
