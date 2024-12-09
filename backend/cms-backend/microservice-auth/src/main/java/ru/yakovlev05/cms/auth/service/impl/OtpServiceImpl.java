@@ -139,7 +139,13 @@ public class OtpServiceImpl implements OtpService {
         if (channelType.equals(OtpChannelType.FLASHCALL)
                 || channelType.equals(OtpChannelType.VOICECODE)
                 || channelType.equals(OtpChannelType.TEXT_TO_SPEECH)) {
+
+            if (channelType.equals(OtpChannelType.FLASHCALL)) {
+                return code;
+            }
+
             String formattedCode = String.join("-", code.split(""));
+
             return MESSAGE_TEMPLATE + formattedCode;
         }
         return MESSAGE_TEMPLATE + code;
