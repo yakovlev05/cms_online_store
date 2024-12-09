@@ -51,6 +51,7 @@ public class UserEventHandler {
                 .id(event.getId())
                 .phoneNumber(event.getPhoneNumber())
                 .password(event.getEncodedPassword())
+                .isConfirmed(true)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();

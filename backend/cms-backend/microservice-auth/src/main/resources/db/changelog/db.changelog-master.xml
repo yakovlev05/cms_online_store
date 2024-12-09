@@ -13,4 +13,5 @@
     <include file="/db/changelog/changeset/v1.3.0_add_otp_table.xml"/>
     <include file="/db/changelog/changeset/v1.3.1_add_otp_info.xml"/>
     <include file="/db/changelog/changeset/v1.3.2_insert_otp_info.xml"/>
+    <include file="db/changelog/changeset/v1.3.2_add_isConfirmed_field_user.xml"/>
 </databaseChangeLog>
