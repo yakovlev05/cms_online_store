@@ -3,23 +3,20 @@ package ru.yakovlev05.cms.auth.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import ru.yakovlev05.cms.auth.dto.JwtRefreshRequestDto;
-import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
-import ru.yakovlev05.cms.auth.dto.UserDto;
+import ru.yakovlev05.cms.auth.dto.*;
+import ru.yakovlev05.cms.auth.entity.Otp;
 import ru.yakovlev05.cms.auth.entity.User;
 import ru.yakovlev05.cms.auth.exception.BadRequestException;
 import ru.yakovlev05.cms.auth.security.UserDetailsImpl;
 import ru.yakovlev05.cms.auth.security.UserDetailsProvider;
-import ru.yakovlev05.cms.auth.service.AuthService;
-import ru.yakovlev05.cms.auth.service.KafkaService;
-import ru.yakovlev05.cms.auth.service.RoleService;
-import ru.yakovlev05.cms.auth.service.UserService;
+import ru.yakovlev05.cms.auth.service.*;
 import ru.yakovlev05.cms.core.entity.UserRole;
 import ru.yakovlev05.cms.core.security.TokenType;
 import ru.yakovlev05.cms.core.util.JwtUtil;
@@ -34,6 +31,7 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserService userService;
     private final RoleService roleService;
+    private final OtpService otpService;
 
     private final KafkaService kafkaService;
 
@@ -45,7 +43,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Transactional
     @Override
-    public ResponseEntity<String> registration(UserDto request) {
+    public ResponseEntity<Object> registration(UserDto request) {
         log.info("Registration request received, phone number: {}", request.getPhoneNumber());
         User user = User.builder()
                 .id(UUID.randomUUID().toString())
@@ -64,20 +62,27 @@ public class AuthServiceImpl implements AuthService {
 
         kafkaService.sendUserCreatedEvent(user.getId(), request);
 
-        return ResponseEntity.ok("User registered successfully");
+        return ResponseEntity.ok(new AuthMessageDto("Confirmation required"));
     }
 
     @Override
-    public JwtResponseDto login(UserDto request) {
+    public ResponseEntity<Object> login(UserDto request) {
         log.info("Login request received, login: {}", request.getPhoneNumber());
-        var t = authenticationManager.authenticate(
+        var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getPhoneNumber(), request.getPassword())
         );
+
+        log.info("Checking phone confirmation status ...");
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+
+        if (!userDetails.isConfirmed()) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthMessageDto("Confirmation required"));
+        }
+
         log.info("Authentication successful, login: {}", request.getPhoneNumber());
 
-        UserDetailsImpl userDetails = (UserDetailsImpl) t.getPrincipal();
-
-        return fillJwtResponseDto(userDetails);
+        return ResponseEntity.ok(fillJwtResponseDto(userDetails));
     }
 
     @Override
@@ -94,6 +99,40 @@ public class AuthServiceImpl implements AuthService {
         return fillJwtResponseDto(userDetails);
     }
 
+    @Override
+    public void confirmPhone(AuthConfirmPhoneDto request) {
+        User user = userService.getByPhone(request.getPhoneNumber());
+        Otp otp = otpService.getById(request.getOtpId());
+
+        validateOtpRequest(otp);
+
+        otp.setExpired(true);
+        otpService.update(otp);
+
+        user.setConfirmed(true);
+        user.setUpdatedAt(LocalDateTime.now());
+        userService.update(user);
+
+        log.info("Confirm phone successful, phone number: {}", request.getPhoneNumber());
+    }
+
+    @Override
+    public void resetPassword(AuthResetPasswordRequestDto request) {
+        User user = userService.getByPhone(request.getPhoneNumber());
+        Otp otp = otpService.getById(request.getOtpId());
+
+        validateOtpRequest(otp);
+
+        otp.setExpired(true);
+        otpService.update(otp);
+
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        user.setUpdatedAt(LocalDateTime.now());
+        userService.update(user);
+
+        log.info("Reset password successful, phone number: {}", request.getPhoneNumber());
+    }
+
     private JwtResponseDto fillJwtResponseDto(UserDetailsImpl userDetails) {
         return new JwtResponseDto(
                 jwtUtil.generateAccessToken(
@@ -104,5 +143,15 @@ public class AuthServiceImpl implements AuthService {
                 jwtUtil.generateRefreshToken(userDetails.getId()),
                 System.currentTimeMillis() + jwtUtil.getAccessTokenValidityInMs(),
                 System.currentTimeMillis() + jwtUtil.getRefreshTokenValidityInMs());
+    }
+
+    private void validateOtpRequest(Otp otp) {
+        if (otp.isExpired()) {
+            throw new BadRequestException("Otp is expired");
+        }
+
+        if (!otp.isConfirmed()) {
+            throw new BadRequestException("Otp is not confirmed");
+        }
     }
 }

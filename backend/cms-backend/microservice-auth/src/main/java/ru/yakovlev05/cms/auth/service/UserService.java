@@ -12,4 +12,6 @@ public interface UserService {
     void update(User user);
 
     void deleteById(String userId);
+
+    User getByPhone(String phone);
 }

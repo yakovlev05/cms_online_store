@@ -19,6 +19,7 @@ public class UserDetailsFactory {
                 user.getId(),
                 user.getPhoneNumber(),
                 user.getPassword(),
+                user.isConfirmed(),
                 user.getRoles().stream()
                         .map(Role::getName)
                         .collect(Collectors.toSet()),

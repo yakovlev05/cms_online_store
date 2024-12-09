@@ -1,14 +1,16 @@
 package ru.yakovlev05.cms.auth.service;
 
 import org.springframework.http.ResponseEntity;
-import ru.yakovlev05.cms.auth.dto.JwtRefreshRequestDto;
-import ru.yakovlev05.cms.auth.dto.JwtResponseDto;
-import ru.yakovlev05.cms.auth.dto.UserDto;
+import ru.yakovlev05.cms.auth.dto.*;
 
 public interface AuthService {
-    ResponseEntity<String> registration(UserDto request);
+    ResponseEntity<Object> registration(UserDto request);
 
-    JwtResponseDto login(UserDto request);
+    ResponseEntity<Object> login(UserDto request);
 
     JwtResponseDto refresh(JwtRefreshRequestDto request);
+
+    void confirmPhone(AuthConfirmPhoneDto request);
+
+    void resetPassword(AuthResetPasswordRequestDto request);
 }

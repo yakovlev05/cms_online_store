@@ -126,8 +126,14 @@ public class OtpServiceImpl implements OtpService {
         return String.valueOf(code);
     }
 
-    private Otp getById(String id) {
+    @Override
+    public Otp getById(String id) {
         return otpRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Otp not found: " + id));
+    }
+
+    @Override
+    public void update(Otp otp) {
+        otpRepository.save(otp);
     }
 }

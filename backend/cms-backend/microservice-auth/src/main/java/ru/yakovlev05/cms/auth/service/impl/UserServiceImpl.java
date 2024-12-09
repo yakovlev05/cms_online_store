@@ -46,4 +46,10 @@ public class UserServiceImpl implements UserService {
 
         userRepository.delete(user);
     }
+
+    @Override
+    public User getByPhone(String phone) {
+        return userRepository.findByPhoneNumber(phone)
+                .orElseThrow(() -> new BadRequestException("User with phone " + phone + " not found"));
+    }
 }
