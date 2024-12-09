@@ -12,7 +12,6 @@ import ru.yakovlev05.cms.auth.repository.OtpRepository;
 import ru.yakovlev05.cms.auth.service.CaptchaService;
 import ru.yakovlev05.cms.auth.service.OtpInfoService;
 import ru.yakovlev05.cms.auth.service.OtpService;
-import ru.yakovlev05.cms.auth.service.UserService;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
