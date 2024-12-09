@@ -39,8 +39,8 @@ public class Otp {
     @Column(name = "confirm_attempts_count", nullable = false)
     private int confirmAttemptsCount;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive;
+    @Column(name = "is_confirmed", nullable = false)
+    private boolean isConfirmed;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

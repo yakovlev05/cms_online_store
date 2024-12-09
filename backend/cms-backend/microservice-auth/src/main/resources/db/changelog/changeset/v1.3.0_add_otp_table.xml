@@ -28,7 +28,7 @@
             <column name="confirm_attempts_count" type="INT">
                 <constraints nullable="false"/>
             </column>
-            <column name="is_active" type="BOOLEAN">
+            <column name="is_confirmed" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="user_id" type="VARCHAR(255)">
