@@ -51,6 +51,7 @@ public class AuthServiceImpl implements AuthService {
                 .id(UUID.randomUUID().toString())
                 .phoneNumber(request.getPhoneNumber())
                 .password(passwordEncoder.encode(request.getPassword()))
+                .isConfirmed(false)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
