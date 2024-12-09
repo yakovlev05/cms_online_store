@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1733733006155-5" author="alexey">
+        <dropForeignKeyConstraint baseTableName="otp" constraintName="fk_otp_on_user"/>
+    </changeSet>
+    <changeSet id="1733733006155-1" author="alexey">
+        <createTable tableName="otp_info">
+            <column autoIncrement="true"
+                    name="id"
+                    type="BIGINT">
+                <constraints nullable="false"
+                             primaryKey="true"
+                             primaryKeyName="pk_otp_info"/>
+            </column>
+            <column name="channel_type" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_enabled" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_attempts_resend" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="max_attempts_confirm" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="interval_resend_in_seconds" type="INT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time_to_confirm_in_seconds" type="INT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1733733006155-2" author="alexey">
+        <addColumn tableName="otp">
+            <column name="otp_info_id" type="BIGINT"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="1733733006155-3" author="alexey">
+        <addNotNullConstraint columnName="otp_info_id" tableName="otp"/>
+    </changeSet>
+    <changeSet id="1733733006155-4" author="alexey">
+        <addForeignKeyConstraint baseColumnNames="otp_info_id" baseTableName="otp" constraintName="FK_OTP_ON_OTP_INFO"
+                                 referencedColumnNames="id" referencedTableName="otp_info"/>
+    </changeSet>
+    <changeSet id="1733733006155-6" author="alexey">
+        <dropColumn columnName="channel_type" tableName="otp"/>
+
+        <dropColumn columnName="user_id" tableName="otp"/>
+    </changeSet>
+
+</databaseChangeLog>

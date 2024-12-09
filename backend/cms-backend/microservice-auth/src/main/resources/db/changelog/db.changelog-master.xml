@@ -11,4 +11,6 @@
     <include file="/db/changelog/changeset/v1.1.2_remove_username_add_phone_number.xml"/>
     <include file="/db/changelog/changeset/v1.2.0_add_permission.xml"/>
     <include file="/db/changelog/changeset/v1.3.0_add_otp_table.xml"/>
+    <include file="/db/changelog/changeset/v1.3.1_add_otp_info.xml"/>
+    <include file="/db/changelog/changeset/v1.3.2_insert_otp_info.xml"/>
 </databaseChangeLog>

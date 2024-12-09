@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-12-09-13-33-text-to-speech" author="ALEXEY YAKOVLEV">
+        <insert tableName="otp_info">
+            <column name="channel_type">TEXT_TO_SPEECH</column>
+            <column name="is_enabled">true</column>
+            <column name="max_attempts_resend">3</column>
+            <column name="max_attempts_confirm">3</column>
+            <column name="interval_resend_in_seconds">48</column>
+            <column name="time_to_confirm_in_seconds">300</column>
+        </insert>
+    </changeSet>
+    <changeSet id="2024-12-09-13-39-flashcall" author="ALEXEY YAKOVLEV">
+        <insert tableName="otp_info">
+            <column name="channel_type">FLASHCALL</column>
+            <column name="is_enabled">true</column>
+            <column name="max_attempts_resend">3</column>
+            <column name="max_attempts_confirm">3</column>
+            <column name="interval_resend_in_seconds">18</column>
+            <column name="time_to_confirm_in_seconds">300</column>
+        </insert>
+    </changeSet>
+    <changeSet id="2024-12-09-13-40-voicecode" author="ALEXEY YAKOVLEV">
+        <insert tableName="otp_info">
+            <column name="channel_type">VOICECODE</column>
+            <column name="is_enabled">true</column>
+            <column name="max_attempts_resend">3</column>
+            <column name="max_attempts_confirm">3</column>
+            <column name="interval_resend_in_seconds">18</column>
+            <column name="time_to_confirm_in_seconds">300</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

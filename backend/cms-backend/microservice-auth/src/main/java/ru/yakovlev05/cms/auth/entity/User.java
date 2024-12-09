@@ -53,8 +53,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "permission_id", referencedColumnName = "id", nullable = false)
     )
     private Set<Permission> permissions = new HashSet<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "user")
-    private List<Otp> otps = new ArrayList<>();
 }

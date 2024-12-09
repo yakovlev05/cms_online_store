@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.yakovlev05.cms.core.entity.OtpChannelType;
 
 import java.time.LocalDateTime;
 
@@ -20,17 +19,13 @@ public class Otp {
     @Id
     private String id;
 
-    @Column(name = "code", nullable = false)
+    @Column(name = "code")
     private String code;
 
     @Column(name = "destination", nullable = false)
     private String destination;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "channel_type", nullable = false)
-    private OtpChannelType channelType;
-
-    @Column(name = "generated_at", nullable = false)
+    @Column(name = "generated_at")
     private LocalDateTime generatedAt;
 
     @Column(name = "send_attempts_count", nullable = false)
@@ -42,7 +37,13 @@ public class Otp {
     @Column(name = "is_confirmed", nullable = false)
     private boolean isConfirmed;
 
+    /**
+     * Устанавливается в true, когда с помощью этой сессии совершили подтверждение (регистрация, сброс пароля)
+     */
+    @Column(name = "is_expired", nullable = false)
+    private boolean isExpired;
+
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "otp_info_id", nullable = false)
+    private OtpInfo info;
 }

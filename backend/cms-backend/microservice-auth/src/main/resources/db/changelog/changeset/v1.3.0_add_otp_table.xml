@@ -11,7 +11,6 @@
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_otp"/>
             </column>
             <column name="code" type="VARCHAR(255)">
-                <constraints nullable="false"/>
             </column>
             <column name="destination" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -20,7 +19,6 @@
                 <constraints nullable="false"/>
             </column>
             <column name="generated_at" type="DATETIME">
-                <constraints nullable="false"/>
             </column>
             <column name="send_attempts_count" type="INT">
                 <constraints nullable="false"/>
@@ -29,6 +27,9 @@
                 <constraints nullable="false"/>
             </column>
             <column name="is_confirmed" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_expired" type="BOOLEAN">
                 <constraints nullable="false"/>
             </column>
             <column name="user_id" type="VARCHAR(255)">
