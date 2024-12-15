@@ -65,6 +65,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - YANDEX_CAPTCHA_SERVER_KEY=${YANDEX_CAPTCHA_SERVER_KEY}
     #    ports:
     #      - "8080:8080"
     depends_on:
@@ -202,6 +203,20 @@ services:
       - cms-backend-auth
       - cms-backend-catalog
       - cms-backend-user
+    networks:
+      - cms-store-network
+  cms-backend-notification:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-notification
+    restart: unless-stopped
+    container_name: cms-backend-notification
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - IDIGITAL_OTP_SERVICE_KEY=${IDIGITAL_OTP_SERVICE_KEY}
+    depends_on:
+      - cms-infra-kafka
     networks:
       - cms-store-network
 

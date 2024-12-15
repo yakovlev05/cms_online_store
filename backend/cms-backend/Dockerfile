@@ -25,6 +25,10 @@ COPY microservice-catalog/settings.gradle.kts microservice-catalog/settings.grad
 COPY microservice-cart/build.gradle.kts microservice-cart/build.gradle.kts
 COPY microservice-cart/settings.gradle.kts microservice-cart/settings.gradle.kts
 
+# microservice-notification
+COPY microservice-notification/build.gradle.kts microservice-notification/build.gradle.kts
+COPY microservice-notification/settings.gradle.kts microservice-notification/settings.gradle.kts
+
 # RUN gradle build --no-daemon --info || return 0
 RUN gradle build --no-daemon --info
 
@@ -44,6 +48,9 @@ COPY microservice-catalog/src microservice-catalog/src
 
 # microservice-cart
 COPY microservice-cart/src microservice-cart/src
+
+# microservice-notification
+COPY microservice-notification/src microservice-notification/src
 
 RUN gradle clean build -x test --no-daemon # --info
 
@@ -80,6 +87,15 @@ FROM openjdk:21-slim AS microservice-cart
 WORKDIR /app
 # Копируем собранный JAR файл из этапа сборки
 COPY --from=build /app/microservice-cart/build/libs/*-SNAPSHOT.jar app.jar
+# Указываем команду запуска
+ENTRYPOINT ["java", "-jar", "app.jar"]
+# Указываем порт, на котором работает приложение
+EXPOSE 8080
+
+FROM openjdk:21-slim AS microservice-notification
+WORKDIR /app
+# Копируем собранный JAR файл из этапа сборки
+COPY --from=build /app/microservice-notification/build/libs/*-SNAPSHOT.jar app.jar
 # Указываем команду запуска
 ENTRYPOINT ["java", "-jar", "app.jar"]
 # Указываем порт, на котором работает приложение
