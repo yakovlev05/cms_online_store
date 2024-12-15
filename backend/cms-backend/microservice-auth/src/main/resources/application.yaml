@@ -35,3 +35,6 @@ jwt:
   secret: ${JWT_SECRET:only_test_123456789123456789}
   accessTokenValidityInMs: ${ACCESS_TOKEN_VALIDITY_IN_MS:86400000}
   refreshTokenValidityInMs: ${REFRESH_TOKEN_VALIDITY_IN_MS:2592000000}
+
+captchaYandex:
+  serverKey: ${YANDEX_CAPTCHA_SERVER_KEY}
