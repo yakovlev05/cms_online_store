@@ -21,7 +21,7 @@ public class User {
     @Id
     private String id;
 
-    @Column(name = "phone_number", nullable = false, unique = true, length = 10)
+    @Column(name = "phone_number", nullable = false, unique = true)
     private String phoneNumber;
 
     @Column(name = "password", nullable = false, length = 100)

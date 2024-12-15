@@ -106,6 +106,10 @@ public class AuthServiceImpl implements AuthService {
 
         validateOtpRequest(otp);
 
+        if (!user.getPhoneNumber().equals(otp.getDestination())) {
+            throw new BadRequestException("OTP does not match");
+        }
+
         otp.setExpired(true);
         otpService.update(otp);
 
@@ -122,6 +126,10 @@ public class AuthServiceImpl implements AuthService {
         Otp otp = otpService.getById(request.getOtpId());
 
         validateOtpRequest(otp);
+
+        if (!user.getPhoneNumber().equals(otp.getDestination())) {
+            throw new BadRequestException("OTP does not match");
+        }
 
         otp.setExpired(true);
         otpService.update(otp);
