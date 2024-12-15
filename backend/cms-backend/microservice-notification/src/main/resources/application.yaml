@@ -12,7 +12,7 @@ spring:
     notification-topic-name: notification
 
 notification:
-  idigitalKey: MTAxNjg6Q0c0ZnNWUURiY0syVEx1dHVHUlN0RA==
+  idigitalKey: ${IDIGITAL_OTP_SERVICE_KEY}
 
 server:
   port: 8081
