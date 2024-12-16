@@ -8,6 +8,7 @@ import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.S3Configuration;
 
 import java.net.URI;
 
@@ -29,9 +30,9 @@ public class S3Config {
 
                 ))
                 .endpointOverride(URI.create(s3Properties.getUrl()))
-//                .serviceConfiguration(S3Configuration.builder()
-//                        .pathStyleAccessEnabled(true) // Включить Path-Style
-//                        .build())
+                .serviceConfiguration(S3Configuration.builder()
+                        .pathStyleAccessEnabled(true) // Включить Path-Style
+                        .build()) // Включаем Path-Style, потому что локально обратиться в другой контейнер bucket_name.service трудно
                 .build();
     }
 }
