@@ -8,6 +8,7 @@ name: cms-backend-catalog
 on:
   push:
     branches: [ "main" ]
+    paths: [ "backend/cms-backend/microservice-catalog/**" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   # pull_request:

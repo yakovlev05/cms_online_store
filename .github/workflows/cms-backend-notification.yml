@@ -8,6 +8,7 @@ name: cms-backend-notification
 on:
   push:
     branches: [ "main" ]
+    paths: [ "backend/cms-backend/microservice-notification/**" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   # pull_request:

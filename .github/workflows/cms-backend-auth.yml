@@ -8,6 +8,7 @@ name: cms-backend-auth
 on:
   push:
     branches: [ "main" ]
+    paths: [ "backend/cms-backend/microservice-auth/**" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   # pull_request:
