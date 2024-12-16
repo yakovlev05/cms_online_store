@@ -78,8 +78,8 @@ jobs:
           context: ./backend/cms-backend
           target: microservice-auth
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/cms_online_store-backend-auth:main
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: cms-backend-auth
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
