@@ -28,9 +28,9 @@ services:
       - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
       - MINIO_DOMAIN=${MINIO_DOMAIN}
     command: server /data --console-address ":9001"
-    ports:
-      - "9000:9000"
-      - "9001:9001"
+#    ports:
+#      - "9000:9000"
+#      - "9001:9001"
     volumes:
       - "cms-infra-s3:/data"
     networks:
