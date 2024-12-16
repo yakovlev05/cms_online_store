@@ -46,7 +46,6 @@ public class S3ServiceImpl implements S3Service {
         } catch (Exception e) {
             throw new S3Exception("Failed to put file " + file.getOriginalFilename() + " to bucket " + bucketName);
         }
-        getUrl(key);
     }
 
     private void deleteFile(String bucketName, String key) {
@@ -84,6 +83,11 @@ public class S3ServiceImpl implements S3Service {
         } catch (Exception e) {
             throw new S3Exception("Failed to get url for file " + fileName);
         }
+    }
+
+    @Override
+    public String getCustomUrl(String fileName) {
+        return s3Properties.getCustomUrl() + '/' + s3Properties.getBucket() + '/' + fileName;
     }
 
 }

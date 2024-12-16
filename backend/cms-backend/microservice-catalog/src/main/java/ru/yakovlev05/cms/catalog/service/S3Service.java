@@ -8,4 +8,6 @@ public interface S3Service {
     void deleteImage(String fileName);
 
     String getUrl(String fileName);
+
+    String getCustomUrl(String fileName);
 }
