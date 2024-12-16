@@ -8,13 +8,13 @@ import Footer from "@/src/components/footer";
 export default function ProductPage() {
     return (
         <div className={styles.home}>
-            <Header logo="/assets/placeholder/logo.svg"/>
-            <ProductMain/>
-            <SimilarProd/>
-            <Pagination/>
+            <Header logo="/assets/placeholder/logo.svg" />
+            <ProductMain />
+            <SimilarProd />
+            <Pagination />
             <Footer logo='/assets/placeholder/logo.svg'
-                    vk_link='/#'
-                    tg_link='/#'
+                vk_link='/#'
+                tg_link='/#'
             />
         </div>
     );

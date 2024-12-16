@@ -1,17 +1,19 @@
 .pagination {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 20px;
-  }
-  
-  .paginationButton {
-    padding: 5px 10px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 20px;
+}
 
-    &:hover {
-        background-color: var(--color-secondary-500);
-        color: white;
-        opacity: 0.8;
-      }
+.paginationButton {
+  padding: 5px 10px;
+  cursor: pointer;
+  width: 35px;
+
+  &:hover {
+    background-color: var(--color-secondary-500);
+    color: white;
+    opacity: 0.8;
+    border-radius: 50%;
   }
+}

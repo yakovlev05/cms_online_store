@@ -9,11 +9,11 @@ interface ProductProps {
     price: number;
     img: string;
 }
-  
-const ProductDetails: React.FC<ProductProps> = ({name, description, composition, price, img}) => {
-    return ( 
+
+const ProductDetails: React.FC<ProductProps> = ({ name, description, composition, price, img }) => {
+    return (
         <div className={styles.productDetails}>
-            <Image src={img} alt="изображение букета" width={480} height={640} style={{borderRadius:12}}/>
+            <Image className={styles.img} src={img} alt="изображение букета" width={480} height={640}/>
             <div className={styles.productInfo}>
                 <div>
                     <h1 className={styles.h1}>{name}</h1>
@@ -26,5 +26,5 @@ const ProductDetails: React.FC<ProductProps> = ({name, description, composition,
         </div>
     );
 }
-  
+
 export default ProductDetails;

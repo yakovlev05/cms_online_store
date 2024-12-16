@@ -4,9 +4,7 @@ import Breadcrumbs from "./ui/breadcrumbs";
 const ProductMain = () => {
     const breadcrumbs = [
         { label: "Главная", href: "/" },
-        { label: "Каталог", href: "/" },
-        { label: "Монобукеты", href: "/" },
-        { label: "Букет роз", href: "#"},
+        { label: "Монобукеты", href: "/catalog/monobouquets" },
       ];
 
     return (

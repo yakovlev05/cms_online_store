@@ -9,7 +9,7 @@ interface BreadcrumbsProps {
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = ({ breadcrumbs }) => {
-  const lastCrumb = breadcrumbs[breadcrumbs.length - 2];
+  const lastCrumb = breadcrumbs[breadcrumbs.length - 1];
 
   return (
     <div>
