@@ -3,6 +3,7 @@ name: cms-store-backend
 include:
   - ./compose/compose-infra.yaml
   - ./compose/compose-init.yaml
+  - ./compose/compose-manage.yaml
 
 services:
   cms-backend-auth:

@@ -1,0 +1,21 @@
+name: compose-manage
+
+services:
+  cms-manage-kafka-ui:
+    image: provectuslabs/kafka-ui:latest
+    restart: unless-stopped
+    container_name: cms-manage-kafka-ui
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=cms-infra-kafka:9092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=cms-infra-zookeeper:2181
+      - AUTH_TYPE=LOGIN_FORM
+      - SPRING_SECURITY_USER_NAME=admin
+      - SPRING_SECURITY_USER_PASSWORD=pass
+      - SERVER_SERVLET_CONTEXT_PATH=/kafka-ui
+    #    ports:
+    #      - "8091:8080"
+    depends_on:
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
