@@ -22,7 +22,7 @@ services:
     environment:
       - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
       - MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}
-      - MINIO_DOMAIN=${MINIO_DOMAIN}
+      - MINIO_DOMAIN=${MINIO_DOMAIN} # чтобы была включена поддержка bucket.домен
     command: server /data --console-address ":9001"
     #    ports:
     #      - "9000:9000"
@@ -72,8 +72,12 @@ services:
       - "../nginx:/etc/nginx/conf.d"
     depends_on:
       - cms-backend-auth
-      #      - cms-backend-user
+      - cms-backend-cart
+      - cms-backend-catalog
+      - cms-backend-user
+      - cms-doc-swagger
       - cms-manage-kafka-ui
+      - cms-infra-s3
     networks:
       - cms-store-network
 
