@@ -8,7 +8,7 @@ name: cms-doc-swagger
 on:
   push:
     branches: [ "main" ]
-    # paths: [ "backend/cms-backend/swagger/**" ]
+    paths: [ "backend/cms-backend/swagger/**" ]
     # Publish semver tags as releases.
     tags: [ 'v*.*.*' ]
   # pull_request:
