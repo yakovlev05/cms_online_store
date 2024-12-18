@@ -76,3 +76,10 @@ services:
       - cms-manage-kafka-ui
     networks:
       - cms-store-network
+
+
+volumes:
+  cms-infra-database:
+    name: cms-infra-database
+  cms-infra-s3:
+    name: cms-infra-s3

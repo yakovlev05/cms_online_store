@@ -7,12 +7,8 @@ include:
   - ./compose/compose-backend.yaml
   - ./compose/compose-doc.yaml
 
-volumes:
-  cms-infra-database:
-    name: cms-infra-database
-  cms-infra-s3:
-    name: cms-infra-s3
 
+# общая сеть
 networks:
   cms-store-network:
     name: cms-store-network
