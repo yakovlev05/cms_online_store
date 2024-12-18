@@ -1,4 +1,4 @@
-name: compose-manage
+name: cms-manage
 
 services:
   cms-manage-kafka-ui:

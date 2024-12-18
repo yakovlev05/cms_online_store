@@ -1,4 +1,4 @@
-name: compose-init
+name: cms-init
 
 services:
   cms-init-s3:
