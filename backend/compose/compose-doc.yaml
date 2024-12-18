@@ -1,0 +1,17 @@
+name: cms-doc
+
+services:
+  cms-doc-swagger:
+    build:
+      context: ./cms-backend/swagger
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: cms-doc-swagger
+    #    ports:
+    #      - "8080:8080"
+    depends_on:
+      - cms-backend-auth
+      - cms-backend-catalog
+      - cms-backend-user
+    networks:
+      - cms-store-network

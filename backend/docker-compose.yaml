@@ -5,28 +5,7 @@ include:
   - ./compose/compose-init.yaml
   - ./compose/compose-manage.yaml
   - ./compose/compose-backend.yaml
-
-services:
-
-
-
-
-  cms-doc-swagger:
-    build:
-      context: ./cms-backend/swagger
-      dockerfile: Dockerfile
-    restart: unless-stopped
-    container_name: cms-doc-swagger
-    #    ports:
-    #      - "8080:8080"
-    depends_on:
-      - cms-backend-auth
-      - cms-backend-catalog
-      - cms-backend-user
-    networks:
-      - cms-store-network
-
-
+  - ./compose/compose-doc.yaml
 
 volumes:
   cms-infra-database:
