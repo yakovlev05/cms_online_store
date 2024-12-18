@@ -13,5 +13,6 @@ services:
       - cms-backend-auth
       - cms-backend-catalog
       - cms-backend-user
+      - cms-backend-cart
     networks:
       - cms-store-network
