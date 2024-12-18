@@ -2,24 +2,9 @@ name: cms-store-backend
 
 include:
   - ./compose/compose-infra.yaml
+  - ./compose/compose-init.yaml
 
 services:
-  cms-init-s3:
-    image: minio/mc
-    restart: no
-    container_name: cms-init-s3
-    # ВНИМАНИЕ! Переменные окружения берутся из .env файла напрямую. Вопрос почему так и как так до конца не изучил
-    # Используем minio client
-    entrypoint: >
-      sh -c
-      "sleep 2
-      && mc alias set myminio http://cms-infra-s3:9000 $MINIO_ACCESS_KEY $MINIO_SECRET_KEY
-      && mc mb myminio/$MINIO_BUCKET || true
-      && mc anonymous set download myminio/images"
-    depends_on:
-      - cms-infra-s3
-    networks:
-      - cms-store-network
   cms-backend-auth:
     build:
       context: ./cms-backend
@@ -37,24 +22,6 @@ services:
     #      - "8080:8080"
     depends_on:
       - cms-infra-database
-      - cms-infra-kafka
-    networks:
-      - cms-store-network
-  cms-manage-kafka-ui:
-    image: provectuslabs/kafka-ui:latest
-    restart: unless-stopped
-    container_name: cms-manage-kafka-ui
-    environment:
-      - KAFKA_CLUSTERS_0_NAME=local
-      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=cms-infra-kafka:9092
-      - KAFKA_CLUSTERS_0_ZOOKEEPER=cms-infra-zookeeper:2181
-      - AUTH_TYPE=LOGIN_FORM
-      - SPRING_SECURITY_USER_NAME=admin
-      - SPRING_SECURITY_USER_PASSWORD=pass
-      - SERVER_SERVLET_CONTEXT_PATH=/kafka-ui
-    #    ports:
-    #      - "8091:8080"
-    depends_on:
       - cms-infra-kafka
     networks:
       - cms-store-network
