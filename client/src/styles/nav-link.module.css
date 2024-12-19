@@ -5,7 +5,6 @@
     
     &:hover {
         transition: 0.2s ease-in-out;
-        color: #f44336;
         opacity: 0.9;
     }
 }

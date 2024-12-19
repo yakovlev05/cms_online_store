@@ -1,0 +1,29 @@
+.home {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+
+    background: var(--color-primary-500);
+}
+
+.title {
+    width: 1107px;
+    font-family: var(--font-cormorant-sc);
+
+    color: var(--color-secondary-500);
+    font-size: 48px;
+    font-weight: bold;
+
+    text-decoration: underline;
+    text-underline-offset: 12px;
+    text-decoration-thickness: 1px;
+}
+
+.homeContainer {
+    width: 1126px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    grid-auto-rows: minmax(100px, auto);
+}
