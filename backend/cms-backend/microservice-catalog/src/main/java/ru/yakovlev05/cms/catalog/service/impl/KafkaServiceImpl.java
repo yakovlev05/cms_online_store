@@ -33,7 +33,7 @@ public class KafkaServiceImpl implements KafkaService {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .priceDiscount(product.getPriceDiscount())
-                .mainPhotoUrl(s3Service.getUrl(product.getMainPhoto().getFileName()))
+                .mainPhotoUrl(s3Service.getCustomUrl(product.getMainPhoto().getFileName()))
                 .isAvailable(isAvailable)
                 .build();
 

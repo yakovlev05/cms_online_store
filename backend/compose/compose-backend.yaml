@@ -1,0 +1,96 @@
+name: cms-backend
+
+services:
+  cms-backend-auth:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-auth
+    restart: unless-stopped
+    container_name: cms-backend-auth
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_AUTH_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - YANDEX_CAPTCHA_SERVER_KEY=${YANDEX_CAPTCHA_SERVER_KEY}
+    #    ports:
+    #      - "8080:8080"
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
+  cms-backend-user:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-user
+    restart: unless-stopped
+    container_name: cms-backend-user
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_USER_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      #    ports:
+      #      - "8080:8080"
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
+  cms-backend-catalog:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-catalog
+    restart: unless-stopped
+    container_name: cms-backend-catalog
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_CATALOG_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - S3_URL=${MINIO_URL}
+      - S3_BUCKET=${MINIO_BUCKET}
+      - S3_SECRET_KEY=${MINIO_SECRET_KEY}
+      - S3_ACCESS_KEY=${MINIO_ACCESS_KEY}
+      - S3_CUSTOM_URL=${S3_CUSTOM_URL}
+    #    ports:
+    #      - "8080:8080"
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
+  cms-backend-cart:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-cart
+    restart: unless-stopped
+    container_name: cms-backend-cart
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_CART_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
+  cms-backend-notification:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-notification
+    restart: unless-stopped
+    container_name: cms-backend-notification
+    environment:
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - IDIGITAL_OTP_SERVICE_KEY=${IDIGITAL_OTP_SERVICE_KEY}
+    depends_on:
+      - cms-infra-kafka
+    networks:
+      - cms-store-network

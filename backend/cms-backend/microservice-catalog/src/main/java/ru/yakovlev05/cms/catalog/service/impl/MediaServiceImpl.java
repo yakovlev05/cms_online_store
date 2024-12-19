@@ -36,7 +36,7 @@ public class MediaServiceImpl implements MediaService {
     private MediaDto fillMediaDto(Media media) {
         return new MediaDto(
                 media.getName(),
-                s3Service.getUrl(media.getFileName()),
+                s3Service.getCustomUrl(media.getFileName()),
                 media.getFileName()
         );
     }

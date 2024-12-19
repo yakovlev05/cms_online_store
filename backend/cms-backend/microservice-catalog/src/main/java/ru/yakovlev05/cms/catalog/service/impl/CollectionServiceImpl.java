@@ -43,7 +43,7 @@ public class CollectionServiceImpl implements CollectionService {
                 collection.getId(),
                 new MediaDto(
                         collection.getPhoto().getName(),
-                        s3Service.getUrl(collection.getPhoto().getFileName()),
+                        s3Service.getCustomUrl(collection.getPhoto().getFileName()),
                         collection.getPhoto().getFileName()
                 ),
                 new ResponseCategoryDto(

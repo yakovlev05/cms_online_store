@@ -64,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
 
         List<String> photoUrls = product.getMedia().stream()
-                .map(x -> s3Service.getUrl(x.getFileName()))
+                .map(x -> s3Service.getCustomUrl(x.getFileName()))
                 .toList();
 
         return ResponseProductDto.builder()
@@ -73,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(product.getDescription())
                 .price(product.getPrice())
                 .priceDiscount(product.getPriceDiscount())
-                .mainPhotoUrl(s3Service.getUrl(product.getMainPhoto().getFileName()))
+                .mainPhotoUrl(s3Service.getCustomUrl(product.getMainPhoto().getFileName()))
                 .components(componentsDto)
                 .categories(categoriesDto)
                 .photoUrls(photoUrls)

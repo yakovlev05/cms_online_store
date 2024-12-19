@@ -30,7 +30,9 @@ s3:
   secretKey: ${S3_SECRET_KEY:password}
   bucket: ${S3_BUCKET:images}
   url: ${S3_URL:http://localhost:9000}
+  custom_url: ${S3_CUSTOM_URL:http://s3.localhost} # Будет использоваться для создания ссылок, потому что без него это будет S3_URL
 
 #logging:
 #  level:
 #    software.amazon.awssdk: TRACE
+
