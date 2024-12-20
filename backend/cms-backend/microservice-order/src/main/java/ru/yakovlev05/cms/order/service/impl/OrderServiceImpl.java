@@ -109,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
                 .commentForRecipient(request.getCommentForRecipient())
                 .orderComment(request.getOrderComment())
                 .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
                 .status(OrderStatus.PROCESSING)
                 .isCompleted(false)
                 .build();
