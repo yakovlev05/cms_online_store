@@ -22,6 +22,9 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @Column(name = "product_id", nullable = false)
+    private long productId;
+
     @Column(name = "name", nullable = false)
     private String name;
 

@@ -119,6 +119,9 @@
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_product"/>
             </column>
+            <column name="product_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
             <column name="name" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
