@@ -13,3 +13,16 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:/db/changelog/db.changelog-master.xml
+  kafka:
+    bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:29092}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    order-validation-input-topic-partitions: 1
+    order-validation-input-topic-replicas: 1
+    order-validation-input-topic-name: order.validation.input
+
+jwt:
+  secret: ${JWT_SECRET:only_test_123456789123456789}
+  accessTokenValidityInMs: ${ACCESS_TOKEN_VALIDITY_IN_MS:86400000}
+  refreshTokenValidityInMs: ${REFRESH_TOKEN_VALIDITY_IN_MS:2592000000}
