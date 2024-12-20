@@ -18,9 +18,16 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: order-service
+      properties:
+        spring.json.trusted.packages: "ru.yakovlev05.cms.core.event"
     order-validation-input-topic-partitions: 1
     order-validation-input-topic-replicas: 1
     order-validation-input-topic-name: order.validation.input
+    user-topic-name: user
 
 jwt:
   secret: ${JWT_SECRET:only_test_123456789123456789}
