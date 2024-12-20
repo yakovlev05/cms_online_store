@@ -56,7 +56,7 @@ public class Order {
     @Column(name = "order_Comment", columnDefinition = "TEXT", length = 500)
     private String orderComment;
 
-    @Column(name = "commentForRecipient", columnDefinition = "TEXT", length = 100)
+    @Column(name = "comment_for_recipient", columnDefinition = "TEXT", length = 100)
     private String commentForRecipient;
 
     @Column(name = "created_at", nullable = false)
