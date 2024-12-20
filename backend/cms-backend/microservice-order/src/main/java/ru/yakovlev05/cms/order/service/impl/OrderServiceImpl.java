@@ -36,8 +36,10 @@ public class OrderServiceImpl implements OrderService {
         User user = userDetails == null ? null : userService.getById(userDetails.getId());
         BigDecimal productsCost = getProductsCost(request.getProducts());
         Order order = fillOrderFromDto(request, user, productsCost, BigDecimal.ZERO);
+        order.getProducts().forEach(product -> product.setOrder(order));
 
         orderRepository.save(order);
+
         log.info("Order created with id: {}", order.getId());
 
         kafkaService.sendOrderValidationInputEvent(order);
