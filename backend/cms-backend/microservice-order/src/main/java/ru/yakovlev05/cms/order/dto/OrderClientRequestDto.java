@@ -20,7 +20,7 @@ public class OrderClientRequestDto {
 
 
     @Data
-    public class Product {
+    public static class Product {
         private long id;
         private int count;
         private String name;
@@ -28,7 +28,7 @@ public class OrderClientRequestDto {
     }
 
     @Data
-    public class CustomerInfo {
+    public static class CustomerInfo {
         private String firstName;
         private String secondName;
         private String patronymic;
@@ -36,7 +36,7 @@ public class OrderClientRequestDto {
     }
 
     @Data
-    public class RecipientInfo {
+    public static class RecipientInfo {
         private String firstName;
         private String secondName;
         private String patronymic;
@@ -44,13 +44,13 @@ public class OrderClientRequestDto {
     }
 
     @Data
-    public class ReceivingInfo {
+    public static class ReceivingInfo {
         private ReceivingType type;
         private long dateTimeReceivingInSeconds;
         private Address address;
 
         @Data
-        public class Address {
+        public static class Address {
             private String country;
             private String state;
             private String city;
@@ -61,7 +61,7 @@ public class OrderClientRequestDto {
     }
 
     @Data
-    public class PaymentInfo {
+    public static class PaymentInfo {
         private PaymentType paymentType;
     }
 }
