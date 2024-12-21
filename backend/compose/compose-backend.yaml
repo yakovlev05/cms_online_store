@@ -3,7 +3,7 @@ name: cms-backend
 services:
   cms-backend-auth:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-auth
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       - cms-store-network
   cms-backend-user:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-user
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
       - cms-store-network
   cms-backend-catalog:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-catalog
     restart: unless-stopped
@@ -51,6 +51,7 @@ services:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_CATALOG_SERVICE}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
       - S3_URL=${MINIO_URL}
       - S3_BUCKET=${MINIO_BUCKET}
       - S3_SECRET_KEY=${MINIO_SECRET_KEY}
@@ -65,7 +66,7 @@ services:
       - cms-store-network
   cms-backend-cart:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-cart
     restart: unless-stopped
@@ -82,7 +83,7 @@ services:
       - cms-store-network
   cms-backend-notification:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-notification
     restart: unless-stopped
@@ -96,7 +97,7 @@ services:
       - cms-store-network
   cms-backend-order:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-order
     restart: unless-stopped
