@@ -27,5 +27,6 @@ public class OrderValidationResultEvent {
         private long originalId;
         private String name;
         private BigDecimal price;
+        private int count;
     }
 }

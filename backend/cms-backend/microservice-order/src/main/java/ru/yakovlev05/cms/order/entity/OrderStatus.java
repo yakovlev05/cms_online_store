@@ -2,6 +2,7 @@ package ru.yakovlev05.cms.order.entity;
 
 public enum OrderStatus {
     PROCESSING, // в обработке (системный статус)
+    INVALID_VALIDATION, // ошибка валидации заказа (системный статус)
     PLACED, // оформлен
     PAID, // оплачен
     CONFIRMED, // подтвержден

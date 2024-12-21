@@ -47,6 +47,17 @@ public class OrderServiceImpl implements OrderService {
         return new OrderClientResponseDto(order.getId(), order.getStatus());
     }
 
+    @Override
+    public Order getById(String orderId) {
+        return orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+    @Override
+    public void save(Order order) {
+        orderRepository.save(order);
+    }
+
     private BigDecimal getProductsCost(List<OrderClientRequestDto.Product> products) {
         return products.stream()
                 .map(OrderClientRequestDto.Product::getPrice)

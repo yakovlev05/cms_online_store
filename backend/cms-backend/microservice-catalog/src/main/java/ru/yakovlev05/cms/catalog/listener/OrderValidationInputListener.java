@@ -43,6 +43,7 @@ public class OrderValidationInputListener {
                         .originalId(product.getOriginalProductId())
                         .name(productInfo.getName())
                         .price(productInfo.getPrice())
+                        .count(product.getCount())
                         .build());
             }
 

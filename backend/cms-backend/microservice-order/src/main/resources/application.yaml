@@ -28,6 +28,7 @@ spring:
     order-validation-input-topic-replicas: 1
     order-validation-input-topic-name: order.validation.input
     user-topic-name: user
+    order-validation-result-topic-name: order.validation.result
 
 jwt:
   secret: ${JWT_SECRET:only_test_123456789123456789}

@@ -24,7 +24,10 @@ public class KafkaServiceImpl implements KafkaService {
         OrderValidationInputEvent event = OrderValidationInputEvent.builder()
                 .orderId(order.getId())
                 .productIds(order.getProducts().stream()
-                        .map(product -> new OrderValidationInputEvent.Product(product.getId(), product.getProductId()))
+                        .map(product -> new OrderValidationInputEvent.Product(
+                                product.getId(),
+                                product.getProductId(),
+                                product.getCount()))
                         .toList())
                 .build();
 

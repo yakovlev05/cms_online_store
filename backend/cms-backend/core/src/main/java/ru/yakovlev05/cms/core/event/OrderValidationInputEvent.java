@@ -20,5 +20,6 @@ public class OrderValidationInputEvent {
     public static class Product{
         private long id;
         private long originalProductId;
+        private int count;
     }
 }
