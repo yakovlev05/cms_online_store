@@ -28,4 +28,7 @@ public class KafkaConsumerProperties {
 
     @Value("${spring.kafka.order-validation-result-topic-name}")
     private String orderValidationResultTopicName;
+
+    @Value("${spring.kafka.order-payment-result-topic-name}")
+    private String orderPaymentResultTopicName;
 }

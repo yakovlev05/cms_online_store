@@ -32,6 +32,7 @@ spring:
     order-payment-create-topic-name: order.payment.create
     user-topic-name: user
     order-validation-result-topic-name: order.validation.result
+    order-payment-result-topic-name: order.payment.result
 
 jwt:
   secret: ${JWT_SECRET:only_test_123456789123456789}
