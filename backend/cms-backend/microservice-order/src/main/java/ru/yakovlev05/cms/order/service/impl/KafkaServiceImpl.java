@@ -8,6 +8,7 @@ import ru.yakovlev05.cms.core.event.OrderValidationInputEvent;
 import ru.yakovlev05.cms.order.entity.Order;
 import ru.yakovlev05.cms.order.props.KafkaProducerProperties;
 import ru.yakovlev05.cms.order.service.KafkaService;
+import ru.yakovlev05.cms.order.service.ProductService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -18,12 +19,14 @@ public class KafkaServiceImpl implements KafkaService {
 
     private final KafkaProducerProperties props;
 
+    private final ProductService productService;
+
 
     @Override
     public void sendOrderValidationInputEvent(Order order) {
         OrderValidationInputEvent event = OrderValidationInputEvent.builder()
                 .orderId(order.getId())
-                .productIds(order.getProducts().stream()
+                .productIds(productService.getProductsByOrder(order).stream()
                         .map(product -> new OrderValidationInputEvent.Product(
                                 product.getId(),
                                 product.getProductId(),

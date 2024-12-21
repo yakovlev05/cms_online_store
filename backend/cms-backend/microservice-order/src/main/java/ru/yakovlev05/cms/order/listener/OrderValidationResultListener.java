@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.order.listener;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
@@ -11,9 +12,7 @@ import ru.yakovlev05.cms.order.entity.Order;
 import ru.yakovlev05.cms.order.entity.OrderStatus;
 import ru.yakovlev05.cms.order.entity.Product;
 import ru.yakovlev05.cms.order.service.OrderService;
-
-import java.util.ArrayList;
-import java.util.List;
+import ru.yakovlev05.cms.order.service.ProductService;
 
 @RequiredArgsConstructor
 @Component
@@ -22,7 +21,9 @@ import java.util.List;
 public class OrderValidationResultListener {
 
     private final OrderService orderService;
+    private final ProductService productService;
 
+    @Transactional
     @KafkaHandler
     public void handleOrderValidationResultEvent(OrderValidationResultEvent event) {
         log.info("Received order validation result event: {}", event);
@@ -34,20 +35,15 @@ public class OrderValidationResultListener {
             return;
         }
 
-        List<Product> productList = new ArrayList<>();
-
         for (OrderValidationResultEvent.Product productEvent : event.getProducts()) {
-            productList.add(Product.builder()
-                    .id(productEvent.getProductOrderId())
-                    .productId(productEvent.getOriginalId())
-                    .name(productEvent.getName())
-                    .count(productEvent.getCount())
-                    .price(productEvent.getPrice())
-                    .order(order)
-                    .build());
+            Product product = productService.getById(productEvent.getProductOrderId());
+            product.setName(productEvent.getName());
+            product.setPrice(productEvent.getPrice());
+            productService.save(product);
         }
 
-        order.setProducts(productList);
+        order.setStatus(OrderStatus.PLACED);
+        order.setProductsCost(event.getCost());
 
         orderService.save(order);
     }
