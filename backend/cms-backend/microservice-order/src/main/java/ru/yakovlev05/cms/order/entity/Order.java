@@ -47,10 +47,10 @@ public class Order {
     @JoinColumn(name = "payment_info_id", referencedColumnName = "id", nullable = false)
     private PaymentInfo paymentInfo;
 
-    @Column(name = "products_cost", nullable = false, scale = 10, precision = 2)
+    @Column(name = "products_cost", nullable = false, scale = 2, precision = 10)
     private BigDecimal productsCost;
 
-    @Column(name = "delivery_cost", nullable = false, scale = 10, precision = 2)
+    @Column(name = "delivery_cost", nullable = false, scale = 2, precision = 10)
     private BigDecimal deliveryCost;
 
     @Column(name = "order_Comment", columnDefinition = "TEXT", length = 500)

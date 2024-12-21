@@ -31,7 +31,7 @@ public class Product {
     @Column(name = "count", nullable = false)
     private int count;
 
-    @Column(name = "price", nullable = false, scale = 10, precision = 2)
+    @Column(name = "price", nullable = false, scale = 2, precision = 10)
     private BigDecimal price;
 
     @ManyToOne

@@ -23,7 +23,7 @@ public class PaymentInfo {
     @Enumerated(EnumType.STRING)
     private PaymentType paymentType;
 
-    @Column(name = "final_sum", nullable = false, scale = 10, precision = 2)
+    @Column(name = "final_sum", nullable = false, scale = 2, precision = 10)
     private BigDecimal finalSum;
 
     @Column(name = "payment_status", nullable = false)
