@@ -39,8 +39,8 @@ public class Order {
     @JoinColumn(name = "receiving_id", referencedColumnName = "id", nullable = false)
     private ReceivingInfo receivingInfo;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "communication_method_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name =  "communication_method_id", referencedColumnName = "id", nullable = false)
     private CommunicationMethod communicationMethod;
 
     @OneToOne(cascade = CascadeType.ALL)
