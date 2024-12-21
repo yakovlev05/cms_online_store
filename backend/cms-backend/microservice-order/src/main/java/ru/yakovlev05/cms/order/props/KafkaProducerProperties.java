@@ -20,4 +20,8 @@ public class KafkaProducerProperties {
     private String orderValidationInputTopicName;
     private int orderValidationInputTopicPartitions;
     private int orderValidationInputTopicReplicas;
+
+    private String orderPaymentCreateTopicName;
+    private int orderPaymentCreateTopicPartitions;
+    private int orderPaymentCreateTopicReplicas;
 }

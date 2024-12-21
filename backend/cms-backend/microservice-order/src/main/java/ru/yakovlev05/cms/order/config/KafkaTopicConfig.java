@@ -21,4 +21,12 @@ public class KafkaTopicConfig {
                 .build();
     }
 
+    @Bean
+    public NewTopic orderPaymentCreateTopic() {
+        return TopicBuilder.name(props.getOrderPaymentCreateTopicName())
+                .partitions(props.getOrderPaymentCreateTopicPartitions())
+                .replicas(props.getOrderPaymentCreateTopicReplicas())
+                .build();
+    }
+
 }

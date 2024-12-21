@@ -27,6 +27,9 @@ spring:
     order-validation-input-topic-partitions: 1
     order-validation-input-topic-replicas: 1
     order-validation-input-topic-name: order.validation.input
+    order-payment-create-topic-partitions: 1
+    order-payment-create-topic-replicas: 1
+    order-payment-create-topic-name: order.payment.create
     user-topic-name: user
     order-validation-result-topic-name: order.validation.result
 
