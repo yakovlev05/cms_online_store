@@ -23,4 +23,10 @@ public class KafkaProducerProperties {
     private int productTopicPartitions;
 
     private int productTopicReplicas;
+
+    private String orderValidationResultTopicName;
+
+    private int orderValidationResultTopicPartitions;
+
+    private int orderValidationResultTopicReplicas;
 }
