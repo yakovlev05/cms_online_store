@@ -4,4 +4,5 @@ import ru.yakovlev05.cms.order.entity.Order;
 
 public interface KafkaService {
     void sendOrderValidationInputEvent(Order order);
+    void sendOrderPaymentCreateEvent(Order order);
 }

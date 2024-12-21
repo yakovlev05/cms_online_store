@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.yakovlev05.cms.core.event.OrderPaymentCreateEvent;
 import ru.yakovlev05.cms.core.event.OrderValidationInputEvent;
 import ru.yakovlev05.cms.order.entity.Order;
 import ru.yakovlev05.cms.order.props.KafkaProducerProperties;
@@ -42,6 +43,24 @@ public class KafkaServiceImpl implements KafkaService {
                         log.error("Send order to topic {} failed", props.getOrderValidationInputTopicName(), exception);
                     } else {
                         log.info("Send order to topic {} success: {}", props.getOrderValidationInputTopicName(), result.getRecordMetadata());
+                    }
+                });
+    }
+
+    @Override
+    public void sendOrderPaymentCreateEvent(Order order) {
+        OrderPaymentCreateEvent event = OrderPaymentCreateEvent.builder()
+                .orderId(order.getId())
+                .amount(order.getPaymentInfo().getFinalSum())
+                .build();
+
+        log.info("Send order payment to topic {}: {}", props.getOrderPaymentCreateTopicName(), event);
+        kafkaTemplate.send(props.getOrderPaymentCreateTopicName(), event.getOrderId(), event)
+                .whenComplete((result, exception) -> {
+                    if (exception != null) {
+                        log.error("Send order payment to topic {} failed", props.getOrderPaymentCreateTopicName(), exception);
+                    } else {
+                        log.info("Send order payment to topic {} success", props.getOrderPaymentCreateTopicName());
                     }
                 });
     }
