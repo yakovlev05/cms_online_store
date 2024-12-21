@@ -15,8 +15,10 @@ public class OrderValidationInputEvent {
     private String orderId;
     private List<Product> productIds;
 
-    @Data
     @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @Data
     public static class Product{
         private long id;
         private long originalProductId;

@@ -57,6 +57,7 @@ public class OrderValidationInputListener {
         } catch (BadRequestException e) {
             kafkaService.sendOrderValidationResultEvent(OrderValidationResultEvent.builder()
                     .validationStatus(OrderValidationStatus.ERROR)
+                    .orderId(event.getOrderId())
                     .build());
         }
 
