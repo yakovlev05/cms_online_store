@@ -94,3 +94,20 @@ services:
       - cms-infra-kafka
     networks:
       - cms-store-network
+  cms-backend-order:
+    build:
+      context: ./cms-backend
+      dockerfile: Dockerfile
+      target: microservice-order
+    restart: unless-stopped
+    container_name: cms-backend-order
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_ORDER_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
