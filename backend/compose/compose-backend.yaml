@@ -3,7 +3,7 @@ name: cms-backend
 services:
   cms-backend-auth:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-auth
     restart: unless-stopped
@@ -23,7 +23,7 @@ services:
       - cms-store-network
   cms-backend-user:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-user
     restart: unless-stopped
@@ -42,7 +42,7 @@ services:
       - cms-store-network
   cms-backend-catalog:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-catalog
     restart: unless-stopped
@@ -65,7 +65,7 @@ services:
       - cms-store-network
   cms-backend-cart:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-cart
     restart: unless-stopped
@@ -82,7 +82,7 @@ services:
       - cms-store-network
   cms-backend-notification:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-notification
     restart: unless-stopped
@@ -96,7 +96,7 @@ services:
       - cms-store-network
   cms-backend-order:
     build:
-      context: ./cms-backend
+      context: ../cms-backend
       dockerfile: Dockerfile
       target: microservice-order
     restart: unless-stopped
