@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,6 +16,7 @@ public class OrderValidationResultEvent {
     private String orderId;
     private OrderValidationStatus validationStatus;
     private BigDecimal cost;
+    private List<Product> products;
 
     @AllArgsConstructor
     @NoArgsConstructor
