@@ -45,3 +45,7 @@ dependencies {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+springBoot {
+    mainClass.set("ru.yakovlev05.cms.payment.MicroservicePaymentApplication")
+}

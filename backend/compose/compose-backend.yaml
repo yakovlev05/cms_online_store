@@ -112,3 +112,22 @@ services:
       - cms-infra-kafka
     networks:
       - cms-store-network
+  cms-backend-payment:
+    build:
+      context: ../cms-backend
+      dockerfile: Dockerfile
+      target: microservice-payment
+    restart: unless-stopped
+    container_name: cms-backend-payment
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL_PAYMENT_SERVICE}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - YOOKASSA_SHOP_ID=${YOOKASSA_SHOP_ID}
+      - YOOKASSA_API_KEY=${YOOKASSA_API_KEY}
+    depends_on:
+      - cms-infra-database
+      - cms-infra-kafka
+    networks:
+      - cms-store-network
