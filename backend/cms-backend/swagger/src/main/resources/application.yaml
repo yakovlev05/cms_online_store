@@ -17,4 +17,6 @@ springdoc:
         url: /v3/api-docs/microservice-cart
       - name: microservice-order
         url: /v3/api-docs/microservice-order
+      - name: microservice-payment
+        url: /v3/api-docs/microservice-payment
     path: /swagger
