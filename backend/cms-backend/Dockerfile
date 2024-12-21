@@ -29,6 +29,14 @@ COPY microservice-cart/settings.gradle.kts microservice-cart/settings.gradle.kts
 COPY microservice-notification/build.gradle.kts microservice-notification/build.gradle.kts
 COPY microservice-notification/settings.gradle.kts microservice-notification/settings.gradle.kts
 
+# microservice-order
+COPY microservice-order/build.gradle.kts microservice-order/build.gradle.kts
+COPY microservice-order/settings.gradle.kts microservice-order/settings.gradle.kts
+
+# microservice-payment
+COPY microservice-payment/build.gradle.kts microservice-payment/build.gradle.kts
+COPY microservice-payment/settings.gradle.kts microservice-payment/settings.gradle.kts
+
 # RUN gradle build --no-daemon --info || return 0
 RUN gradle build --no-daemon --info
 
@@ -51,6 +59,12 @@ COPY microservice-cart/src microservice-cart/src
 
 # microservice-notification
 COPY microservice-notification/src microservice-notification/src
+
+# microservice-order
+COPY microservice-order/src microservice-order/src
+
+# microservice-payment
+COPY microservice-payment/src microservice-payment/src
 
 RUN gradle clean build -x test --no-daemon # --info
 
@@ -96,6 +110,24 @@ FROM openjdk:21-slim AS microservice-notification
 WORKDIR /app
 # Копируем собранный JAR файл из этапа сборки
 COPY --from=build /app/microservice-notification/build/libs/*-SNAPSHOT.jar app.jar
+# Указываем команду запуска
+ENTRYPOINT ["java", "-jar", "app.jar"]
+# Указываем порт, на котором работает приложение
+EXPOSE 8080
+
+FROM openjdk:21-slim AS microservice-order
+WORKDIR /app
+# Копируем собранный JAR файл из этапа сборки
+COPY --from=build /app/microservice-order/build/libs/*-SNAPSHOT.jar app.jar
+# Указываем команду запуска
+ENTRYPOINT ["java", "-jar", "app.jar"]
+# Указываем порт, на котором работает приложение
+EXPOSE 8080
+
+FROM openjdk:21-slim AS microservice-payment
+WORKDIR /app
+# Копируем собранный JAR файл из этапа сборки
+COPY --from=build /app/microservice-payment/build/libs/*-SNAPSHOT.jar app.jar
 # Указываем команду запуска
 ENTRYPOINT ["java", "-jar", "app.jar"]
 # Указываем порт, на котором работает приложение

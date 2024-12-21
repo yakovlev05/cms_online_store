@@ -20,4 +20,12 @@ public class KafkaTopicConfig {
                 .replicas(props.getProductTopicReplicas())
                 .build();
     }
+
+    @Bean
+    public NewTopic orderValidationResultTopic(){
+        return TopicBuilder.name(props.getProductTopicName())
+                .partitions(props.getProductTopicPartitions())
+                .replicas(props.getOrderValidationResultTopicReplicas())
+                .build();
+    }
 }

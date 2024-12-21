@@ -21,9 +21,19 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: catalog-service
+      properties:
+        spring.json.trusted.packages: "ru.yakovlev05.cms.core.event"
     product-topic-name: product
     product-topic-partitions: 1
     product-topic-replicas: 1
+    order-validation-result-topic-partitions: 1
+    order-validation-result-topic-replicas: 1
+    order-validation-result-topic-name: order.validation.result
+    order-validation-input-topic-name: order.validation.input
 
 s3:
   accessKey: ${S3_ACCESS_KEY:user}

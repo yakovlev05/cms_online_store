@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2024-12-20-21-40-insert-data" author="ALEXEY YAKOVLEV">
+        <insert tableName="communication_method">
+            <column name="name">WhatsApp</column>
+            <column name="is_enabled">true</column>
+        </insert>
+        <insert tableName="communication_method">
+            <column name="name">Звонок</column>
+            <column name="is_enabled">true</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

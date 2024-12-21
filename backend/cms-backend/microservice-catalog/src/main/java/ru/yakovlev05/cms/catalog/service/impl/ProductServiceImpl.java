@@ -172,4 +172,10 @@ public class ProductServiceImpl implements ProductService {
 
         productRepository.delete(product);
     }
+
+    @Override
+    public Product getProductById(long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("Product with id " + id + " not found"));
+    }
 }

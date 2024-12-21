@@ -9,6 +9,7 @@ import ru.yakovlev05.cms.catalog.props.KafkaProducerProperties;
 import ru.yakovlev05.cms.catalog.service.KafkaService;
 import ru.yakovlev05.cms.catalog.service.S3Service;
 import ru.yakovlev05.cms.core.event.EventType;
+import ru.yakovlev05.cms.core.event.OrderValidationResultEvent;
 import ru.yakovlev05.cms.core.event.ProductEvent;
 
 @Slf4j
@@ -47,5 +48,20 @@ public class KafkaServiceImpl implements KafkaService {
                         log.info("Send data to topic {} success: {}", props.getProductTopicName(), result.getRecordMetadata());
                     }
                 });
+    }
+
+    @Override
+    public void sendOrderValidationResultEvent(OrderValidationResultEvent event) {
+        log.info("Send order.validation.result event {}", event);
+
+        kafkaTemplate.send(props.getOrderValidationResultTopicName(), event.getOrderId(), event)
+                .whenComplete((result, exception) -> {
+                    if (exception != null) {
+                        log.error("Send order.validation.result event {} failed", event, exception);
+                    } else {
+                        log.info("Send order.validation.result event {} success: {}", event, result);
+                    }
+                });
+
     }
 }
