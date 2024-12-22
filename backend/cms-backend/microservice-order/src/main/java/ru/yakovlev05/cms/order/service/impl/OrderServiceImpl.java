@@ -1,11 +1,13 @@
 package ru.yakovlev05.cms.order.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.core.security.UserDetailsImpl;
 import ru.yakovlev05.cms.order.dto.OrderClientRequestDto;
-import ru.yakovlev05.cms.order.dto.OrderClientResponseDto;
+import ru.yakovlev05.cms.order.dto.OrderCreateClientResponseDto;
+import ru.yakovlev05.cms.order.dto.OrderInfoClientResponseDto;
 import ru.yakovlev05.cms.order.entity.*;
 import ru.yakovlev05.cms.order.repository.OrderRepository;
 import ru.yakovlev05.cms.order.service.CommunicationMethodService;
@@ -32,7 +34,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
 
     @Override
-    public OrderClientResponseDto createOrder(OrderClientRequestDto request, UserDetailsImpl userDetails) {
+    public OrderCreateClientResponseDto createOrder(OrderClientRequestDto request, UserDetailsImpl userDetails) {
         User user = userDetails == null ? null : userService.getById(userDetails.getId());
         BigDecimal productsCost = getProductsCost(request.getProducts());
         Order order = fillOrderFromDto(request, user, productsCost, BigDecimal.ZERO);
@@ -44,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
         kafkaService.sendOrderValidationInputEvent(order);
 
-        return new OrderClientResponseDto(order.getId(), order.getStatus());
+        return new OrderCreateClientResponseDto(order.getId(), order.getStatus());
     }
 
     @Override
@@ -56,6 +58,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public void save(Order order) {
         orderRepository.save(order);
+    }
+
+    @Transactional
+    @Override
+    public OrderInfoClientResponseDto getOrderInfo(String orderId) {
+        Order order = getById(orderId);
+        return fillDto(order);
     }
 
     private BigDecimal getProductsCost(List<OrderClientRequestDto.Product> products) {
@@ -126,5 +135,60 @@ public class OrderServiceImpl implements OrderService {
                 .status(OrderStatus.PROCESSING)
                 .isCompleted(false)
                 .build();
+    }
+
+    private OrderInfoClientResponseDto fillDto(Order order) {
+        return OrderInfoClientResponseDto.builder()
+                .orderId(order.getId())
+                .products(order.getProducts().stream()
+                        .map(product -> OrderInfoClientResponseDto.Product.builder()
+                                .productId(product.getProductId())
+                                .name(product.getName())
+                                .count(product.getCount())
+                                .price(product.getPrice())
+                                .build())
+                        .toList())
+                .customerInfo(OrderInfoClientResponseDto.UserInfo
+                        .builder()
+                        .firstName(order.getCustomerInfo().getFirstName())
+                        .secondName(order.getCustomerInfo().getSecondName())
+                        .patronymic(order.getCustomerInfo().getPatronymic())
+                        .phoneNumber(order.getCustomerInfo().getPhoneNumber())
+                        .build())
+                .recipientInfo(OrderInfoClientResponseDto.UserInfo.builder()
+                        .firstName(order.getRecipientInfo().getFirstName())
+                        .secondName(order.getRecipientInfo().getSecondName())
+                        .patronymic(order.getRecipientInfo().getPatronymic())
+                        .phoneNumber(order.getRecipientInfo().getPhoneNumber())
+                        .build())
+                .paymentInfo(OrderInfoClientResponseDto.PaymentInfo.builder()
+                        .paymentType(order.getPaymentInfo().getPaymentType())
+                        .finalSum(order.getPaymentInfo().getFinalSum())
+                        .paymentStatus(order.getPaymentInfo().getPaymentStatus())
+                        .build())
+                .receivingInfo(OrderInfoClientResponseDto.ReceivingInfo.builder()
+                        .receivingType(order.getReceivingInfo().getReceivingType())
+                        .address(OrderInfoClientResponseDto.ReceivingInfo.AddressInfo.builder()
+                                .country(order.getReceivingInfo().getAddress().getCountry())
+                                .state(order.getReceivingInfo().getAddress().getState())
+                                .city(order.getReceivingInfo().getAddress().getCity())
+                                .street(order.getReceivingInfo().getAddress().getStreet())
+                                .houseNumber(order.getReceivingInfo().getAddress().getHouseNumber())
+                                .flatNumber(order.getReceivingInfo().getAddress().getFlatNumber())
+                                .build())
+                        .build())
+                .communicationMethod(OrderInfoClientResponseDto.CommunicationMethod.builder()
+                        .id(order.getCommunicationMethod().getId())
+                        .name(order.getCommunicationMethod().getName())
+                        .build())
+                .orderStatus(order.getStatus())
+                .createdAt(order.getCreatedAt())
+                .isCompleted(order.isCompleted())
+                .orderComment(order.getOrderComment())
+                .commentForRecipient(order.getCommentForRecipient())
+                .deliveryCost(order.getDeliveryCost())
+                .productsCost(order.getProductsCost())
+                .build();
+
     }
 }

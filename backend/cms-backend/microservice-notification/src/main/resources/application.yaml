@@ -13,6 +13,3 @@ spring:
 
 notification:
   idigitalKey: ${IDIGITAL_OTP_SERVICE_KEY}
-
-server:
-  port: 8081

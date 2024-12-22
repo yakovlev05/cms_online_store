@@ -10,7 +10,7 @@ import ru.yakovlev05.cms.order.entity.OrderStatus;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class OrderClientResponseDto {
+public class OrderCreateClientResponseDto {
     private String orderId;
     private OrderStatus status;
 }
