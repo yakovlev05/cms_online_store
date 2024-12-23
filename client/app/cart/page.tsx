@@ -15,7 +15,7 @@ export default function CartPage() {
             <h1 className={styles.title}>Корзина</h1>
             <div className={styles.homeContainer}>
                 {/* Левая часть - товары и данные */}
-                <div className="lg:col-span-2 space-y-8">
+                <div className={styles.homeLeftContainer}>
                     <CartItems />
                     <DeliveryOptions />
                     <CustomerDetails />

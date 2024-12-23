@@ -1,6 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import styles from '@/src/styles/cart.module.css';
+import Image from 'next/image';
 
 interface CartItem {
   id: number;
@@ -11,9 +13,9 @@ interface CartItem {
 }
 
 const initialCartItems: CartItem[] = [
-  { id: 1, name: 'Букет роз', price: 1000, quantity: 1, image: '/rose.png' },
-  { id: 2, name: 'Букет роз', price: 1000, quantity: 1, image: '/rose.png' },
-  { id: 3, name: 'Букет роз', price: 1000, quantity: 1, image: '/rose.png' },
+  { id: 1, name: 'Букет роз', price: 1000, quantity: 1, image: '/assets/placeholder/cart-placeholder.jpg' },
+  { id: 2, name: 'Букет роз', price: 1000, quantity: 1, image: '/assets/placeholder/cart-placeholder.jpg' },
+  { id: 3, name: 'Букет роз', price: 1000, quantity: 1, image: '/assets/placeholder/cart-placeholder.jpg' },
 ];
 
 export default function CartItems() {
@@ -30,25 +32,26 @@ export default function CartItems() {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-semibold mb-4">Товары</h2>
+    <div className={styles.itemsContainer}>
+      <h2 className={styles.h2}>Товары</h2>
       {cartItems.map((item) => (
-        <div key={item.id} className="flex items-center justify-between mb-4">
-          <div className="flex items-center">
-            <img src={item.image} alt={item.name} className="w-16 h-16 mr-4" />
+        <div key={item.id} className={styles.item}>
+          <Image className={styles.img} src='/assets/placeholder/Checkbox.png' alt='чекбокс' width={42} height={42}/> 
+          <div className={styles.itemName}>
+          <Image className={styles.img} src={item.image} alt="изображение букета" width={86} height={86}/>
             <span>{item.name}</span>
           </div>
-          <div className="flex items-center">
+          <div className={styles.quantityContainer}>
             <button
               onClick={() => handleQuantityChange(item.id, -1)}
-              className="p-2"
+              className={styles.button}
             >
               -
             </button>
-            <span className="mx-2">{item.quantity}</span>
+            <span className={styles.quantity}>{item.quantity}</span>
             <button
               onClick={() => handleQuantityChange(item.id, 1)}
-              className="p-2"
+              className={styles.button}
             >
               +
             </button>
