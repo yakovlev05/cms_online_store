@@ -2,8 +2,13 @@ package ru.yakovlev05.cms.catalog.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import ru.yakovlev05.cms.catalog.dto.ComponentDto;
+import ru.yakovlev05.cms.catalog.dto.ComponentRequestDto;
+import ru.yakovlev05.cms.catalog.dto.ComponentResponseDto;
 import ru.yakovlev05.cms.catalog.entity.Component;
 import ru.yakovlev05.cms.catalog.entity.Product;
 import ru.yakovlev05.cms.catalog.exception.BadRequestException;
@@ -11,6 +16,7 @@ import ru.yakovlev05.cms.catalog.repository.ComponentRepository;
 import ru.yakovlev05.cms.catalog.service.ComponentService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -35,8 +41,18 @@ public class ComponentServiceImpl implements ComponentService {
         componentRepository.save(component);
     }
 
-    private ComponentDto fillComponentDto(Component component) {
-        return new ComponentDto(
+    private ComponentRequestDto fillComponentRequestDto(Component component) {
+        return new ComponentRequestDto(
+                component.getName(),
+                component.getCount(),
+                component.getPrice(),
+                component.isInStock()
+        );
+    }
+
+    private ComponentResponseDto fillComponentResponseDto(Component component) {
+        return new ComponentResponseDto(
+                component.getId(),
                 component.getName(),
                 component.getCount(),
                 component.getPrice(),
@@ -45,37 +61,37 @@ public class ComponentServiceImpl implements ComponentService {
     }
 
     @Override
-    public ComponentDto getComponent(String componentName) {
+    public ComponentResponseDto getComponent(String componentName) {
         Component component = getComponentByName(componentName);
 
-        return fillComponentDto(component);
+        return fillComponentResponseDto(component);
     }
 
     @Override
-    public ComponentDto addComponent(ComponentDto componentDto) {
+    public ComponentResponseDto addComponent(ComponentRequestDto componentRequestDto) {
         Component component = Component.builder()
-                .name(componentDto.getName())
-                .count(componentDto.getCount())
-                .price(componentDto.getPrice())
-                .isInStock(componentDto.isInStock())
+                .name(componentRequestDto.getName())
+                .count(componentRequestDto.getCount())
+                .price(componentRequestDto.getPrice())
+                .isInStock(componentRequestDto.isInStock())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
                 .build();
         save(component);
-        return fillComponentDto(component);
+        return fillComponentResponseDto(component);
     }
 
     @Override
-    public ComponentDto updateComponent(String componentName, ComponentDto componentDto) {
+    public ComponentResponseDto updateComponent(String componentName, ComponentRequestDto componentRequestDto) {
         Component component = getComponentByName(componentName);
-        component.setName(componentDto.getName());
-        component.setCount(componentDto.getCount());
-        component.setPrice(componentDto.getPrice());
-        component.setInStock(componentDto.isInStock());
+        component.setName(componentRequestDto.getName());
+        component.setCount(componentRequestDto.getCount());
+        component.setPrice(componentRequestDto.getPrice());
+        component.setInStock(componentRequestDto.isInStock());
         component.setUpdatedAt(LocalDateTime.now());
         componentRepository.save(component);
 
-        return fillComponentDto(component);
+        return fillComponentResponseDto(component);
     }
 
     @Transactional
@@ -100,4 +116,37 @@ public class ComponentServiceImpl implements ComponentService {
 
         componentRepository.save(component);
     }
+
+    @Override
+    public List<ComponentResponseDto> getListComponents(int page, int limit, String keySort, boolean isDescending, String searchQuery, boolean showOnlyInStock) {
+        Pageable pageable = PageRequest.of(
+                page,
+                limit,
+                isDescending ? Sort.Direction.DESC : Sort.Direction.ASC,
+                keySort);
+
+        Page<Component> components;
+        if (searchQuery == null) {
+
+            if (showOnlyInStock) {
+                components = componentRepository.findByIsInStock(true, pageable);
+            } else {
+                components = componentRepository.findAll(pageable);
+            }
+
+        } else {
+
+            if (showOnlyInStock) {
+                components = componentRepository.findByNameContainingIgnoreCaseAndIsInStock(searchQuery, true, pageable);
+            } else {
+                components = componentRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+            }
+
+        }
+
+        return components.getContent().stream()
+                .map(this::fillComponentResponseDto)
+                .toList();
+    }
+
 }

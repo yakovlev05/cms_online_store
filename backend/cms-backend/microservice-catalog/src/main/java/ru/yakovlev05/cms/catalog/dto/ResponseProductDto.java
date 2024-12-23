@@ -19,7 +19,7 @@ public class ResponseProductDto {
 
     private BigDecimal priceDiscount;
 
-    private List<ComponentDto> components;
+    private List<ComponentRequestDto> components;
 
     private List<ResponseCategoryDto> categories;
 

@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 
 @AllArgsConstructor
 @Data
-public class ComponentDto {
+public class ComponentRequestDto {
     private String name;
     private int count;
     private BigDecimal price;

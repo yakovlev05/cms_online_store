@@ -40,6 +40,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${swaggerVersion}")
     implementation("software.amazon.awssdk:s3:$s3AmazonSdk") // s3 amazon SDK
     implementation("org.springframework.kafka:spring-kafka")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
     runtimeOnly("org.postgresql:postgresql")
     runtimeOnly("io.jsonwebtoken:jjwt-impl:$jjwtVersion") //jwt
     runtimeOnly("io.jsonwebtoken:jjwt-jackson:$jjwtVersion") // jwt
