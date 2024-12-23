@@ -8,6 +8,7 @@ import CatalogCategory from "./pages/CatalogCategory.tsx";
 import CatalogCollection from "./pages/CatalogCollection.tsx";
 import CatalogComponent from "./pages/CatalogComponent.tsx";
 import CatalogProduct from "./pages/CatalogProduct.tsx";
+import './index.css'
 
 // Использую для роутинга https://reactrouter.com/start/library/installation
 createRoot(document.getElementById('root')!).render(
