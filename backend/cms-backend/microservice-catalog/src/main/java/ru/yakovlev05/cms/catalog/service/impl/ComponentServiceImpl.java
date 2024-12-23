@@ -126,7 +126,7 @@ public class ComponentServiceImpl implements ComponentService {
                 keySort);
 
         Page<Component> components;
-        if (searchQuery == null) {
+        if (searchQuery == null || searchQuery.isEmpty()) {
 
             if (showOnlyInStock) {
                 components = componentRepository.findByIsInStock(true, pageable);
