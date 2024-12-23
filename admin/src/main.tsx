@@ -1,4 +1,3 @@
-import {StrictMode} from 'react'
 import {createRoot} from 'react-dom/client'
 import {BrowserRouter, Route, Routes} from "react-router";
 import Login from "./pages/Login.tsx";
@@ -12,7 +11,8 @@ import './index.css'
 
 // Использую для роутинга https://reactrouter.com/start/library/installation
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
+    // <StrictMode>
+    <>
         <Toaster
             position='bottom-right'/> {/*Уведомления от https://react-hot-toast.com/*/}
         <BrowserRouter>
@@ -24,6 +24,7 @@ createRoot(document.getElementById('root')!).render(
                 <Route path='/catalog/product' element={<CatalogProduct/>}/>
             </Routes>
         </BrowserRouter>
-    </StrictMode>,
+    </>
+// {/*</StrictMode>,*/
 )
 

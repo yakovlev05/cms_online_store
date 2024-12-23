@@ -6,7 +6,7 @@ export default defineConfig({
     plugins: [react()],
     server: {
         proxy: {
-            '/api': 'http://localhost:80', // Один из способов обхода CORS
+            '/api': 'http://localhost:8080', // Один из способов обхода CORS
         }
     }
 })

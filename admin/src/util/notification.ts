@@ -1,5 +1,9 @@
 import toast from "react-hot-toast";
 
-export default function errorAlert(message: string): void {
+export function errorAlert(message: string): void {
     toast.error(message);
+}
+
+export function successAlert(message: string): void {
+    toast.success(message);
 }

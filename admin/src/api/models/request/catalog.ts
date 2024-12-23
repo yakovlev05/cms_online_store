@@ -1,5 +1,4 @@
-export interface ComponentResponseDto{
-    id: number;
+export interface ComponentRequestDto {
     name: string;
     price: number;
     inStock: boolean;
