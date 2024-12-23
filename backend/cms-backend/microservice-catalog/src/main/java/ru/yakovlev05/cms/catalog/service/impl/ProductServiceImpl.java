@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import ru.yakovlev05.cms.catalog.dto.ComponentDto;
+import ru.yakovlev05.cms.catalog.dto.ComponentRequestDto;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseProductDto;
@@ -55,8 +55,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     private ResponseProductDto fillResponseProductDto(Product product) {
-        List<ComponentDto> componentsDto = product.getComponents().stream()
-                .map(x -> new ComponentDto(x.getName(), x.getCount(), x.getPrice(), x.isInStock()))
+        List<ComponentRequestDto> componentsDto = product.getComponents().stream()
+                .map(x -> new ComponentRequestDto(x.getName(), x.getCount(), x.getPrice(), x.isInStock()))
                 .toList();
 
         List<ResponseCategoryDto> categoriesDto = product.getCategories().stream()
