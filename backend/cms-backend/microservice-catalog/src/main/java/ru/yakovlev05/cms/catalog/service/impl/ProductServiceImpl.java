@@ -68,6 +68,7 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
 
         return ResponseProductDto.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .urlName(product.getUrlName())
                 .description(product.getDescription())

@@ -9,6 +9,9 @@ import java.util.List;
 @Builder
 @Data
 public class ResponseProductDto {
+
+    private long id;
+
     private String name;
 
     private String urlName;
