@@ -1,5 +1,5 @@
-import {ComponentResponseDto} from "../models/response/catalog.ts";
-import {ComponentRequestDto} from "../models/request/catalog.ts";
+import {CategoryResponseDto, ComponentResponseDto} from "../models/response/catalog.ts";
+import {CategoryRequestDto, ComponentRequestDto} from "../models/request/catalog.ts";
 
 export async function getListComponents(
     page: number = 0,
@@ -68,7 +68,7 @@ export async function updateComponent(componentName: string, data: ComponentRequ
     } else if (response.status === 401) {
         throw new Error('Unauthorized');
     } else {
-        throw new Error('Ошибка при GET запросе списка компонентов: ' + response.status);
+        throw new Error('Ошибка при PUT запросе изменения компонента: ' + response.status);
     }
 }
 
@@ -88,6 +88,91 @@ export async function createComponent(data: ComponentRequestDto): Promise<Compon
     } else if (response.status === 401) {
         throw new Error('Unauthorized');
     } else {
-        throw new Error('Ошибка при GET запросе списка компонентов: ' + response.status);
+        throw new Error('Ошибка при POST запросе создания компонента: ' + response.status);
+    }
+}
+
+export async function getListCategories(
+    page: number,
+    limit: number,
+    directionSort: string,
+    keySort: string,
+    searchQuery: string,
+): Promise<CategoryResponseDto[]> {
+    const params = `page=${page}&limit=${limit}&directionSort=${directionSort}&keySort=${keySort}&searchQuery=${searchQuery}`
+
+    const response = await fetch('/api/v1/category?' + params, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+        },
+    })
+
+    if (response.ok) {
+        return response.json();
+    } else if (response.status === 401) {
+        throw new Error('Unauthorized');
+    } else {
+        throw new Error('Ошибка при GET запросе списка категорий: ' + response.status);
+    }
+}
+
+export async function deleteCategory(urlName: string) {
+    const response = await fetch(`/api/v1/category/${urlName}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+        }
+    });
+
+    if (response.status === 401) {
+        throw new Error('Unauthorized');
+    } else if (!response.ok) {
+        throw new Error('Ошибка при DELETE запросе удаления категории: ' + response.status)
+    }
+}
+
+export async function updateCategory(urlName: string, data: CategoryRequestDto): Promise<CategoryResponseDto> {
+    const response = await fetch(`/api/v1/category/${urlName}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+        },
+        body: JSON.stringify(data)
+    });
+
+    if (response.ok) {
+        return response.json();
+    } else if (response.status === 401) {
+        throw new Error('Unauthorized');
+    } else {
+        throw new Error('Ошибка при PUT запросе изменения компонента: ' + response.status);
+    }
+}
+
+export async function createCategory(data: CategoryRequestDto): Promise<CategoryResponseDto> {
+    const response = await fetch('/api/v1/category/add', {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("access_token")}`
+        },
+        body: JSON.stringify(data)
+    })
+
+
+    if (response.ok) {
+        return response.json();
+    } else if (response.status === 401) {
+        throw new Error('Unauthorized');
+    } else {
+        throw new Error('Ошибка при POST запросе создания категории: ' + response.status);
     }
 }

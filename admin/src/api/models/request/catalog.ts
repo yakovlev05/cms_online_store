@@ -3,3 +3,7 @@ export interface ComponentRequestDto {
     price: number;
     inStock: boolean;
 }
+
+export interface CategoryRequestDto {
+    name: string;
+}
