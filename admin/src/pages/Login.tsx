@@ -3,6 +3,7 @@ import {useState} from "react";
 import login from '../api/service/authService.ts'
 import {saveAccessToken, saveRefreshToken} from "../util/auth.ts";
 import {errorAlert} from "../util/notification.ts";
+import {useNavigate} from "react-router";
 // import {errorAlert} from "../util/notification.ts";
 
 type FieldType = {
@@ -12,6 +13,7 @@ type FieldType = {
 
 export default function Login() {
     const [loading, setLoading] = useState<boolean>(false);
+    const navigate = useNavigate();
 
     const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
         setLoading(true);
@@ -24,6 +26,7 @@ export default function Login() {
             .then((r) => {
                 saveAccessToken(r.accessToken)
                 saveRefreshToken(r.refreshToken)
+                navigate('/catalog/category',{viewTransition: true})
             })
             .catch((err) => {
                 errorAlert(err.message);
@@ -54,7 +57,7 @@ export default function Login() {
                     name='password'
                     rules={[{required: true, message: 'Введите пароль!'}]}
                 >
-                    <Input/>
+                    <Input.Password/>
                 </Form.Item>
 
                 <Form.Item label={null}>
