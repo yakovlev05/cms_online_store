@@ -5,6 +5,8 @@ import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.entity.Collection;
 import ru.yakovlev05.cms.catalog.entity.Product;
 
+import java.util.List;
+
 public interface CategoryService {
     ResponseCategoryDto getCategory(String urlName);
 
@@ -17,4 +19,7 @@ public interface CategoryService {
     void assignCategoryToProduct(String categoryUrlName, Product product);
 
     void assignCategoryToCollection(String categoryUrlName, Collection collection);
+
+    List<ResponseCategoryDto> getCategoryList(int page, int limit, String directionSort, String keySort, String searchQuery);
 }
+

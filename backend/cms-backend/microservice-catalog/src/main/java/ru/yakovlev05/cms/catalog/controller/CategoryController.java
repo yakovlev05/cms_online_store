@@ -1,11 +1,14 @@
 package ru.yakovlev05.cms.catalog.controller;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yakovlev05.cms.catalog.dto.RequestCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
 import ru.yakovlev05.cms.catalog.service.CategoryService;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -34,5 +37,15 @@ public class CategoryController {
     @DeleteMapping("/{urlName}")
     public void deleteCategory(@PathVariable String urlName) {
         categoryService.deleteCategory(urlName);
+    }
+
+    @GetMapping
+    public List<ResponseCategoryDto> getListCategories(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int limit,
+            @Pattern(regexp = "asc|desc") @RequestParam(defaultValue = "desc") String directionSort,
+            @Pattern(regexp = "createdAt") @RequestParam(defaultValue = "createdAt") String keySort,
+            @RequestParam(required = false) String searchQuery) {
+        return categoryService.getCategoryList(page, limit, directionSort, keySort, searchQuery);
     }
 }

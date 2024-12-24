@@ -2,6 +2,10 @@ package ru.yakovlev05.cms.catalog.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.RequestCategoryDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCategoryDto;
@@ -14,6 +18,7 @@ import ru.yakovlev05.cms.catalog.service.CategoryService;
 import ru.yakovlev05.cms.catalog.service.TransliterationService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 @RequiredArgsConstructor
@@ -98,4 +103,24 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
     }
 
+    @Override
+    public List<ResponseCategoryDto> getCategoryList(int page, int limit, String directionSort, String keySort, String searchQuery) {
+        Pageable pageable = PageRequest.of(
+                page,
+                limit,
+                directionSort.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC,
+                keySort);
+
+        Page<Category> categories;
+
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            categories = categoryRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+        } else {
+            categories = categoryRepository.findAll(pageable);
+        }
+
+        return categories.stream()
+                .map(category -> new ResponseCategoryDto(category.getName(), category.getUrlName()))
+                .toList();
+    }
 }
