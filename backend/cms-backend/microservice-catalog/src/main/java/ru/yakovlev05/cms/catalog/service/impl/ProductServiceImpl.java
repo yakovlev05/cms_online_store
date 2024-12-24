@@ -3,8 +3,10 @@ package ru.yakovlev05.cms.catalog.service.impl;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import ru.yakovlev05.cms.catalog.dto.ComponentRequestDto;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
@@ -132,12 +134,24 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ResponseProductDto> getProductsList(int page, int limit) {
-        Pageable pageable = PageRequest.of(page, limit);
-        return productRepository.findAll(pageable).getContent().stream()
+    public List<ResponseProductDto> getProductsList(int page, int limit, String directionSort, String keySort, String searchQuery) {
+        Pageable pageable = PageRequest.of(
+                page,
+                limit,
+                directionSort.equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC,
+                keySort);
+
+        Page<Product> products;
+
+        if (searchQuery != null && !searchQuery.isEmpty()) {
+            products = productRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+        } else {
+            products = productRepository.findAll(pageable);
+        }
+
+        return products.getContent().stream()
                 .map(this::fillResponseProductDto)
                 .toList();
-
     }
 
     @Transactional

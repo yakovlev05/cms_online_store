@@ -1,5 +1,6 @@
 package ru.yakovlev05.cms.catalog.controller;
 
+import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
@@ -23,9 +24,11 @@ public class ProductController {
     @GetMapping()
     public List<ResponseProductDto> getProductsList(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int limit
-    ) {
-        return productService.getProductsList(page, limit);
+            @RequestParam(defaultValue = "20") int limit,
+            @Pattern(regexp = "asc|desc") @RequestParam(defaultValue = "desc") String directionSort,
+            @Pattern(regexp = "price|createdAt")@RequestParam(defaultValue = "createdAt") String keySort,
+            @RequestParam(required = false) String searchQuery) {
+        return productService.getProductsList(page, limit, directionSort, keySort, searchQuery);
     }
 
     @PostMapping("/add")

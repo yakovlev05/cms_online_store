@@ -11,7 +11,7 @@ public interface ProductService {
 
     ResponseProductDto addProduct(RequestProductDto productDto);
 
-    List<ResponseProductDto> getProductsList(int page, int limit);
+    List<ResponseProductDto> getProductsList(int page, int limit, String directionSort, String keySort, String searchQuery);
 
     ResponseProductDto updateProduct(String urlName, RequestProductDto productDto);
 
