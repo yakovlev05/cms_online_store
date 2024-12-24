@@ -77,7 +77,7 @@ const CatalogComponentComponent: React.FC = () => {
     }
 
     const handleUpdate = (item: ComponentResponseDto) => {
-        setItems(items.map(e => e.name === item.name ? item : e))
+        setItems(items.map(e => e.id === item.id ? item : e))
     }
 
     const handleCreate = (item: ComponentRequestDto) => {
@@ -130,7 +130,7 @@ const CatalogComponentComponent: React.FC = () => {
                             <Radio.Group
                                 value={params.keySort}
                                 onChange={(e) => {
-                                    setParams({...params, keySort: e.target.value});
+                                    setParams({...params, keySort: e.target.value, page: 0});
                                 }}>
                                 <Space direction='vertical'>
                                     <Radio value='createdAt'>Дата создания</Radio>
@@ -144,7 +144,8 @@ const CatalogComponentComponent: React.FC = () => {
                             <p style={{margin: 0}}>Результат поиска в порядке:</p>
                             <Radio.Group
                                 value={String(params.isDescending)}
-                                onChange={(e) => setParams({...params, isDescending: e.target.value === 'true'})}>
+                                onChange={(e) => 
+                                    setParams({...params, isDescending: e.target.value === 'true', page: 0})}>
                                 <Space direction='vertical'>
                                     <Radio value='false'>Возрастания</Radio>
                                     <Radio value='true'>Убывания</Radio>
@@ -166,11 +167,11 @@ const CatalogComponentComponent: React.FC = () => {
                             loading={false}
                             size='middle'
                             enterButton='Поиск'
-                            onSearch={(e) => setParams({...params, searchQuery: e})}
+                            onSearch={(e) => setParams({...params, searchQuery: e, page: 0})}
                         ></Input.Search>
 
                         <Checkbox.Group
-                            onChange={(e) => setParams({...params, showOnlyInStock: e.includes('inStock')})}
+                            onChange={(e) => setParams({...params, showOnlyInStock: e.includes('inStock'), page: 0})}
                             value={[params.showOnlyInStock ? "inStock" : null]}
                             options={[{label: 'Показать только те, которые в наличии', value: 'inStock'}]}
                         />
