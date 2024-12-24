@@ -47,6 +47,7 @@ public class CollectionServiceImpl implements CollectionService {
                         collection.getPhoto().getFileName()
                 ),
                 new ResponseCategoryDto(
+                        collection.getCategory().getId(),
                         collection.getCategory().getName(),
                         collection.getCategory().getUrlName()
                 )

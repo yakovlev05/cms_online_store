@@ -62,7 +62,7 @@ public class ProductServiceImpl implements ProductService {
                 .toList();
 
         List<ResponseCategoryDto> categoriesDto = product.getCategories().stream()
-                .map(x -> new ResponseCategoryDto(x.getName(), x.getUrlName()))
+                .map(x -> new ResponseCategoryDto(x.getId(), x.getName(), x.getUrlName()))
                 .toList();
 
         List<String> photoUrls = product.getMedia().stream()

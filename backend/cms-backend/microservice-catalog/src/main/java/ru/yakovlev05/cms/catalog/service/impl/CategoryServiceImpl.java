@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
     public ResponseCategoryDto getCategory(String urlName) {
         Category category = getCategoryByUrlName(urlName);
 
-        return new ResponseCategoryDto(category.getName(), category.getUrlName());
+        return new ResponseCategoryDto(category.getId(), category.getName(), category.getUrlName());
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        return new ResponseCategoryDto(category.getName(), category.getUrlName());
+        return new ResponseCategoryDto(category.getId(), category.getName(), category.getUrlName());
     }
 
     @Override
@@ -71,7 +71,7 @@ public class CategoryServiceImpl implements CategoryService {
 
         categoryRepository.save(category);
 
-        return new ResponseCategoryDto(category.getName(), category.getUrlName());
+        return new ResponseCategoryDto(category.getId(), category.getName(), category.getUrlName());
     }
 
     @Transactional
@@ -120,7 +120,7 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         return categories.stream()
-                .map(category -> new ResponseCategoryDto(category.getName(), category.getUrlName()))
+                .map(category -> new ResponseCategoryDto(category.getId(), category.getName(), category.getUrlName()))
                 .toList();
     }
 }
