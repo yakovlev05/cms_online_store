@@ -14,4 +14,9 @@
     <include file="/db/changelog/changeset/v1.3.1_add_otp_info.xml"/>
     <include file="/db/changelog/changeset/v1.3.2_insert_otp_info.xml"/>
     <include file="db/changelog/changeset/v1.3.2_add_isConfirmed_field_user.xml"/>
+    <include file="/db/changelog/changeset/v1.4.0_insert_CATALOG_permission.xml"/>
+
+
+    <!--    Инициализирует систему для работы-->
+    <include file="/db/changelog/changeset/FINAL1_add_owner_user.xml"/>
 </databaseChangeLog>

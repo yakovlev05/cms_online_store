@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="create admin user" author="ALEXEY YAKOVLEV">
+        <insert tableName="user">
+            <column name="id" value="1"/>
+            <column name="phone_number" value="admin"/>
+            <!--Пароль админ-->
+            <column name="password" value="$2a$10$rjJOqWq4nfjTQwZAybcI6exSuzrCyfWl8f1rrIUFKKPhXv8HnJVd."/>
+            <column name="created_at" valueComputed="now()"/>
+            <column name="updated_at" valueComputed="now()"/>
+            <column name="is_confirmed" valueBoolean="true"/>
+        </insert>
+    </changeSet>
+
+    <changeSet id="assign roles to admin user" author="ALEXEY YAKOVLEV">
+        <sql>
+            INSERT INTO users_roles (user_id, role_id)
+            SELECT 1, id
+            FROM role;
+        </sql>
+    </changeSet>
+
+    <changeSet id="assign permissions to admin user" author="ALEXEY YAKOVLEV">
+        <sql>
+            INSERT INTO user_permission (user_id, permission_id)
+            SELECT 1, id
+            FROM permission;
+        </sql>
+    </changeSet>
+</databaseChangeLog>
