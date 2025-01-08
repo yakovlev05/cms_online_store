@@ -1,10 +1,8 @@
 package ru.yakovlev05.cms.auth.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 import ru.yakovlev05.cms.auth.dto.PermissionDto;
 import ru.yakovlev05.cms.auth.service.PermissionService;
 
@@ -24,7 +22,15 @@ public class PermissionController {
     }
 
     @GetMapping("/user/{user-id}")
-    public List<PermissionDto> getUserPermissions(@PathVariable(name = "user-id") long userId) {
+    public List<PermissionDto> getUserPermissions(@PathVariable(name = "user-id") String userId) {
         return permissionService.getUserPermissions(userId);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @PutMapping("/user/{user-id}")
+    public List<PermissionDto> setPermissionsToUser(
+            @PathVariable(name = "user-id") String userId,
+            @RequestBody List<String> permissionNames) {
+        return permissionService.setPermissionsToUser(userId, permissionNames);
     }
 }

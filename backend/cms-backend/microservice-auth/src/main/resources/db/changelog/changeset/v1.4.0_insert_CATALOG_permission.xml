@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet id="2025-01-08-22-13" author="ALEXEY YAKOVLEV">
+        <insert tableName="permission">
+            <column name="name">PERMISSION_CATALOG</column>
+        </insert>
+
+        <insert tableName="permission">
+            <column name="name">PERMISSION_USER</column>
+        </insert>
+
+        <insert tableName="permission">
+            <column name="name">PERMISSION_ORDER</column>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

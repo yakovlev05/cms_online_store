@@ -7,5 +7,7 @@ import java.util.List;
 public interface PermissionService {
     List<PermissionDto> getAllPermissions();
 
-    List<PermissionDto> getUserPermissions(long userId);
+    List<PermissionDto> getUserPermissions(String userId);
+
+    List<PermissionDto> setPermissionsToUser(String userId, List<String> permissionNames);
 }
