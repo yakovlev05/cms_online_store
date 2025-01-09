@@ -37,4 +37,8 @@ public class AuthController {
     public void resetPassword(@RequestBody AuthResetPasswordRequestDto request) {
         authService.resetPassword(request);
     }
+
+    @GetMapping("/check")
+    public void checkAuth() {
+    }
 }
