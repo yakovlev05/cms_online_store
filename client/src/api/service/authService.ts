@@ -1,5 +1,6 @@
 import {LoginRequestDto} from "@/src/api/models/request/auth";
 import {LoginResponseDto} from "@/src/api/models/response/auth";
+import {getAccessToken} from "@/src/util/auth";
 
 
 export default async function login(request: LoginRequestDto): Promise<LoginResponseDto> {
@@ -18,5 +19,20 @@ export default async function login(request: LoginRequestDto): Promise<LoginResp
         throw new Error("Неверный логин/пароль")
     } else {
         throw new Error(`Ошибка: ${response.status}`);
+    }
+}
+
+export async function checkAuth(): Promise<boolean> {
+    try {
+        const response = await fetch('/api/v1/auth/check', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${getAccessToken()}`
+            }
+        })
+
+        return response.ok;
+    } catch {
+        return false;
     }
 }

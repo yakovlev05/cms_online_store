@@ -1,24 +1,32 @@
 "use client"
 import styles from '@/src/styles/header.module.css';
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import {checkAuth} from "@/src/api/service/authService";
 
 interface Props {
     logo: string;
 }
 
-const Header: React.FC<Props> = ({ logo }) => {
+const Header: React.FC<Props> = ({logo}) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(false);
+
 
     const toggleDropdown = () => {
         setDropdownVisible(!isDropdownVisible);
     };
 
+    useEffect(() => {
+        checkAuth()
+            .then((r) => setIsAuthenticated(r))
+    }, []);
+
     return (
         <div className={styles.header}>
             <Link href='/'>
-                <Image src={logo} alt='лого' width='45' height='45' />
+                <Image src={logo} alt='лого' width='45' height='45'/>
             </Link>
             <div className={styles.nav}>
                 <div
@@ -44,14 +52,22 @@ const Header: React.FC<Props> = ({ logo }) => {
             </div>
             <div className={styles.icons}>
                 <Link href='/'>
-                    <Image src='/assets/icon/find.svg' alt='поиск' width='24' height='24' />
+                    <Image src='/assets/icon/find.svg' alt='поиск' width='24' height='24'/>
                 </Link>
                 <Link href='/cart'>
-                    <Image src='/assets/icon/cart_list.svg' alt='корзина' width='22' height='28' />
+                    <Image src='/assets/icon/cart_list.svg' alt='корзина' width='22' height='28'/>
                 </Link>
-                <Link href='/login'>
-                    <Image src='/assets/icon/logout.svg' alt='выход' width='28' height='24' />
-                </Link>
+
+                {
+                    isAuthenticated
+                        ? <Link href='/profile'>
+                            <Image src={'/assets/icon/profile.svg'} alt='выход' width='28' height='24'/>
+                        </Link>
+                        : <Link href='/login'>
+                            <Image src={'/assets/icon/logout.svg'} alt='выход' width='28' height='24'/>
+                        </Link>
+                }
+
             </div>
         </div>
     );
