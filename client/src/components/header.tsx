@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {checkAuth} from "@/src/api/service/authService";
+import MiniLoader from "@/src/components/ui/mini-loader";
 
 interface Props {
     logo: string;
@@ -11,7 +12,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({logo}) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
 
 
     const toggleDropdown = () => {
@@ -59,15 +60,22 @@ const Header: React.FC<Props> = ({logo}) => {
                 </Link>
 
                 {
-                    isAuthenticated
-                        ? <Link href='/profile'>
-                            <Image src={'/assets/icon/profile.svg'} alt='выход' width='28' height='24'/>
-                        </Link>
-                        : <Link href='/login'>
-                            <Image src={'/assets/icon/logout.svg'} alt='выход' width='28' height='24'/>
-                        </Link>
+                    isAuthenticated === true &&
+                    <Link href='/profile'>
+                        <Image src={'/assets/icon/profile.svg'} alt='выход' width='28' height='24'/>
+                    </Link>
                 }
 
+                {
+                    isAuthenticated === false &&
+                    <Link href='/login'>
+                        <Image src={'/assets/icon/logout.svg'} alt='выход' width='28' height='24'/>
+                    </Link>
+                }
+
+                {
+                    isAuthenticated === undefined && <MiniLoader fontSize={28} color={'#fefae1'}/>
+                }
             </div>
         </div>
     );
