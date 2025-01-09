@@ -19,8 +19,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody UserDto request) {
-        return authService.login(request);
+    public ResponseEntity<Object> login(@RequestBody UserDto request, @RequestParam(defaultValue = "true") boolean isClient) {
+        return authService.login(request, isClient);
     }
 
     @PostMapping("/refresh")

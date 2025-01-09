@@ -66,7 +66,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public ResponseEntity<Object> login(UserDto request) {
+    public ResponseEntity<Object> login(UserDto request, boolean isClient) {
         log.info("Login request received, login: {}", request.getPhoneNumber());
         var auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getPhoneNumber(), request.getPassword())
@@ -75,6 +75,16 @@ public class AuthServiceImpl implements AuthService {
         log.info("Checking phone confirmation status ...");
 
         UserDetailsImpl userDetails = (UserDetailsImpl) auth.getPrincipal();
+
+        if (!isClient
+                && userDetails.getRoles().contains(UserRole.ROLE_CUSTOMER)
+                && !userDetails.getRoles().contains(UserRole.ROLE_OWNER)) {
+            throw new BadRequestException("You are not an admin");
+        }
+
+        if (isClient && userDetails.getRoles().contains(UserRole.ROLE_ADMIN)) {
+            throw new BadRequestException("You are not a customer");
+        }
 
         if (!userDetails.isConfirmed()) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new AuthMessageDto("Confirmation required"));

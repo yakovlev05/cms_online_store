@@ -6,7 +6,7 @@ import ru.yakovlev05.cms.auth.dto.*;
 public interface AuthService {
     ResponseEntity<Object> registration(UserDto request);
 
-    ResponseEntity<Object> login(UserDto request);
+    ResponseEntity<Object> login(UserDto request, boolean isClient);
 
     JwtResponseDto refresh(JwtRefreshRequestDto request);
 
