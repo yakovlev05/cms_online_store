@@ -22,18 +22,19 @@ public class CategoryController {
         return categoryService.getCategory(urlName);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PostMapping("/add")
     public ResponseCategoryDto addCategory(@RequestBody RequestCategoryDto categoryDto) {
         return categoryService.addCategory(categoryDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PutMapping("/{urlName}")
     public ResponseCategoryDto updateCategory(@PathVariable String urlName, @RequestBody RequestCategoryDto categoryDto) {
         return categoryService.updateCategory(urlName, categoryDto);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @DeleteMapping("/{urlName}")
     public void deleteCategory(@PathVariable String urlName) {
         categoryService.deleteCategory(urlName);

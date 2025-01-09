@@ -2,6 +2,7 @@ package ru.yakovlev05.cms.catalog.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import ru.yakovlev05.cms.catalog.dto.MediaDto;
@@ -16,11 +17,13 @@ public class MediaController {
 
     private final MediaService mediaService;
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public MediaDto uploadPhoto(@RequestParam("file") MultipartFile file) {
         return mediaService.uploadPhoto(file);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @DeleteMapping("/{file-name}")
     public void deletePhoto(@PathVariable(name = "file-name") String fileName) {
         mediaService.deletePhoto(fileName);

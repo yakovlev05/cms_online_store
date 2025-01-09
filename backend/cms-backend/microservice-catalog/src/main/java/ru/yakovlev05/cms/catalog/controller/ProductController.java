@@ -2,6 +2,7 @@ package ru.yakovlev05.cms.catalog.controller;
 
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yakovlev05.cms.catalog.dto.RequestProductDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseProductDto;
@@ -31,11 +32,13 @@ public class ProductController {
         return productService.getProductsList(page, limit, directionSort, keySort, searchQuery);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PostMapping("/add")
     public ResponseProductDto addProduct(@RequestBody RequestProductDto productDto) {
         return productService.addProduct(productDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PutMapping("/{url-name}")
     public ResponseProductDto updateProduct(
             @PathVariable(name = "url-name") String urlName,
@@ -44,6 +47,7 @@ public class ProductController {
         return productService.updateProduct(urlName, productDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @DeleteMapping("/{url-name}")
     public void deleteProduct(@PathVariable(name = "url-name") String urlName) {
         productService.deleteProduct(urlName);

@@ -1,6 +1,7 @@
 package ru.yakovlev05.cms.catalog.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.yakovlev05.cms.catalog.dto.RequestCollectionDto;
 import ru.yakovlev05.cms.catalog.dto.ResponseCollectionDto;
@@ -20,11 +21,13 @@ public class CollectionController {
         return collectionService.getCollection(id);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PostMapping
     public ResponseCollectionDto addCollection(@RequestBody RequestCollectionDto collectionDto) {
         return collectionService.addCollection(collectionDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PutMapping("/{id}")
     public ResponseCollectionDto updateCollection(
             @PathVariable long id,
@@ -33,6 +36,7 @@ public class CollectionController {
         return collectionService.updateCollection(id, collectionDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @DeleteMapping("/{id}")
     public void deleteCollection(@PathVariable long id) {
         collectionService.deleteCollection(id);

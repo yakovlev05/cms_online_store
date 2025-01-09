@@ -22,19 +22,19 @@ public class ComponentController {
         return componentService.getComponent(componentName);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PostMapping("/add")
     public ComponentResponseDto addComponent(@RequestBody ComponentRequestDto componentRequestDto) {
         return componentService.addComponent(componentRequestDto);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @PutMapping("/{componentName}")
     public ComponentResponseDto updateComponent(@PathVariable String componentName, @RequestBody ComponentRequestDto componentRequestDto) {
         return componentService.updateComponent(componentName, componentRequestDto);
     }
 
-    @PreAuthorize("hasAuthority('ROLE_OWNER')")
+    @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")
     @DeleteMapping("/{componentName}")
     public void deleteComponent(@PathVariable String componentName) {
         componentService.deleteComponent(componentName);

@@ -42,6 +42,11 @@ s3:
   url: ${S3_URL:http://localhost:9000}
   custom_url: ${S3_CUSTOM_URL:http://s3.localhost} # Будет использоваться для создания ссылок, потому что без него это будет S3_URL
 
+jwt:
+  secret: ${JWT_SECRET:only_test_123456789123456789}
+  accessTokenValidityInMs: ${ACCESS_TOKEN_VALIDITY_IN_MS:86400000}
+  refreshTokenValidityInMs: ${REFRESH_TOKEN_VALIDITY_IN_MS:2592000000}
+
 #logging:
 #  level:
 #    software.amazon.awssdk: TRACE
