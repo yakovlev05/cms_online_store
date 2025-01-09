@@ -51,3 +51,5 @@ jwt:
 #  level:
 #    software.amazon.awssdk: TRACE
 
+cors:
+  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000}

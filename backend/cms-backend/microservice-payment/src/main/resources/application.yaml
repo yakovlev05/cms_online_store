@@ -33,3 +33,6 @@ yookassa:
   shop-id: ${YOOKASSA_SHOP_ID}
   api-key: ${YOOKASSA_API_KEY}
   return-url: https://cms.yakovlev05.ru
+
+cors:
+  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000}

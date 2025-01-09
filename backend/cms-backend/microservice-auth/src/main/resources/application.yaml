@@ -38,3 +38,6 @@ jwt:
 
 captchaYandex:
   serverKey: ${YANDEX_CAPTCHA_SERVER_KEY}
+
+cors:
+  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000}
