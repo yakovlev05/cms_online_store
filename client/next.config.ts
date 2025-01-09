@@ -1,20 +1,20 @@
-import type { NextConfig } from "next";
+import type {NextConfig} from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
-    async rewrites() {
-        return [
+    /* config options here */
+    // async rewrites() {
+    //     return [
+    //         {
+    //             source: "/api/:path*",
+    //             destination: "http://localhost:80/api/:path*", // Настройка прокси
+    //         },
+    //     ];
+    // },
+
+    images: {
+        remotePatterns: [
             {
-                source: "/api/:path*",
-                destination: "http://localhost:80/api/:path*", // Настройка прокси
-            },
-        ];
-    },
-    
-    images:{
-        remotePatterns:[
-            {
-                hostname: 's3.localhost' // нужно указывать хосты, с которых можно загружать изображение
+                hostname: process.env.IMAGES_HOSTNAME || "" // нужно указывать хосты, с которых можно загружать изображение
             }
         ]
     }

@@ -1,7 +1,7 @@
 import {CollectionResponseDto} from "@/src/api/models/response/catalog";
 
 export async function getAllCollections(): Promise<CollectionResponseDto[]> {
-    const response = await fetch('/api/v1/collections?page=0&limit=100', {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/collections?page=0&limit=100`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
