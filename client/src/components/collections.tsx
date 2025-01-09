@@ -1,20 +1,11 @@
-'use client'
 import styles from '@/src/styles/collections.module.css';
 import Slider from "@/src/components/slider";
 import Tile from "@/src/components/tile";
-import {useEffect, useState} from "react";
-import {CollectionResponseDto} from "@/src/api/models/response/catalog";
 import {getAllCollections} from "@/src/api/service/catalogService";
-import {toast, Toaster} from "react-hot-toast";
+import {Toaster} from "react-hot-toast";
 
-const Collections = () => {
-    const [collections, setCollections] = useState<CollectionResponseDto[]>([]);
-
-    useEffect(() => {
-        getAllCollections()
-            .then(r => setCollections(r))
-            .catch(e => toast.error(e));
-    }, []);
+const Collections = async () => {
+    const collections = await getAllCollections();
 
     return (
         <div className={styles.collections}>
@@ -27,9 +18,9 @@ const Collections = () => {
             >
                 {
                     collections.map(collection =>
-                        <Tile 
+                        <Tile
                             name={collection.category.name}
-                            img={collection.photo.url} 
+                            img={collection.photo.url}
                             urlName={collection.category.urlName}
                             key={collection.id}
                         />
