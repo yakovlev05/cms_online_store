@@ -22,3 +22,45 @@
   font-size: 48px;
   font-weight: 700;
 }
+
+@media (max-width: 1200px) {
+  .breadcrumbs {
+      width: 100%;
+      max-width: 1156px;
+      padding: 0 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .breadcrumbs {
+      font-size: 14px;
+      flex-wrap: wrap;
+      justify-content: center;
+      text-align: center;
+  }
+
+  .breadcrumbs a {
+      margin: 0 5px;
+  }
+
+  .title {
+      font-size: 36px;
+      text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .breadcrumbs {
+      font-size: 12px;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .breadcrumbs a {
+      margin: 5px 0;
+  }
+
+  .title {
+      font-size: 28px;
+  }
+}
