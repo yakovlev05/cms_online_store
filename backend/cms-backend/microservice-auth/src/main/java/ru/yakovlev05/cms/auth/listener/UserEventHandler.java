@@ -1,12 +1,15 @@
 package ru.yakovlev05.cms.auth.listener;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import ru.yakovlev05.cms.auth.entity.User;
+import ru.yakovlev05.cms.auth.service.RoleService;
 import ru.yakovlev05.cms.auth.service.UserService;
+import ru.yakovlev05.cms.core.entity.UserRole;
 import ru.yakovlev05.cms.core.event.UserEvent;
 
 import java.time.LocalDateTime;
@@ -18,7 +21,9 @@ import java.time.LocalDateTime;
 public class UserEventHandler {
 
     private final UserService userService;
+    private final RoleService roleService;
 
+    @Transactional
     @KafkaHandler
     public void handleUserEvent(UserEvent event) {
         if (!event.isProduceByUserService()) {
@@ -57,6 +62,8 @@ public class UserEventHandler {
                 .build();
 
         userService.create(user);
+
+        roleService.assignRoleToUser(user, UserRole.ROLE_ADMIN);
     }
 
     private void handleUpdateEvent(UserEvent event) {
