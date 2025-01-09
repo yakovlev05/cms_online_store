@@ -9,6 +9,13 @@ import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     Optional<Product> findByUrlName(String urlName);
+
     boolean existsByUrlName(String urlName);
+
+    //    @Query("SELECT p FROM product p WHERE LOWER(p.name) LIKE LOWER(CONCAT('%', :name, '%'))")
     Page<Product> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+    Page<Product> findByCategories_UrlName(String categoryUrlName, Pageable pageable);
+
+    Page<Product> findByNameContainingIgnoreCaseAndCategories_UrlName(String name, String categoryUrlName, Pageable pageable);
 }

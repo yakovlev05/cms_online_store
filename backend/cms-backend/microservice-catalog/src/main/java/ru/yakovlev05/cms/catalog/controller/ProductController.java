@@ -28,8 +28,9 @@ public class ProductController {
             @RequestParam(defaultValue = "20") int limit,
             @Pattern(regexp = "asc|desc") @RequestParam(defaultValue = "desc") String directionSort,
             @Pattern(regexp = "price|createdAt")@RequestParam(defaultValue = "createdAt") String keySort,
-            @RequestParam(required = false) String searchQuery) {
-        return productService.getProductsList(page, limit, directionSort, keySort, searchQuery);
+            @RequestParam(required = false) String searchQuery,
+            @RequestParam(required = false) String categoryUrlName) {
+        return productService.getProductsList(page, limit, directionSort, keySort, searchQuery, categoryUrlName);
     }
 
     @PreAuthorize("hasAuthority('ROLE_OWNER') || hasAuthority('PERMISSION_CATALOG')")

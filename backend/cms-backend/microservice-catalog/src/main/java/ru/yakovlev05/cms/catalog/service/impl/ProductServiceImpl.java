@@ -134,7 +134,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ResponseProductDto> getProductsList(int page, int limit, String directionSort, String keySort, String searchQuery) {
+    public List<ResponseProductDto> getProductsList(int page, int limit, String directionSort, String keySort, String searchQuery, String categoryUrlName) {
         Pageable pageable = PageRequest.of(
                 page,
                 limit,
@@ -144,9 +144,21 @@ public class ProductServiceImpl implements ProductService {
         Page<Product> products;
 
         if (searchQuery != null && !searchQuery.isEmpty()) {
-            products = productRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+
+            if (categoryUrlName != null && !categoryUrlName.isEmpty()) {
+                products = productRepository.findByNameContainingIgnoreCaseAndCategories_UrlName(searchQuery, categoryUrlName, pageable);
+            } else {
+                products = productRepository.findByNameContainingIgnoreCase(searchQuery, pageable);
+            }
+
         } else {
-            products = productRepository.findAll(pageable);
+
+            if (categoryUrlName != null && !categoryUrlName.isEmpty()) {
+                products = productRepository.findByCategories_UrlName(categoryUrlName, pageable);
+            } else {
+                products = productRepository.findAll(pageable);
+            }
+
         }
 
         return products.getContent().stream()
