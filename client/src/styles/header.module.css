@@ -1,7 +1,7 @@
 .header {
     background: var(--color-secondary-500);
 
-    height: 100px;
+    height: 72px;
     width: 100%;
 
     padding: 12px;
@@ -23,7 +23,7 @@
     display: flex;
     justify-content: space-around;
 
-    max-width: 500px;
+    max-width: 450px;
     width: 100%;
 
     justify-self: center;
