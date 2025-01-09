@@ -18,7 +18,7 @@ const Header: React.FC<Props> = ({ logo }) => {
     return (
         <div className={styles.header}>
             <Link href='/'>
-                <Image src={logo} alt='лого' width='77' height='77' />
+                <Image src={logo} alt='лого' width='45' height='45' />
             </Link>
             <div className={styles.nav}>
                 <div
@@ -40,7 +40,7 @@ const Header: React.FC<Props> = ({ logo }) => {
                 </div>
                 <Link href='/#'>Доставка</Link>
                 <Link href='/#'>Контакты</Link>
-                <Link href='/#'>О нас</Link>
+                <Link href='/story'>О нас</Link>
             </div>
             <div className={styles.icons}>
                 <Link href='/'>

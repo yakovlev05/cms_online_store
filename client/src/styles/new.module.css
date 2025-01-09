@@ -35,3 +35,59 @@
     font-size: 19px;
     margin-top: -32px;
 }
+
+@media (max-width: 1200px) {
+    .new {
+        padding: 0 15px;
+    }
+
+    .cardsContainer {
+        justify-content: center;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .new {
+        padding: 0 10px;
+    }
+
+    .title {
+        font-size: 36px;
+        text-align: center;
+    }
+
+    .cardsContainer {
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .sortContainer {
+        font-size: 16px;
+        margin-top: -25px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .new {
+        padding: 0 5px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .cardsContainer {
+        padding: 5px;
+        gap: 15px;
+    }
+
+    .sortContainer {
+        font-size: 14px;
+        margin-top: -20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
