@@ -3,6 +3,160 @@
     flex-direction: column;
     align-items: center;
     gap: 30px;
-
     background: var(--color-primary-500);
+}
+
+.aboutContainer {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.heroSection {
+    text-align: center;
+    max-width: 1000px;
+    margin: 0 auto 50px;
+    font-family: var(--font-cormorant-sc);
+    color: var(--color-secondary-700);
+}
+
+.heroSection h1 {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.heroSection p {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-family: var(--font-open-sans);
+}
+
+.storySection {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 60px 20px;
+    background-color: var(--color-primary-500);
+}
+
+.storyContent {
+    flex: 1;
+    font-family: var(--font-open-sans);
+}
+
+.storyContent h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--color-secondary-700);
+    margin-bottom: 20px;
+    font-family: var(--font-cormorant-sc);
+}
+
+.storyContent p {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    line-height: 1.6;
+    color: var(--color-secondary-500);
+    margin-bottom: 15px;
+}
+
+.storyImage {
+    flex: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(86, 95, 51, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.storyImage:hover {
+    transform: scale(1.05);
+}
+
+.missionSection,
+.teamSection {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-family: var(--font-cormorant-sc);
+    color: var(--color-secondary-700);
+}
+
+.title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    margin-bottom: 20px;
+}
+
+.missionGrid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.socialImpactSection {
+    background-color: var(--color-primary-500);
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.socialImpactSection h2 {
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    color: var(--color-secondary-700);
+    margin-bottom: 40px;
+    font-family: var(--font-cormorant-sc);
+}
+
+.impactGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.impactItem {
+    background-color: var(--color-primary-50);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(86, 95, 51, 0.08);
+    transition: all 0.3s ease;
+    border: 1px solid var(--color-secondary-500);
+}
+
+.impactItem:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 35px rgba(86, 95, 51, 0.12);
+}
+
+.impactItem h3 {
+    font-size: clamp(1.2rem, 3vw, 1.4rem);
+    color: var(--color-button-500);
+    margin-bottom: 15px;
+    font-family: var(--font-cormorant-sc);
+}
+
+.impactItem p {
+    font-size: clamp(0.9rem, 3vw, 1rem);
+    color: var(--color-secondary-500);
+    line-height: 1.5;
+    font-family: var(--font-open-sans);
+}
+
+/* Мобильная адаптивность */
+@media (max-width: 768px) {
+    .storySection {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 30px 15px;
+    }
+
+    .storyImage {
+        max-width: 100%;
+        margin-top: 20px;
+    }
+
+    .impactGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .missionGrid {
+        flex-direction: column;
+        align-items: center;
+    }
 }

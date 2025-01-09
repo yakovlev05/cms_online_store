@@ -40,7 +40,7 @@ const Header: React.FC<Props> = ({ logo }) => {
                 </div>
                 <Link href='/#'>Доставка</Link>
                 <Link href='/#'>Контакты</Link>
-                <Link href='/#'>О нас</Link>
+                <Link href='/story'>О нас</Link>
             </div>
             <div className={styles.icons}>
                 <Link href='/'>
