@@ -10,6 +10,14 @@ const nextConfig: NextConfig = {
             },
         ];
     },
+    
+    images:{
+        remotePatterns:[
+            {
+                hostname: 's3.localhost' // нужно указывать хосты, с которых можно загружать изображение
+            }
+        ]
+    }
 };
 
 export default nextConfig;
