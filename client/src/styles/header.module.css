@@ -69,3 +69,52 @@
     cursor: pointer;
 }
 
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        height: auto;
+        gap: 20px;
+        padding: 10px;
+    }
+
+    .nav {
+        flex-direction: column;
+        align-items: center;
+        max-width: 100%;
+        padding: 10px;
+        gap: 10px;
+    }
+
+    .navItem {
+        width: 100%;
+        text-align: center;
+    }
+
+    .icons {
+        max-width: 100%;
+        padding: 10px;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .dropdown {
+        position: static;
+        display: none;
+        box-shadow: none;
+        width: 100%;
+    }
+
+    .navItem:hover .dropdown {
+        display: flex;
+    }
+}
+
+@media (max-width: 480px) {
+    .header {
+        gap: 10px;
+    }
+
+    .nav {
+        font-size: 16px;
+    }
+}
