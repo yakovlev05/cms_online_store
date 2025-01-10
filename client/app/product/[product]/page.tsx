@@ -14,7 +14,7 @@ export default async function ProductPage({params}: { params: Promise<{ product:
         <div className={styles.home}>
             <Header logo="/assets/placeholder/logo.svg"/>
             <ProductMain product={product}/>
-            <SimilarProd/>
+            <SimilarProd categoryUrl={product.categories[0].urlName}/>
             {/*<Pagination />*/}
             <Footer logo='/assets/placeholder/logo.svg'
                     vk_link='/#'
