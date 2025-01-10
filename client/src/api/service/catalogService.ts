@@ -78,3 +78,19 @@ export async function getCategoryInfo(urlName: string): Promise<CategoryResponse
         throw new Error(`Ошибка при получении информации по категории: ${response.status}`);
     }
 }
+
+export async function getProductInfo(urlName: string): Promise<ProductResponseDto> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/product/${urlName}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        }
+    })
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`Ошибка при загрузке информации о продукте: ${response.status}`);
+    }
+}
