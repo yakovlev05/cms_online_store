@@ -5,6 +5,9 @@ import Link from 'next/link';
 import Image from 'next/image';
 import {checkAuth} from "@/src/api/service/authService";
 import MiniLoader from "@/src/components/ui/mini-loader";
+import {getAllCategories} from "@/src/api/service/catalogService";
+import {toast, Toaster} from "react-hot-toast";
+import {CategoryResponseDto} from "@/src/api/models/response/catalog";
 
 interface Props {
     logo: string;
@@ -12,6 +15,7 @@ interface Props {
 
 const Header: React.FC<Props> = ({logo}) => {
     const [isDropdownVisible, setDropdownVisible] = useState(false);
+    const [categories, setCategories] = useState<CategoryResponseDto[]>([]);
     const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>(undefined);
 
 
@@ -22,10 +26,15 @@ const Header: React.FC<Props> = ({logo}) => {
     useEffect(() => {
         checkAuth()
             .then((r) => setIsAuthenticated(r))
+
+        getAllCategories(0, 100, 'desc', 'createdAt', '')
+            .then((r) => setCategories(r))
+            .catch(err => toast.error(err.message));
     }, []);
 
     return (
         <div className={styles.header}>
+            <Toaster/>
             <Link href='/'>
                 <Image src={logo} alt='лого' width='45' height='45'/>
             </Link>
@@ -38,12 +47,11 @@ const Header: React.FC<Props> = ({logo}) => {
                     <span>Каталог</span>
                     {isDropdownVisible && (
                         <div className={styles.dropdown}>
-                            <Link href="/catalog/novelties">Новинки</Link>
-                            <Link href="/catalog/seasonal">Сезонные</Link>
-                            <Link href="/catalog/monobouquets">Монобукеты</Link>
-                            <Link href="/catalog/formen">Для мужчин</Link>
-                            <Link href="/catalog/forwomen">Для женщин</Link>
-                            <Link href="/catalog/classic">Классические</Link>
+                            {
+                                categories.map((category) => (
+                                    <Link href={`/catalog/${category.urlName}`} key={category.id}>{category.name}</Link>
+                                ))
+                            }
                         </div>
                     )}
                 </div>
