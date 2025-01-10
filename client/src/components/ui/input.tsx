@@ -1,3 +1,4 @@
+'use client'
 import styles from '@/src/styles/input.module.css';
 import React from "react";
 

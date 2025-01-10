@@ -4,7 +4,6 @@
 import Header from "@/src/components/header";
 import Footer from "@/src/components/footer";
 import ProductList from "@/src/components/product-list";
-import Pagination from "@/src/components/ui/pagination";
 import styles from "@/src/styles/catalog.module.css";
 import styles_1 from "@/src/styles/home.module.css"
 import Breadcrumbs from "@/src/components/ui/breadcrumbs";
