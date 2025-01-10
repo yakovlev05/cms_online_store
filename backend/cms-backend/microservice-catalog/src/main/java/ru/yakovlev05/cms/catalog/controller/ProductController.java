@@ -27,7 +27,7 @@ public class ProductController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int limit,
             @Pattern(regexp = "asc|desc") @RequestParam(defaultValue = "desc") String directionSort,
-            @Pattern(regexp = "price|createdAt")@RequestParam(defaultValue = "createdAt") String keySort,
+            @Pattern(regexp = "price|createdAt|name")@RequestParam(defaultValue = "createdAt") String keySort,
             @RequestParam(required = false) String searchQuery,
             @RequestParam(required = false) String categoryUrlName) {
         return productService.getProductsList(page, limit, directionSort, keySort, searchQuery, categoryUrlName);
