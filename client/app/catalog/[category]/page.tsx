@@ -8,37 +8,41 @@ import Pagination from "@/src/components/ui/pagination";
 import styles from "@/src/styles/catalog.module.css";
 import styles_1 from "@/src/styles/home.module.css"
 import Breadcrumbs from "@/src/components/ui/breadcrumbs";
-import { useParams } from "next/navigation";
+import {useParams} from "next/navigation";
+import {CategoryResponseDto} from "@/src/api/models/response/catalog";
+import {useEffect, useState} from "react";
+import {getCategoryInfo} from "@/src/api/service/catalogService";
+import {toast, Toaster} from "react-hot-toast";
 
 export default function CategoryPage() {
     const params = useParams();
-    const category = params.category as string; // Получаем динамический параметр
+    const categoryUrlName = params.category as string; // Получаем динамический параметр
+    const [category, setCategory] = useState<CategoryResponseDto>({
+        name: 'загрузка...',
+        urlName: '',
+        id: 0
+    });
 
-    // Динамическое определение заголовка
-    const categoryTitles: { [key: string]: string } = {
-        novelties: "Новинки",
-        seasonal: "Сезонные",
-        monobouquets: "Монобукеты",
-        formen: "Для мужчин",
-        forwomen: "Для женщин",
-        classic: "Классические",
-    };
-
-    const title = categoryTitles[category] || "Категория";
+    useEffect(() => {
+        getCategoryInfo(categoryUrlName)
+            .then(r => setCategory(r))
+            .catch(err => toast.error(err.message));
+    }, [categoryUrlName])
 
     const breadcrumbs = [
-        { label: "Главная", href: "/" },
-        { label: title, href: "#" },
+        {label: "Главная", href: "/"},
+        {label: category.name, href: "#"},
     ];
 
     return (
         <div className={styles_1.home}>
-            <Header logo="/assets/placeholder/logo.svg" />
+            <Toaster/>
+            <Header logo="/assets/placeholder/logo.svg"/>
             <div className={styles.breadcrumbs}>
-                <Breadcrumbs breadcrumbs={breadcrumbs} />
+                <Breadcrumbs breadcrumbs={breadcrumbs}/>
             </div>
-            <ProductList category={category}/>
-            <Pagination />
+            <ProductList category={category.urlName}/>
+            <Pagination/>
             <Footer
                 logo="/assets/placeholder/logo.svg"
                 vk_link="/#"
