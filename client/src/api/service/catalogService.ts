@@ -20,7 +20,7 @@ export async function getAllProducts(
     page: number = 0,
     limit: number = 20,
     directionSort: 'asc' | 'desc' = 'desc',
-    keySort: 'price' | 'createdAt' = 'createdAt',
+    keySort: 'price' | 'createdAt' | 'name' = 'createdAt',
     searchQuery: string = '',
     categoryUrlName: string = '',
 ): Promise<ProductResponseDto[]> {

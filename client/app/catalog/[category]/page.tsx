@@ -42,7 +42,7 @@ export default function CategoryPage() {
                 <Breadcrumbs breadcrumbs={breadcrumbs}/>
             </div>
             <ProductList category={category.urlName}/>
-            <Pagination/>
+            {/*<Pagination/>*/}
             <Footer
                 logo="/assets/placeholder/logo.svg"
                 vk_link="/#"
