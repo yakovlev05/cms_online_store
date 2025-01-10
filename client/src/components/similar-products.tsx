@@ -16,7 +16,7 @@ const SimilarProd: React.FC<Props> = async ({categoryUrl}) => {
                 {
                     products.map((product, index) => (
                         <ProductCard price={product.price} oldPrice={product.priceDiscount} name={product.name}
-                                     img={product.mainPhotoUrl} key={index}/>
+                                     img={product.mainPhotoUrl} urlName={product.urlName} key={index}/>
                     ))
                 }
             </div>

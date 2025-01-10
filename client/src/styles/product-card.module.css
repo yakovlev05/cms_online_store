@@ -57,6 +57,10 @@
     margin: 0 0 0 5px;
 }
 
+.buttonCart:hover{
+    background-color: var(--color-secondary-700);
+}
+
 .priceLabel{
     color: rgba(180, 178, 160, 1);
 }
@@ -65,4 +69,8 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+}
+
+.name:hover{
+    color: var(--color-secondary-700);
 }

@@ -59,7 +59,7 @@ const ProductList: React.FC<ProductListProps> = ({category}) => {
                     {
                         products && products.length > 0 && products.map(product =>
                             <ProductCard price={product.price} oldPrice={product.priceDiscount} name={product.name}
-                                         img={product.mainPhotoUrl} key={product.id}/>
+                                         img={product.mainPhotoUrl} urlName={product.urlName} key={product.id}/>
                         )
                     }
                 </div>
