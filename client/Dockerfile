@@ -4,7 +4,9 @@ COPY package.json .
 RUN npm install
 COPY . .
 # Для сборки требуются переменные окружения
-COPY .env.development .env
+#COPY .env.development .env
+ENV NEXT_PUBLIC_BACKEND_URL=""
+ENV IMAGES_HOSTNAME=s3.localhost
 RUN npm run build
 
 FROM node:22-alpine AS prod

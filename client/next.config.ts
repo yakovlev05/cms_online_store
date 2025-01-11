@@ -16,7 +16,8 @@ const nextConfig: NextConfig = {
             {
                 hostname: process.env.IMAGES_HOSTNAME || "" // нужно указывать хосты, с которых можно загружать изображение
             }
-        ]
+        ],
+        unoptimized: true, // Отключить поведение, когда при использовании <Image/> происходит предзагрузка фоток
     }
 };
 
