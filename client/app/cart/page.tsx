@@ -9,7 +9,7 @@ import Footer from '@/src/components/footer';
 import styles from '@/src/styles/cart.module.css';
 import {useEffect, useState} from "react";
 import {CartResponseDto} from "@/src/api/models/response/cart";
-import {deleteFromCart, getCart} from "@/src/api/service/cartService";
+import {deleteFromCart, getCart, updateCart} from "@/src/api/service/cartService";
 import {toast, Toaster} from "react-hot-toast";
 
 export default function CartPage() {
@@ -32,6 +32,52 @@ export default function CartPage() {
             .catch(err => toast.error(err.message));
     }
 
+    const handleIncreaseCount = (item: CartResponseDto) => {
+        updateCart(item.id, item.product.urlName,
+            {
+                count: item.count + 1,
+                selected: item.selected
+            })
+            .then(() => {
+                if (cart) {
+                    const changed = cart.map(e => {
+                        if (e.id === item.id) {
+                            return {...e, count: e.count + 1};
+                        } else {
+                            return e;
+                        }
+                    })
+                    setCart(changed);
+                }
+            })
+            .catch(err => toast.error(err.message));
+    }
+
+    const handleDecreaseCount = (item: CartResponseDto) => {
+        if (item.count === 1) {
+            return
+        }
+
+        updateCart(item.id, item.product.urlName,
+            {
+                count: item.count - 1,
+                selected: item.selected
+            })
+            .then(() => {
+                if (cart) {
+                    const changed = cart.map(e => {
+                        if (e.id === item.id) {
+                            return {...e, count: e.count - 1};
+                        } else {
+                            return e;
+                        }
+                    })
+                    setCart(changed);
+                }
+            })
+            .catch(err => toast.error(err.message));
+    }
+
     return (
         <div className={styles.home}>
             <Toaster/>
@@ -40,7 +86,9 @@ export default function CartPage() {
             <div className={styles.homeContainer}>
                 {/* Левая часть - товары и данные */}
                 <div className={styles.homeLeftContainer}>
-                    <CartItems cart={cart} handleDelete={handleDeleteElement}/>
+                    <CartItems cart={cart} handleDeleteAction={handleDeleteElement}
+                               handleIncreaseCountAction={handleIncreaseCount}
+                               handleDecreaseCountAction={handleDecreaseCount}/>
                     <DeliveryOptions/>
                     <CustomerDetails/>
                 </div>

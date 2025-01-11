@@ -6,10 +6,12 @@ import {CartResponseDto} from "@/src/api/models/response/cart";
 
 
 export default function CartItems(
-    {cart, handleDelete}:
+    {cart, handleDeleteAction, handleIncreaseCountAction, handleDecreaseCountAction}:
     {
         cart: CartResponseDto[] | undefined,
-        handleDelete: (id: number, productUrlName: string) => void
+        handleDeleteAction: (id: number, productUrlName: string) => void,
+        handleIncreaseCountAction: (item: CartResponseDto) => void,
+        handleDecreaseCountAction: (item: CartResponseDto) => void,
     }) {
     return (
         <div className={styles.itemsContainer}>
@@ -30,19 +32,21 @@ export default function CartItems(
                         <div className={styles.quantityContainer}>
                             <button
                                 className={styles.button}
+                                onClick={()=>handleDecreaseCountAction(item)}
                             >
                                 -
                             </button>
                             <span className={styles.quantity}>{item.count}</span>
                             <button
                                 className={styles.button}
+                                onClick={() => handleIncreaseCountAction(item)}
                             >
                                 +
                             </button>
                         </div>
                         <span>{item.product.price * item.count}₽</span>
                         <button className={styles.deleteButton}
-                                onClick={() => handleDelete(item.id, item.product.urlName)}>Удалить
+                                onClick={() => handleDeleteAction(item.id, item.product.urlName)}>Удалить
                         </button>
                     </div>
                 ))
