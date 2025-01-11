@@ -8,7 +8,3 @@ include:
   - ./compose/compose-doc.yaml
 
 
-# общая сеть
-networks:
-  cms-store-network:
-    name: cms-store-network

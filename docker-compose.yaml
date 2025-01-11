@@ -1,0 +1,11 @@
+name: cms-store
+
+include:
+  - ./backend/docker-compose.yaml
+  - ./client/docker-compose.yaml
+
+
+# общая сеть
+networks:
+  cms-store-network:
+    name: cms-store-network
