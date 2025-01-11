@@ -32,7 +32,7 @@ export default function CartItems(
                         <div className={styles.quantityContainer}>
                             <button
                                 className={styles.button}
-                                onClick={()=>handleDecreaseCountAction(item)}
+                                onClick={() => handleDecreaseCountAction(item)}
                             >
                                 -
                             </button>
@@ -50,6 +50,10 @@ export default function CartItems(
                         </button>
                     </div>
                 ))
+            }
+
+            {
+                cart && cart.length === 0 && <p>Корзина пуста</p>
             }
         </div>
     );
