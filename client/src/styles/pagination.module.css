@@ -17,3 +17,10 @@
     border-radius: 50%;
   }
 }
+
+.activeButton{
+  border-radius: 50%;
+  background-color: var(--color-secondary-500);
+  color: white;
+  opacity: 0.8;
+}

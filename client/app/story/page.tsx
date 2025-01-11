@@ -71,7 +71,7 @@ export default function StoryPage() {
                         </div>
                         <div className={styles.impactItem}>
                             <h3>Благотворительность</h3>
-                            <p>Программа "Цветок надежды" - букеты с добрым сердцем</p>
+                            <p>Программа &#34;Цветок надежды&#34; - букеты с добрым сердцем</p>
                         </div>
                     </div>
                 </section>

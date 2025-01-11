@@ -26,6 +26,9 @@ export default function RootLayout({children,}: Readonly<{ children: React.React
     return (
         <html lang="ru">
         <body className={`${openSans.variable} ${cormorantSc.variable}`}>
+        <header>
+            <link rel="icon" href="/assets/placeholder/logo_black.svg"/>
+        </header>
         {children}
         </body>
         </html>

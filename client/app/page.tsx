@@ -6,6 +6,8 @@ import New from "@/src/components/ui/new";
 import Footer from "@/src/components/footer";
 
 export default function Home() {
+
+
     return (
         <div className={styles.home}>
             <Header logo='/assets/placeholder/logo.svg'/>

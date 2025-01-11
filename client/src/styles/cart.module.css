@@ -185,3 +185,12 @@
     padding: 0 16px;
     font-size: 18px;
 }
+
+.deleteButton {
+    padding: 5px;
+    border-radius: 12px;;
+}
+
+.deleteButton:hover {
+    background-color: var(--color-secondary-500);
+}

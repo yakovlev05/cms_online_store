@@ -57,6 +57,10 @@
     margin: 0 0 0 5px;
 }
 
+.buttonCart:hover{
+    background-color: var(--color-secondary-700);
+}
+
 .priceLabel{
     color: rgba(180, 178, 160, 1);
 }
@@ -67,29 +71,15 @@
     text-overflow: ellipsis;
 }
 
-/* В product-card.module.css */
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  .card:hover {
-    transform: scale(1.03); /* Легкое увеличение */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Мягкая тень */
-  }
-  
-  .card:active {
-    transform: scale(0.97); /* Эффект нажатия */
-  }
-  
-  .buttonCart {
-    transition: transform 0.2s ease;
-  }
-  
-  .buttonCart:hover {
-    transform: scale(1.1); /* Увеличение кнопки при наведении */
-  }
-  
-  .buttonCart:active {
-    transform: scale(0.9); /* Эффект нажатия */
-  }
-  
+.name:hover{
+    color: var(--color-secondary-700);
+}
+
+.buttonCartInactive{
+    background-color: rgba(140, 138, 124, 1);
+}
+
+.buttonCartInactive:hover{
+    background-color: rgba(140, 138, 124, 1);
+    cursor: default;
+}

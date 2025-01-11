@@ -6,12 +6,13 @@ import Link from 'next/link';
 interface Props {
     name: string,
     img: string,
+    urlName: string,
 }
 
-const Tile: React.FC<Props> = ({name, img}) => {
+const Tile: React.FC<Props> = ({name, img, urlName}) => {
     return (
         <div className={styles.tile}>
-            <Link href="/catalog/classic" passHref>
+            <Link href={`/catalog/${urlName}`} passHref>
                 <p className={styles.name}>{name}</p>
                 <Image src={img} alt='букет' width='180' height='180' className={styles.img}/>
             </Link>
