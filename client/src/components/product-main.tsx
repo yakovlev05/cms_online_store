@@ -7,7 +7,7 @@ interface Props {
     product: ProductResponseDto;
 }
 
-const ProductMain: React.FC<Props> = async ({product}) => {
+const ProductMain: React.FC<Props> = ({product}) => {
     const category = product.categories[0]
     const breadcrumbs = [
         {label: "Главная", href: "/"},
