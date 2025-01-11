@@ -14,7 +14,7 @@ const New = async () => {
                     products.map((product) =>
                         <ProductCard price={product.price} oldPrice={product.priceDiscount} name={product.name}
                                      img={product.mainPhotoUrl} urlName={product.urlName}
-                                     key={product.id}/>
+                                     product={product} key={product.id}/>
                     )
                 }
             </div>

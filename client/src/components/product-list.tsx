@@ -51,15 +51,17 @@ const ProductList: React.FC<ProductListProps> = ({category}) => {
                         products === undefined && <p>Загрузка...</p>
                     }
                     {
-                        products && products.length === 0 && pagination.page === 0 && <p>Товары в данной категории отсутствуют.</p>
+                        products && products.length === 0 && pagination.page === 0 &&
+                        <p>Товары в данной категории отсутствуют.</p>
                     }
                     {
-                        products && products.length === 0 && pagination.page !== 0 &&<p>Больше товаров нет.</p>
+                        products && products.length === 0 && pagination.page !== 0 && <p>Больше товаров нет.</p>
                     }
                     {
                         products && products.length > 0 && products.map(product =>
                             <ProductCard price={product.price} oldPrice={product.priceDiscount} name={product.name}
-                                         img={product.mainPhotoUrl} urlName={product.urlName} key={product.id}/>
+                                         img={product.mainPhotoUrl} urlName={product.urlName}
+                                         product={product} key={product.id}/>
                         )
                     }
                 </div>

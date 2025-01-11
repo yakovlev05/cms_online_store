@@ -74,3 +74,12 @@
 .name:hover{
     color: var(--color-secondary-700);
 }
+
+.buttonCartInactive{
+    background-color: rgba(140, 138, 124, 1);
+}
+
+.buttonCartInactive:hover{
+    background-color: rgba(140, 138, 124, 1);
+    cursor: default;
+}
