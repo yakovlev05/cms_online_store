@@ -9,3 +9,4 @@ export interface UpdateUserRequestDto {
     phoneNumber: string;
     password: string;
 }
+
