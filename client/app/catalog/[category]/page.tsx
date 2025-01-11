@@ -18,7 +18,7 @@ export default function CategoryPage() {
     const categoryUrlName = params.category as string; // Получаем динамический параметр
     const [category, setCategory] = useState<CategoryResponseDto>({
         name: 'загрузка...',
-        urlName: '',
+        urlName: categoryUrlName,
         id: 0
     });
 
