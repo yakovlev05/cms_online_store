@@ -7,7 +7,7 @@ export default function SummaryBox({cart}: { cart: CartResponseDto[] | undefined
             <div className={styles.summaryItem}>
                 <span>Товары:</span>
                 <span>
-                    {cart
+                    {cart && cart.length > 0
                         ? cart.map(item => item.count * (item.product.price + item.product.discount))
                             .reduce((a, b) => a + b)
                         : 0
@@ -17,7 +17,7 @@ export default function SummaryBox({cart}: { cart: CartResponseDto[] | undefined
             <div className={styles.summaryItem}>
                 <span>Скидка:</span>
                 <span>
-                    {cart
+                    {cart && cart.length > 0
                         ? cart.map(item => item.count * item.product.discount).reduce((a, b) => a + b)
                         : 0
                     }₽
@@ -32,7 +32,7 @@ export default function SummaryBox({cart}: { cart: CartResponseDto[] | undefined
                 <h2 className={styles.h2}>Итого</h2>
                 <span>
                     {
-                        cart
+                        cart && cart.length > 0
                             ? cart.map(item => item.count * item.product.price).reduce((a, b) => a + b)
                             : 0
                     }₽

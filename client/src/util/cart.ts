@@ -1,5 +1,6 @@
 import {ProductResponseDto} from "@/src/api/models/response/catalog";
 import {CartResponseDto} from "@/src/api/models/response/cart";
+import {ChangeCartRequestDto} from "@/src/api/models/request/cart";
 
 export interface LocalCartItem {
     count: number;
@@ -71,7 +72,23 @@ export function checkInLocalCart(productUrlName: string) {
 
 export function deleteFromLocalCart(productUrlName: string) {
     const cart: LocalCartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
-    cart.filter((item: LocalCartItem) => item.product.name !== productUrlName)
+    const filtered = cart.filter((item: LocalCartItem) => item.product.urlName !== productUrlName)
 
-    localStorage.setItem('cart', JSON.stringify(cart));
+    localStorage.setItem('cart', JSON.stringify(filtered));
+}
+
+export function updateLocalCart(productUrlName: string, changed: ChangeCartRequestDto) {
+    console.log(productUrlName)
+    console.log(changed)
+    const cart: LocalCartItem[] = JSON.parse(localStorage.getItem('cart') || '[]')
+    console.log(cart)
+    const changedCart = cart.map((item: LocalCartItem) => {
+        if (item.product.urlName === productUrlName) {
+            return {...item, selected: changed.selected, count: changed.count}
+        } else {
+            return item
+        }
+    })
+
+    localStorage.setItem('cart', JSON.stringify(changedCart));
 }

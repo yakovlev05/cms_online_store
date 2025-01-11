@@ -1,7 +1,13 @@
-import {AddCartRequestDto} from "@/src/api/models/request/cart";
+import {AddCartRequestDto, ChangeCartRequestDto} from "@/src/api/models/request/cart";
 import {getAccessToken} from "@/src/util/auth";
 import {ProductResponseDto} from "@/src/api/models/response/catalog";
-import {addItemToLocalCart, checkInLocalCart, deleteFromLocalCart, getLocalCart} from "@/src/util/cart";
+import {
+    addItemToLocalCart,
+    checkInLocalCart,
+    deleteFromLocalCart,
+    getLocalCart,
+    updateLocalCart
+} from "@/src/util/cart";
 import {CartResponseDto} from "@/src/api/models/response/cart";
 
 export async function addCart(data: AddCartRequestDto, product?: ProductResponseDto) {
@@ -78,5 +84,25 @@ export async function deleteFromCart(cartItemId: number, productUrlName: string)
         deleteFromLocalCart(productUrlName);
     } else {
         throw Error('Ошибка удаления из корзины' + response.status);
+    }
+}
+
+export async function updateCart(id: number, productUrlName: string, changed: ChangeCartRequestDto) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cart/${id}`, {
+        method: "PUT",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`,
+        },
+        body: JSON.stringify(changed),
+    })
+
+    if (response.ok) {
+
+    } else if (response.status === 401) {
+        updateLocalCart(productUrlName, changed);
+    } else {
+        throw new Error('Ошибка при обновлении элемента в корзине: ' + response.status);
     }
 }

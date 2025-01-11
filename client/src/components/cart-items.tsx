@@ -6,10 +6,13 @@ import {CartResponseDto} from "@/src/api/models/response/cart";
 
 
 export default function CartItems(
-    {cart, handleDelete}:
+    {cart, handleDeleteAction, handleIncreaseCountAction, handleDecreaseCountAction, handleChangeSelectedAction}:
     {
         cart: CartResponseDto[] | undefined,
-        handleDelete: (id: number, productUrlName: string) => void
+        handleDeleteAction: (id: number, productUrlName: string) => void,
+        handleIncreaseCountAction: (item: CartResponseDto) => void,
+        handleDecreaseCountAction: (item: CartResponseDto) => void,
+        handleChangeSelectedAction: (item: CartResponseDto) => void
     }) {
     return (
         <div className={styles.itemsContainer}>
@@ -20,8 +23,13 @@ export default function CartItems(
             {
                 cart && cart.map((item) => (
                     <div key={item.id} className={styles.item}>
-                        <Image className={styles.img} src='/assets/placeholder/Checkbox.png' alt='чекбокс' width={42}
-                               height={42}/>
+                        <button onClick={() => handleChangeSelectedAction(item)}>
+                            <Image className={styles.img}
+                                   src={item.selected ? '/assets/icon/checked.png' : '/assets/placeholder/Checkbox.png'}
+                                   alt='чекбокс'
+                                   width={42}
+                                   height={42}/>
+                        </button>
                         <div className={styles.itemName}>
                             <Image className={styles.img} src={item.product.mainPhotoUrl} alt="изображение букета"
                                    width={86} height={86}/>
@@ -30,22 +38,28 @@ export default function CartItems(
                         <div className={styles.quantityContainer}>
                             <button
                                 className={styles.button}
+                                onClick={() => handleDecreaseCountAction(item)}
                             >
                                 -
                             </button>
                             <span className={styles.quantity}>{item.count}</span>
                             <button
                                 className={styles.button}
+                                onClick={() => handleIncreaseCountAction(item)}
                             >
                                 +
                             </button>
                         </div>
                         <span>{item.product.price * item.count}₽</span>
                         <button className={styles.deleteButton}
-                                onClick={() => handleDelete(item.id, item.product.urlName)}>Удалить
+                                onClick={() => handleDeleteAction(item.id, item.product.urlName)}>Удалить
                         </button>
                     </div>
                 ))
+            }
+
+            {
+                cart && cart.length === 0 && <p>Корзина пуста</p>
             }
         </div>
     );
