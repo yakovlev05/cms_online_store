@@ -84,6 +84,7 @@ public class CartServiceImpl implements CartService {
         }
 
         cart.setCount(requestCart.getCount());
+        cart.setSelected(requestCart.isSelected());
 
         cartRepository.save(cart);
 
