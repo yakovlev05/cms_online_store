@@ -15,4 +15,6 @@ public interface CartService {
     ResponseCartDto addCartItem(UserDetailsImpl userDetails, CreateCartDto requestCartDto);
 
     ResponseCartDto updateCartItem(UserDetailsImpl userDetails, UpdateCartDto requestCart, long id);
+
+    boolean isInMyCart(UserDetailsImpl userDetails, String productUrl);
 }

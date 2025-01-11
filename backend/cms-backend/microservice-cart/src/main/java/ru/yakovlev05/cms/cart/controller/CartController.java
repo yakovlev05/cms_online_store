@@ -44,4 +44,11 @@ public class CartController {
             @PathVariable long id) {
         return cartService.updateCartItem(userDetails, requestCart, id);
     }
+
+    @GetMapping("/{product-url}")
+    public boolean inMyCart(
+            @AuthenticationPrincipal UserDetailsImpl userDetails,
+            @PathVariable(name = "product-url") String productUrl) {
+        return cartService.isInMyCart(userDetails, productUrl);
+    }
 }

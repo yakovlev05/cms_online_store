@@ -43,7 +43,7 @@ public class CartServiceImpl implements CartService {
 
         Cart cart = this.getById(id);
 
-        if (user.getId() != cart.getUser().getId()) {
+        if (!user.getId().equals(cart.getUser().getId())) {
             throw new ForbiddenException("Forbidden");
         }
 
@@ -79,7 +79,7 @@ public class CartServiceImpl implements CartService {
         User user = userService.getUser(userDetails.getId());
         Cart cart = this.getById(id);
 
-        if (cart.getUser().getId() != user.getId()) {
+        if (!user.getId().equals(cart.getUser().getId())) {
             throw new ForbiddenException("Forbidden");
         }
 
@@ -88,6 +88,12 @@ public class CartServiceImpl implements CartService {
         cartRepository.save(cart);
 
         return fillResponseCartDto(cart);
+    }
+
+    @Override
+    public boolean isInMyCart(UserDetailsImpl userDetails, String productUrl) {
+        Cart cart = cartRepository.findByProduct_UrlNameAndUser_Id(productUrl, userDetails.getId()).orElse(null);
+        return cart != null;
     }
 
     private Cart getById(long id) {
