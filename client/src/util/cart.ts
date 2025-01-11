@@ -63,3 +63,8 @@ export function getLocalCart(): CartResponseDto[] {
             selected: item.selected
         }));
 }
+
+export function checkInLocalCart(productUrlName: string) {
+    return JSON.parse(localStorage.getItem('cart') || '[]')
+        .some((item: LocalCartItem) => item.product.urlName === productUrlName)
+}

@@ -1,7 +1,7 @@
 import {AddCartRequestDto} from "@/src/api/models/request/cart";
 import {getAccessToken} from "@/src/util/auth";
 import {ProductResponseDto} from "@/src/api/models/response/catalog";
-import {addItemToLocalCart, getLocalCart} from "@/src/util/cart";
+import {addItemToLocalCart, checkInLocalCart, getLocalCart} from "@/src/util/cart";
 import {CartResponseDto} from "@/src/api/models/response/cart";
 
 export async function addCart(data: AddCartRequestDto, product?: ProductResponseDto) {
@@ -40,5 +40,25 @@ export async function getCart(): Promise<CartResponseDto[]> {
         return getLocalCart();
     } else {
         throw Error('Ошибка при получении списка корзины: ' + response.status);
+    }
+}
+
+export async function checkIsInCart(productUrlName: string): Promise<boolean> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/cart/${productUrlName}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`,
+        }
+    })
+
+    if (response.ok) {
+        console.log(response)
+        return await response.json();
+    } else if (response.status === 401) {
+        return checkInLocalCart(productUrlName);
+    } else {
+        throw new Error('Ошибка проверки наличия товара в корзине: ' + response.status);
     }
 }
