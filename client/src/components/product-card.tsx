@@ -12,7 +12,7 @@ interface Props {
 
 const ProductCard: React.FC<Props> = ({ price, oldPrice, name, img }) => {
     return (
-        <Link href="/productPage" passHref>
+        <Link href="/productPage">
             <div className={styles.card}>
                 <Image src={img} alt='изображение букета' width='256' height='256' />
                 <div className={styles.cardBottom}>
@@ -24,7 +24,7 @@ const ProductCard: React.FC<Props> = ({ price, oldPrice, name, img }) => {
                             <span className={styles.oldPrice}>{oldPrice}₽</span>
                         </p>
                     </div>
-                    <button className={styles.buttonCart}>
+                    <button className={styles.buttonCart} aria-label="Добавить в корзину">
                         <Image src='/assets/icon/cart.svg' alt='добавление в корзину' width='28' height='29' />
                     </button>
                 </div>

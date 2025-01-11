@@ -80,13 +80,17 @@ const ProductList: React.FC<ProductListProps> = ({ category }) => {
       <div className={styles.cardsContainer}>
         {sortedProducts.length > 0 ? (
           sortedProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              name={product.name}
-              price={product.price}
-              oldPrice={product.oldPrice}
-              img={product.img}
-            />
+            <div 
+              key={product.id} 
+              className={styles.cardItem} // Добавляем CSS-класс сюда
+            >
+              <ProductCard
+                name={product.name}
+                price={product.price}
+                oldPrice={product.oldPrice}
+                img={product.img}
+              />
+            </div>
           ))
         ) : (
           <p>Товары в данной категории отсутствуют.</p>
