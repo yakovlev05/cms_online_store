@@ -1,0 +1,14 @@
+name: cms-online-client
+
+services:
+  cms-frontend-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: cms-frontend-client
+    environment:
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost
+      - IMAGES_HOSTNAME=s3.localhost
+    ports:
+      - "3000:3000"

@@ -1,3 +1,10 @@
+.home{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
 .new{
     width: 100%;
     
@@ -22,9 +29,112 @@
     
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: start;
     gap: 34px;
     
     max-width: 1156px;
     width: 100%;
+}
+
+.sortContainer {
+    margin: 0;
+    padding: 0;
+    font-size: 19px;
+    margin-top: -32px;
+}
+
+@media (max-width: 1200px) {
+    .new {
+        padding: 0 15px;
+    }
+
+    .cardsContainer {
+        justify-content: center;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 768px) {
+    .new {
+        padding: 0 10px;
+    }
+
+    .title {
+        font-size: 36px;
+        text-align: center;
+    }
+
+    .cardsContainer {
+        padding: 10px;
+        gap: 20px;
+    }
+
+    .sortContainer {
+        font-size: 16px;
+        margin-top: -25px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .new {
+        padding: 0 5px;
+    }
+
+    .title {
+        font-size: 28px;
+    }
+
+    .cardsContainer {
+        padding: 5px;
+        gap: 15px;
+    }
+
+    .sortContainer {
+        font-size: 14px;
+        margin-top: -20px;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+@keyframes flyIn {
+    from {
+      opacity: 0; /* Начальная прозрачность */
+      transform: translateY(50px) rotate(10deg); /* Смещение вниз и небольшой поворот */
+    }
+    to {
+      opacity: 1; /* Полная видимость */
+      transform: translateY(0) rotate(0); /* Возврат в исходную позицию */
+    }
+}
+
+.cardItem {
+    animation: flyIn 0.5s ease-out;
+    animation-fill-mode: backwards;
+}
+
+.cardItem:nth-child(6n+1) {
+    animation-delay: 0s;
+}
+
+.cardItem:nth-child(6n+2) {
+    animation-delay: 0.1s;
+}
+
+.cardItem:nth-child(6n+3) {
+    animation-delay: 0.2s;
+}
+
+.cardItem:nth-child(6n+4) {
+    animation-delay: 0.3s;
+}
+
+.cardItem:nth-child(6n+5) {
+    animation-delay: 0.4s;
+}
+
+.cardItem:nth-child(6n+6) {
+    animation-delay: 0.5s;
 }
