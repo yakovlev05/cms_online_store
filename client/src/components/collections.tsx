@@ -1,11 +1,24 @@
+'use client'
 import styles from '@/src/styles/collections.module.css';
 import Slider from "@/src/components/slider";
 import Tile from "@/src/components/tile";
 import {getAllCollections} from "@/src/api/service/catalogService";
-import {Toaster} from "react-hot-toast";
+import {toast, Toaster} from "react-hot-toast";
+import {useEffect, useState} from "react";
+import {CollectionResponseDto} from "@/src/api/models/response/catalog";
 
-const Collections = async () => {
-    const collections = await getAllCollections();
+const Collections = () => {
+    const [collections, setCollections] = useState<CollectionResponseDto[]>([])
+    const [loading, setLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        getAllCollections()
+            .then((r) => {
+                setCollections(r)
+                setLoading(false)
+            })
+            .catch((err) => toast.error(err.message))
+    }, []);
 
     return (
         <div className={styles.collections}>
@@ -17,7 +30,7 @@ const Collections = async () => {
                     gap={24}
             >
                 {
-                    collections.map(collection =>
+                    !loading && collections.map(collection =>
                         <Tile
                             name={collection.category.name}
                             img={collection.photo.url}
@@ -26,7 +39,11 @@ const Collections = async () => {
                         />
                     )
                 }
+                
             </Slider>
+            {
+                loading && <p>Загрузка...</p>
+            }
         </div>
     )
 }
