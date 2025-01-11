@@ -78,6 +78,27 @@ export default function CartPage() {
             .catch(err => toast.error(err.message));
     }
 
+    const handleChangeSelected = (item: CartResponseDto) => {
+        updateCart(item.id, item.product.urlName,
+            {
+                count: item.count,
+                selected: !item.selected
+            })
+            .then(() => {
+                if (cart) {
+                    const changed = cart.map(e => {
+                        if (e.id === item.id) {
+                            return {...e, selected: !e.selected};
+                        } else {
+                            return e;
+                        }
+                    })
+                    setCart(changed);
+                }
+            })
+            .catch(err => toast.error(err.message));
+    }
+
     return (
         <div className={styles.home}>
             <Toaster/>
@@ -88,7 +109,8 @@ export default function CartPage() {
                 <div className={styles.homeLeftContainer}>
                     <CartItems cart={cart} handleDeleteAction={handleDeleteElement}
                                handleIncreaseCountAction={handleIncreaseCount}
-                               handleDecreaseCountAction={handleDecreaseCount}/>
+                               handleDecreaseCountAction={handleDecreaseCount}
+                               handleChangeSelectedAction={handleChangeSelected}/>
                     <DeliveryOptions/>
                     <CustomerDetails/>
                 </div>

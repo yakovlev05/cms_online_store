@@ -6,12 +6,13 @@ import {CartResponseDto} from "@/src/api/models/response/cart";
 
 
 export default function CartItems(
-    {cart, handleDeleteAction, handleIncreaseCountAction, handleDecreaseCountAction}:
+    {cart, handleDeleteAction, handleIncreaseCountAction, handleDecreaseCountAction, handleChangeSelectedAction}:
     {
         cart: CartResponseDto[] | undefined,
         handleDeleteAction: (id: number, productUrlName: string) => void,
         handleIncreaseCountAction: (item: CartResponseDto) => void,
         handleDecreaseCountAction: (item: CartResponseDto) => void,
+        handleChangeSelectedAction: (item: CartResponseDto) => void
     }) {
     return (
         <div className={styles.itemsContainer}>
@@ -22,8 +23,13 @@ export default function CartItems(
             {
                 cart && cart.map((item) => (
                     <div key={item.id} className={styles.item}>
-                        <Image className={styles.img} src='/assets/placeholder/Checkbox.png' alt='чекбокс' width={42}
-                               height={42}/>
+                        <button onClick={() => handleChangeSelectedAction(item)}>
+                            <Image className={styles.img}
+                                   src={item.selected ? '/assets/icon/checked.png' : '/assets/placeholder/Checkbox.png'}
+                                   alt='чекбокс'
+                                   width={42}
+                                   height={42}/>
+                        </button>
                         <div className={styles.itemName}>
                             <Image className={styles.img} src={item.product.mainPhotoUrl} alt="изображение букета"
                                    width={86} height={86}/>
