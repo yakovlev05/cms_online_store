@@ -5,7 +5,12 @@ import Image from 'next/image';
 import {CartResponseDto} from "@/src/api/models/response/cart";
 
 
-export default function CartItems({cart}: { cart: CartResponseDto[] | undefined }) {
+export default function CartItems(
+    {cart, handleDelete}:
+    {
+        cart: CartResponseDto[] | undefined,
+        handleDelete: (id: number, productUrlName: string) => void
+    }) {
     return (
         <div className={styles.itemsContainer}>
             <h2 className={styles.h2}>Товары</h2>
@@ -36,6 +41,9 @@ export default function CartItems({cart}: { cart: CartResponseDto[] | undefined 
                             </button>
                         </div>
                         <span>{item.product.price * item.count}₽</span>
+                        <button className={styles.deleteButton}
+                                onClick={() => handleDelete(item.id, item.product.urlName)}>Удалить
+                        </button>
                     </div>
                 ))
             }

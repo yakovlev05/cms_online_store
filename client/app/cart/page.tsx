@@ -9,7 +9,7 @@ import Footer from '@/src/components/footer';
 import styles from '@/src/styles/cart.module.css';
 import {useEffect, useState} from "react";
 import {CartResponseDto} from "@/src/api/models/response/cart";
-import {getCart} from "@/src/api/service/cartService";
+import {deleteFromCart, getCart} from "@/src/api/service/cartService";
 import {toast, Toaster} from "react-hot-toast";
 
 export default function CartPage() {
@@ -21,6 +21,17 @@ export default function CartPage() {
             .catch(err => toast.error(err.message));
     }, []);
 
+    const handleDeleteElement = (id: number, productUrlName: string) => {
+        deleteFromCart(id, productUrlName)
+            .then(() => {
+                if (cart) {
+                    const filtered = cart.filter(item => item.id !== id);
+                    setCart(filtered);
+                }
+            })
+            .catch(err => toast.error(err.message));
+    }
+
     return (
         <div className={styles.home}>
             <Toaster/>
@@ -29,7 +40,7 @@ export default function CartPage() {
             <div className={styles.homeContainer}>
                 {/* Левая часть - товары и данные */}
                 <div className={styles.homeLeftContainer}>
-                    <CartItems cart={cart}/>
+                    <CartItems cart={cart} handleDelete={handleDeleteElement}/>
                     <DeliveryOptions/>
                     <CustomerDetails/>
                 </div>

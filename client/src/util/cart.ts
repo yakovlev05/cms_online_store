@@ -68,3 +68,10 @@ export function checkInLocalCart(productUrlName: string) {
     return JSON.parse(localStorage.getItem('cart') || '[]')
         .some((item: LocalCartItem) => item.product.urlName === productUrlName)
 }
+
+export function deleteFromLocalCart(productUrlName: string) {
+    const cart: LocalCartItem[] = JSON.parse(localStorage.getItem('cart') || '[]');
+    cart.filter((item: LocalCartItem) => item.product.name !== productUrlName)
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
