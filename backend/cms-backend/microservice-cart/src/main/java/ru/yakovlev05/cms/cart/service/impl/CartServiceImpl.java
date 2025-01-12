@@ -105,6 +105,7 @@ public class CartServiceImpl implements CartService {
 
     private ProductDto fillProductDto(Product product) {
         return ProductDto.builder()
+                .id(product.getId())
                 .name(product.getName())
                 .urlName(product.getUrlName())
                 .mainPhotoUrl(product.getMainPhotoUrl())

@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class ProductDto {
+    private long id;
     private String name;
     private String urlName;
     private String mainPhotoUrl;
