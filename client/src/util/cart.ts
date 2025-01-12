@@ -54,6 +54,7 @@ export function getLocalCart(): CartResponseDto[] {
             id: index,
             count: item.count,
             product: {
+                id: item.product.id,
                 name: item.product.name,
                 urlName: item.product.urlName,
                 mainPhotoUrl: item.product.mainPhotoUrl,
