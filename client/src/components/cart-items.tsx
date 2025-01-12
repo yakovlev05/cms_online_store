@@ -3,6 +3,7 @@
 import styles from '@/src/styles/cart.module.css';
 import Image from 'next/image';
 import {CartResponseDto} from "@/src/api/models/response/cart";
+import Link from "next/link";
 
 
 export default function CartItems(
@@ -25,7 +26,7 @@ export default function CartItems(
                     <div key={item.id} className={styles.item}>
                         <button onClick={() => handleChangeSelectedAction(item)}>
                             <Image className={styles.img}
-                                   src={item.selected ? '/assets/icon/checked.png' : '/assets/placeholder/Checkbox.png'}
+                                   src={!item.selected ? '/assets/icon/checked.png' : '/assets/placeholder/Checkbox.png'}
                                    alt='чекбокс'
                                    width={42}
                                    height={42}/>
@@ -33,7 +34,7 @@ export default function CartItems(
                         <div className={styles.itemName}>
                             <Image className={styles.img} src={item.product.mainPhotoUrl} alt="изображение букета"
                                    width={86} height={86}/>
-                            <span>{item.product.name}</span>
+                            <Link href={'/product/'+item.product.urlName} className={styles.url}>{item.product.name}</Link>
                         </div>
                         <div className={styles.quantityContainer}>
                             <button
