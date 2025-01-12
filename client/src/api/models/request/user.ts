@@ -1,8 +1,7 @@
 export interface UpdateUserRequestDto {
-    fistName?: string;
-    lastName?: string;
-    patronymic?: string;
+    firstName: string | null;
+    lastName: string | null;
+    patronymic: string | null;
     phoneNumber: string;
-    password: string;
-    address?: string;
+    password: string
 }

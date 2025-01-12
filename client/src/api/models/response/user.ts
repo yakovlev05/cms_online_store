@@ -1,8 +1,8 @@
 export interface UserResponseDto {
     id: string;
-    firstName?: string;
-    lastName?: string;
-    patronymic?: string;
+    firstName: string | null;
+    lastName: string | null;
+    patronymic: string | null;
     phoneNumber: string;
-    address?: string;
+    address: string | null;
 }
