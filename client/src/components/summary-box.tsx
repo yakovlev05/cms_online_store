@@ -17,6 +17,10 @@ export default function SummaryBox({cart, deliveryInfo}: {
 
         // Выбранные для заказа предметы корзины
         const selectedCartItems = cart.filter(item => item.selected)
+        if (selectedCartItems.length === 0) {
+            toast.error('Выберите хотя бы 1 товар')
+            return;
+        }
 
         createOrder({
             products: selectedCartItems.map(item => ({
