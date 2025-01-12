@@ -6,4 +6,3 @@ export interface UserResponseDto {
     phoneNumber: string;
     address: string;
 }
-
