@@ -12,5 +12,5 @@ services:
       - IMAGES_HOSTNAME=s3.localhost
     ports:
       - "3000:3000"
-#    networks:
-#      - cms-store-network
+    networks:
+      - cms-store-network
