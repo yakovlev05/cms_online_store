@@ -1,47 +1,180 @@
 .container {
-
+    width: 287px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px;
+    gap: 20px;
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 16px;
+    border: 1px solid #8C8A7C;
+    border-radius: 10px;
 }
+
 
 .avatarContainer {
-
-}
-
-.loadingState {
-
-}
-
-.errorState {
-
+    display: flex;
+    justify-content: center;
 }
 
 .profileInfo {
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .profileName {
-
+    margin-bottom: 10px;
 }
 
 .profileDetails {
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
 }
 
 .editButton {
+    background-color: #8C8A7C;
+    color: #000;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+.editButton:hover {
+    background-color: var(--color-button-400);
+    color: white;
 }
 
 .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
 
+.formLabel {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 5px;
+    font-weight: bold;
 }
 
 .formInput {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--color-primary-50);
+    border-radius: 5px;
+    font-size: 16px;
+}
 
+.formActions {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
 }
 
 .saveButton {
+    background-color: var(--color-button-400);
+    color: var(--color-primary-50);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
+.saveButton:hover {
+    background-color: var(--color-button-500);
 }
 
 .cancelButton {
-    
+    background-color: #FF4D4D;
+    color: var(--color-primary-50);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cancelButton:hover {
+    background-color: #cc0000;
+}
+
+.mainContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    gap: 128px;
+    align-items: center;
+    background: var(--color-primary-500);
+    justify-content: space-between;
+}
+
+.profileContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 36px;
+    width: 100%;
+    max-width: 1126px;
+    padding: 0 16px;
+}
+
+/* Адаптивные медиа-запросы */
+@media (max-width: 1160px) {
+    .profileContainer {
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+    .profileContainer {
+        gap: 16px;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+    }
+
+    .formInput,
+    .saveButton,
+    .cancelButton {
+        width: 100%;
+    }
+
+    .formActions {
+        flex-direction: column;
+        gap: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+
+    .formLabel {
+        font-size: 14px;
+    }
+
+    .formInput {
+        font-size: 14px;
+        padding: 8px;
+    }
 }
