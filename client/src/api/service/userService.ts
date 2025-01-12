@@ -60,3 +60,20 @@ export async function deleteUser(userId: string): Promise<void> {
         }
     }
 }
+
+export async function getMyUser(): Promise<UserResponseDto> {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/users/me`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`,
+        },
+    })
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error('Ошибка при получении информации о пользователе: ' + response.status);
+    }
+}
