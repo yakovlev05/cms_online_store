@@ -78,6 +78,7 @@ services:
       - cms-doc-swagger
       - cms-manage-kafka-ui
       - cms-infra-s3
+      - cms-frontend-client
     networks:
       - cms-store-network
 
