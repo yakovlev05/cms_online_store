@@ -174,13 +174,6 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         placeholder="Номер телефона"
                         required
                     />
-                    <input
-                        type="text"
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        placeholder="Адрес"
-                    />
                     <div>
                         <button type="submit">
                             Сохранить
