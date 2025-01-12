@@ -3,12 +3,10 @@ import Button from "@/src/components/ui/button";
 import {Dispatch, SetStateAction} from "react";
 import {AuthOtpProps} from "@/src/components/auth-otp";
 import {checkOtp, confirmPhone, sendOtp} from "@/src/api/service/authService";
-import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
 
 
 const AuthOtpConfirmation = ({setOtp, otp}: { setOtp: Dispatch<SetStateAction<AuthOtpProps>>, otp: AuthOtpProps }) => {
-    const router = useRouter();
 
     const handleCheck = () => {
         checkOtp({code: otp.code, id: otp.id})
@@ -18,7 +16,7 @@ const AuthOtpConfirmation = ({setOtp, otp}: { setOtp: Dispatch<SetStateAction<Au
                     confirmPhone({otpId: otp.id, phoneNumber: otp.destination})
                         .then(() => {
                             toast.success('Успешно подтверждено, войдите в аккаунт')
-                            router.replace('/login')
+                            window.location.href = "/login"
                         })
                         .catch((err) => toast.error(err.message));
 

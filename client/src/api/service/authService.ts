@@ -23,6 +23,8 @@ export default async function login(request: LoginRequestDto): Promise<LoginResp
         return response.json();
     } else if (response.status === 401) {
         throw new Error("Неверный логин/пароль")
+    } else if (response.status === 403) {
+        throw new Error('Confirmation required.')
     } else {
         throw new Error(`Ошибка: ${response.status}`);
     }
