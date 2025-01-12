@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@yandex/smart-captcha": "2.6.2",
     "antd": "^5.23.0",
     "next": "^15.1.4",
     "react": "^18.3.1",

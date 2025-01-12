@@ -1,0 +1,44 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    
+    justify-content: center;
+    align-items: center;
+}
+
+.mainTitle{
+    font-family: var(--font-open-sans), sans-serif;
+    font-size: 18px;
+    color: var(--color-primary-500);
+    margin-bottom: 15px;
+}
+
+.selectionCard{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--color-primary-500);
+    width: 290px;
+    height: 40px;
+    
+    border-radius: 5px;
+}
+
+.selectionCardTitle{
+    font-family: var(--font-open-sans), sans-serif;
+    /*color: var(--color-primary-500);*/
+    
+    margin-left: 10px;
+}
+
+.selectionCardsContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.selectionCard:hover{
+    background-color: var(--color-primary-50);
+    cursor: pointer;
+}
