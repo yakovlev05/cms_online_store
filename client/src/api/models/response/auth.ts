@@ -4,3 +4,11 @@ export interface LoginResponseDto {
     expiresInMs: bigint;
     refreshExpiresInMs: bigint;
 }
+
+export interface CreateOtpResponseDto {
+    id: string;
+}
+
+export interface CheckOtpResponseDto {
+    status: string;
+}

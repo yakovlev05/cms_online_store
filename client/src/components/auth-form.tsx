@@ -2,14 +2,17 @@
 import styles from '@/src/styles/auth-form.module.css'
 import Input from '@/src/components/ui/input'
 import Button from "@/src/components/ui/button";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {LoginRequestDto} from "@/src/api/models/request/auth";
-import login from "@/src/api/service/authService";
+import login, {checkAuth} from "@/src/api/service/authService";
 import {saveAccessToken, saveRefreshToken} from "@/src/util/auth";
 import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
+import {validatePhone} from "@/src/util/phone";
+import AuthOtp from "@/src/components/auth-otp";
 
 const AuthForm = () => {
+    const [enableOtp, setEnableOtp] = useState(false);
     const [form, setForm] = useState<LoginRequestDto>({password: "", phoneNumber: ""})
     const router = useRouter()
 
@@ -30,43 +33,55 @@ const AuthForm = () => {
                 router.push('/')
             })
             .catch((err) => {
+                if (err.message === 'Confirmation required.') {
+                    setEnableOtp(true);
+                    toast.error('Требуется подтверждение')
+                    return;
+                }
                 toast.error(err.message)
             });
     }
 
-    const validatePhone = (phone: string): boolean => {
-        if (phone.length == 0) {
-            throw new Error("Введите номер телефона")
-        }
-
-        phone.split('').forEach(char => {
-            if (!'0123456789'.includes(char)) {
-                throw new Error("Введите номер в формате 7XXXXXXXXXX");
-            }
-        })
-        return true;
-    }
+    useEffect(() => {
+        checkAuth()
+            .then((r) => {
+                if (r) {
+                    router.replace('/profile')
+                }
+            })
+            .catch((err) => toast(err.message))
+    }, [router]);
 
     return (
         <div className={styles.container}>
             <Toaster/>
-            <h1 className={styles.title}>Авторизация</h1>
-            <div className={styles.inputContainer}>
-                <Input label='Номер телефона:'
-                       inputType='tel'
-                       inputName='phone'
-                       inputAutoComplete='tel'
-                       placeholder='7XXXXXXXXXX'
-                       onChange={e => setForm({...form, phoneNumber: e.currentTarget.value})}
-                />
-                <Input label='Пароль:'
-                       inputType='password'
-                       inputName='password'
-                       inputAutoComplete='current-password'
-                       onChange={e => setForm({...form, password: e.target.value})}
-                />
-            </div>
-            <Button text='Войти' onClick={onSubmit}/>
+            {
+                !enableOtp &&
+                <>
+                    <h1 className={styles.title}>Авторизация</h1>
+                    <div className={styles.inputContainer}>
+                        <Input label='Номер телефона:'
+                               inputType='tel'
+                               inputName='phone'
+                               inputAutoComplete='tel'
+                               placeholder='7XXXXXXXXXX'
+                               onChange={e => setForm({...form, phoneNumber: e.currentTarget.value})}
+                        />
+                        <Input label='Пароль:'
+                               inputType='password'
+                               inputName='password'
+                               inputAutoComplete='current-password'
+                               onChange={e => setForm({...form, password: e.target.value})}
+                        />
+                    </div>
+                    <Button text='Войти' onClick={onSubmit}/>
+                </>
+            }
+            {
+                enableOtp &&
+                <AuthOtp destination={form.phoneNumber}/>
+            }
+
         </div>
     )
 }

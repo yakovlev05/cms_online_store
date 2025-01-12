@@ -1,0 +1,24 @@
+.title {
+    font-family: var(--font-cormorant-sc), serif;
+    font-weight: 700;
+    font-size: 35px;
+
+    color: var(--color-primary-500);
+    
+    margin-bottom: 30px;
+    
+    text-align: center;
+}
+
+.container{
+    margin-bottom: 160px;
+    height: 100px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.captcha{
+    width: 400px;
+}
