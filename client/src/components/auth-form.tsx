@@ -2,9 +2,9 @@
 import styles from '@/src/styles/auth-form.module.css'
 import Input from '@/src/components/ui/input'
 import Button from "@/src/components/ui/button";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {LoginRequestDto} from "@/src/api/models/request/auth";
-import login from "@/src/api/service/authService";
+import login, {checkAuth} from "@/src/api/service/authService";
 import {saveAccessToken, saveRefreshToken} from "@/src/util/auth";
 import {useRouter} from "next/navigation";
 import {toast, Toaster} from "react-hot-toast";
@@ -33,6 +33,16 @@ const AuthForm = () => {
                 toast.error(err.message)
             });
     }
+
+    useEffect(() => {
+        checkAuth()
+            .then((r) => {
+                if (r) {
+                    router.replace('/profile')
+                }
+            })
+            .catch((err) => toast(err.message))
+    }, [router]);
 
     const validatePhone = (phone: string): boolean => {
         if (phone.length == 0) {
