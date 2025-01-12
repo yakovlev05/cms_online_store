@@ -3,12 +3,14 @@ import styles from '@/src/styles/auth-form.module.css';
 import Input from '@/src/components/ui/input';
 import Button from "@/src/components/ui/button";
 import AuthOtp from "@/src/components/auth-otp";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {validatePhone} from "@/src/util/phone";
 import {toast, Toaster} from "react-hot-toast";
-import {registration} from "@/src/api/service/authService";
+import {checkAuth, registration} from "@/src/api/service/authService";
+import {useRouter} from "next/navigation";
 
 const RegForm = () => {
+    const router = useRouter();
     const [form, setForm] = useState({
         password: "",
         confirmPassword: "",
@@ -38,6 +40,16 @@ const RegForm = () => {
             .then(() => setEnableOtp(true))
             .catch(err => toast.error(err.message));
     }
+
+    useEffect(() => {
+        checkAuth()
+            .then((r) => {
+                if (r) {
+                    router.replace('/profile')
+                }
+            })
+            .catch((err) => toast(err.message))
+    }, [router]);
 
     return (
         <div className={styles.container}>
