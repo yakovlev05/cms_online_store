@@ -2,6 +2,7 @@
 
 import React, {useState, useEffect} from 'react';
 import Image from 'next/image';
+import styles from '@/src/styles/profile.module.css';
 import {updateUser, getCurrentUser} from '@/src/api/service/userService';
 import {UserResponseDto} from '@/src/api/models/response/user';
 import {UpdateUserRequestDto} from '@/src/api/models/request/user';
@@ -129,21 +130,42 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
     }
 
     return (
-        <div>
-            {renderAvatar()}
+        <div className={styles.container}>
+            <div className={styles.avatarContainer}>
+                {renderAvatar()}
+            </div>
 
-            {!isEditing ? (
+            {isLoading ? (
+                <div className={styles.loadingState}>Загрузка...</div>
+            ) : error ? (
+                <div className={styles.errorState}>{error}</div>
+            ) : !user ? (
+                <div className={styles.errorState}>Пользователь не найден</div>
+            ) : !isEditing ? (
                 <div>
-                    <h2>{`${user.lastName} ${user.firstName} ${user.patronymic}`}</h2>
-                    <p>Телефон: {user.phoneNumber}</p>
-                    <p>Адрес: {user.address}</p>
-                    <button onClick={() => setIsEditing(true)}>
+                    <div className={styles.profileInfo}>
+                        <h2 className={styles.profileName}>
+                            {`${user.lastName} ${user.firstName} ${user.patronymic}`}
+                        </h2>
+                        <div className={styles.profileDetails}>
+                            <p>Телефон: {user.phoneNumber}</p>
+                            <p>Адрес: {user.address}</p>
+                        </div>
+                    </div>
+                    <button
+                        className={styles.editButton}
+                        onClick={() => setIsEditing(true)}
+                    >
                         Редактировать
                     </button>
                 </div>
             ) : (
-                <form onSubmit={handleSubmit}>
+                <form
+                    onSubmit={handleSubmit}
+                    className={styles.form}
+                >
                     <input
+                        className={styles.formInput}
                         type="text"
                         name="lastName"
                         value={formData.lastName}
@@ -152,6 +174,7 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         required
                     />
                     <input
+                        className={styles.formInput}
                         type="text"
                         name="firstName"
                         value={formData.firstName}
@@ -160,6 +183,7 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         required
                     />
                     <input
+                        className={styles.formInput}
                         type="text"
                         name="patronymic"
                         value={formData.patronymic}
@@ -167,6 +191,7 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         placeholder="Отчество"
                     />
                     <input
+                        className={styles.formInput}
                         type="tel"
                         name="phoneNumber"
                         value={formData.phoneNumber}
@@ -174,12 +199,16 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         placeholder="Номер телефона"
                         required
                     />
-                    <div>
-                        <button type="submit">
+                    <div className={styles.formActions}>
+                        <button
+                            type="submit"
+                            className={styles.saveButton}
+                        >
                             Сохранить
                         </button>
                         <button
                             type="button"
+                            className={styles.cancelButton}
                             onClick={() => setIsEditing(false)}
                         >
                             Отмена
@@ -188,7 +217,7 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                 </form>
             )}
         </div>
-    );
+    )
 };
 
 export default UserProfile;
