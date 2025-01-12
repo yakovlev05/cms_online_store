@@ -1,7 +1,9 @@
 package ru.yakovlev05.cms.user.microserviceuser.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import ru.yakovlev05.cms.core.security.UserDetailsImpl;
 import ru.yakovlev05.cms.user.microserviceuser.dto.RequestUserDto;
 import ru.yakovlev05.cms.user.microserviceuser.dto.ResponseUserDto;
 import ru.yakovlev05.cms.user.microserviceuser.service.UserService;
@@ -42,5 +44,10 @@ public class UserController {
     @DeleteMapping("/{user-id}")
     public void deleteUser(@PathVariable(name = "user-id") String userId) {
         userService.deleteUser(userId);
+    }
+
+    @GetMapping("/me")
+    public ResponseUserDto getCurrentUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.getUser(userDetails.getId());
     }
 }
