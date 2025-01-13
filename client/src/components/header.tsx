@@ -55,14 +55,14 @@ const Header: React.FC<Props> = ({logo}) => {
                         </div>
                     )}
                 </div>
-                <Link href='/#'>Доставка</Link>
-                <Link href='/#'>Контакты</Link>
+                {/*<Link href='/#'>Доставка</Link>*/}
+                {/*<Link href='/#'>Контакты</Link>*/}
                 <Link href='/story'>О нас</Link>
             </div>
             <div className={styles.icons}>
-                <Link href='/'>
-                    <Image src='/assets/icon/find.svg' alt='поиск' width='24' height='24'/>
-                </Link>
+                {/*<Link href='/'>*/}
+                {/*    <Image src='/assets/icon/find.svg' alt='поиск' width='24' height='24'/>*/}
+                {/*</Link>*/}
                 <Link href='/cart'>
                     <Image src='/assets/icon/cart_list.svg' alt='корзина' width='22' height='28'/>
                 </Link>

@@ -9,7 +9,7 @@ interface Props {
     tg_link: string;
 }
 
-const Footer: React.FC<Props> = ({logo, vk_link, tg_link}) => {
+const Footer: React.FC<Props> = ({logo}) => {
     return (
         <div className={styles.footer}>
             <div className={styles.infoContainer}>
@@ -17,19 +17,19 @@ const Footer: React.FC<Props> = ({logo, vk_link, tg_link}) => {
                     <Image src={logo} alt='логотип' width='77' height='77'/>
                 </Link>
                 <div className={styles.urls}>
-                    <Link href='/#'>Адрес</Link>
-                    <Link href='/#'>Доставка</Link>
-                    <Link href='/#'>Контакты</Link>
+                    {/*<Link href='/#'>Адрес</Link>*/}
+                    {/*<Link href='/#'>Доставка</Link>*/}
+                    {/*<Link href='/#'>Контакты</Link>*/}
                     <Link href='/#'>О нас</Link>
                 </div>
             </div>
             <div className={styles.networks}>
-                <Link href={vk_link}>
-                    <Image src='/assets/icon/vk_logo.svg' alt='лого вк' width='28' height='28'/>
-                </Link>
-                <Link href={tg_link}>
-                    <Image src='/assets/icon/tg_logo.svg' alt='лого тг' width='28' height='25'/>
-                </Link>
+                {/*<Link href={vk_link}>*/}
+                {/*    <Image src='/assets/icon/vk_logo.svg' alt='лого вк' width='28' height='28'/>*/}
+                {/*</Link>*/}
+                {/*<Link href={tg_link}>*/}
+                {/*    <Image src='/assets/icon/tg_logo.svg' alt='лого тг' width='28' height='25'/>*/}
+                {/*</Link>*/}
             </div>
         </div>
     )
