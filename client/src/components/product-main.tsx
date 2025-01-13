@@ -26,7 +26,9 @@ const ProductMain: React.FC<Props> = ({product}) => {
                             description={product.description}
                             composition={getComposition(product.components)}
                             price={product.price}
-                            img={product.mainPhotoUrl}/>
+                            img={product.mainPhotoUrl}
+                            urlName={product.urlName}
+                            product={product}/>
         </div>
     );
 }
