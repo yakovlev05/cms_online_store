@@ -28,7 +28,7 @@ public class Product {
     @Column(name = "url_name", nullable = false, unique = true)
     private String urlName;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, length = 2000)
     private String description;
 
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
