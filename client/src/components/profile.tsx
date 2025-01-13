@@ -9,11 +9,8 @@ import {checkAuth} from "@/src/api/service/authService";
 import {useRouter} from 'next/navigation';
 import {UserResponseDto} from "@/src/api/models/response/user";
 
-interface UserProfileProps {
-    userId: string;
-}
 
-const UserProfile: React.FC<UserProfileProps> = () => {
+const UserProfile = () => {
     const [user, setUser] = useState<UserResponseDto>({
         address: '',
         phoneNumber: '',
