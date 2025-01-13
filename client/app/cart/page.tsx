@@ -47,7 +47,7 @@ export default function CartPage() {
                 setDeliveryInfo(prev => ({
                     ...prev,
                     phoneCustomer: r.phoneNumber,
-                    nameCustomer: (r.lastName || '') + (r.firstName || '') + (r.patronymic || '')
+                    nameCustomer: (r.lastName || '') + ' ' + (r.firstName || '') + ' ' + (r.patronymic || '')
                 }))
             })
     }, []);
