@@ -3,94 +3,60 @@
 import React, {useState, useEffect} from 'react';
 import Image from 'next/image';
 import styles from '@/src/styles/profile.module.css';
-import {updateUser, getMyUser} from '@/src/api/service/userService';
-import {UserResponseDto} from '@/src/api/models/response/user';
-import {UpdateUserRequestDto} from '@/src/api/models/request/user';
+import {getMyUser, updateUser} from '@/src/api/service/userService';
+import {toast, Toaster} from "react-hot-toast";
+import {checkAuth} from "@/src/api/service/authService";
+import {useRouter} from 'next/navigation';
+import {UserResponseDto} from "@/src/api/models/response/user";
 
 interface UserProfileProps {
     userId: string;
 }
 
-const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
-    const [user, setUser] = useState<UserResponseDto | null>(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [formData, setFormData] = useState({
+const UserProfile: React.FC<UserProfileProps> = () => {
+    const [user, setUser] = useState<UserResponseDto>({
+        address: '',
+        phoneNumber: '',
+        id: '',
+        lastName: '',
+        patronymic: '',
+        firstName: ''
+    });
+    const [form, setForm] = useState({
         firstName: '',
         lastName: '',
         patronymic: '',
         phoneNumber: '',
-        address: ''
-    });
+        password: '',
+    })
+    const [isEditing, setIsEditing] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+    const router = useRouter();
 
 // Загрузка данных пользователя
     useEffect(() => {
-        const fetchUserData = async () => {
-            try {
-                setIsLoading(true);
-                const userData = await getMyUser();
-                setUser(userData);
-                setFormData({
-                    firstName: userData.firstName || '',
-                    lastName: userData.lastName || '',
-                    patronymic: userData.patronymic || '',
-                    phoneNumber: userData.phoneNumber,
-                    address: userData.address || ''
-                });
-            } catch (err) {
-                setError('Не удалось загрузить данные пользователя');
-                console.error(err);
-            } finally {
+        getMyUser()
+            .then(r => {
+                setUser(r)
+                setForm({
+                    firstName: r.firstName || '',
+                    lastName: r.lastName || '',
+                    password: '',
+                    patronymic: r.patronymic || '',
+                    phoneNumber: r.phoneNumber,
+                })
                 setIsLoading(false);
-            }
-        };
+            })
+            .catch(err => toast.error(err.message));
 
-        fetchUserData();
-    }, [userId]);
-
-
-    const handleInputChange = (
-        e: React.ChangeEvent<HTMLInputElement>
-    ) => {
-        const {name, value} = e.target;
-        setFormData(prev => ({
-            ...prev,
-            [name]: value.trim() // Удаляем пробелы по краям
-        }));
-    };
-
-    // Обработчик обновления пользователя
-    const handleSubmit = async (
-        e: React.FormEvent<HTMLFormElement>
-    ) => {
-        e.preventDefault();
-
-        try {
-            const updateData: UpdateUserRequestDto = {
-                password: "",
-                firstName: formData.firstName || null,
-                lastName: formData.lastName || null,
-                patronymic: formData.patronymic || null,
-                phoneNumber: formData.phoneNumber
-            };
-
-            await updateUser(userId, updateData);
-
-            setUser(prev => prev ? {
-                ...prev,
-                firstName: updateData.firstName || prev.firstName,
-                lastName: updateData.lastName || prev.lastName,
-                patronymic: updateData.patronymic || prev.patronymic,
-                phoneNumber: updateData.phoneNumber
-            } : null);
-
-            setIsEditing(false);
-        } catch (err) {
-            setError('Не удалось обновить профиль');
-            console.error(err);
-        }
-    };
+        checkAuth()
+            .then((r) => {
+                if (!r) {
+                    router.replace('/login')
+                }
+            })
+            .catch((err) => toast(err.message))
+    }, [router]);
 
 
     // Рендеринг аватара (можно убрать, если нет аватара)
@@ -114,42 +80,44 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
         </div>
     );
 
-    // Состояние загрузки
-    if (isLoading) {
-        return <div>Загрузка...</div>;
+    const handleSubmit = () => {
+        updateUser(user.id, {
+            fistName: form.firstName,
+            lastName: form.lastName,
+            patronymic: form.patronymic,
+            phoneNumber: form.phoneNumber,
+            password: form.password === null || form.password === '' ? null : form.password,
+        })
+            .then((r) => {
+                setUser(r)
+                toast.success('Успешно обновлено')
+                setIsEditing(false);
+            })
+            .catch(err => toast.error(err.message));
     }
 
-    // Обработка ошибки
-    if (error) {
-        return <div>{error}</div>;
-    }
-
-    // Если пользователь не найден
-    if (!user) {
-        return <div>Пользователь не найден</div>;
-    }
 
     return (
         <div className={styles.container}>
+            <Toaster/>
             <div className={styles.avatarContainer}>
                 {renderAvatar()}
             </div>
 
-            {isLoading ? (
-                <div className={styles.loadingState}>Загрузка...</div>
-            ) : error ? (
-                <div className={styles.errorState}>{error}</div>
-            ) : !user ? (
-                <div className={styles.errorState}>Пользователь не найден</div>
-            ) : !isEditing ? (
-                <div>
+            {
+                isLoading && <p>Загрузка...</p>
+            }
+
+            {
+                !isLoading && !isEditing &&
+                <div className={styles.infoContainer}>
                     <div className={styles.profileInfo}>
                         <h2 className={styles.profileName}>
-                            {`${user.lastName} ${user.firstName} ${user.patronymic}`}
+                            {`${(user.lastName || '') + ' ' + (user.firstName || '') + ' ' + (user.patronymic || '')}`}
                         </h2>
                         <div className={styles.profileDetails}>
                             <p>Телефон: {user.phoneNumber}</p>
-                            <p>Адрес: {user.address}</p>
+                            <p>Адрес: {user.address || 'Не указано'}</p>
                         </div>
                     </div>
                     <button
@@ -159,9 +127,11 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         Редактировать
                     </button>
                 </div>
-            ) : (
-                <form
-                    onSubmit={handleSubmit}
+            }
+
+            {
+                !isLoading && isEditing &&
+                <div
                     className={styles.form}
                 >
                     <div>
@@ -170,8 +140,8 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                             className={styles.formInput}
                             type="text"
                             name="lastName"
-                            value={formData.lastName}
-                            onChange={handleInputChange}
+                            defaultValue={user.lastName || ''}
+                            onChange={e => setForm({...form, lastName: e.target.value})}
                             placeholder="Фамилия"
                             required
                         />
@@ -179,8 +149,8 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                             className={styles.formInput}
                             type="text"
                             name="firstName"
-                            value={formData.firstName}
-                            onChange={handleInputChange}
+                            defaultValue={user.firstName || ''}
+                            onChange={e => setForm({...form, firstName: e.target.value})}
                             placeholder="Имя"
                             required
                         />
@@ -188,8 +158,8 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                             className={styles.formInput}
                             type="text"
                             name="patronymic"
-                            value={formData.patronymic}
-                            onChange={handleInputChange}
+                            defaultValue={user.patronymic || ''}
+                            onChange={e => setForm({...form, patronymic: e.target.value})}
                             placeholder="Отчество"
                         />
                     </div>
@@ -200,10 +170,21 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                             className={styles.formInput}
                             type="tel"
                             name="phoneNumber"
-                            value={formData.phoneNumber}
-                            onChange={handleInputChange}
-                            placeholder="Номер телефона"
+                            defaultValue={user.phoneNumber}
+                            onChange={e => setForm({...form, phoneNumber: e.target.value})}
+                            placeholder="7XXXXXXXXXX"
                             required
+                        />
+                    </div>
+
+                    <div>
+                        <label className={styles.formLabel}>Новый пароль (опционально):</label>
+                        <input
+                            className={styles.formInput}
+                            type="text"
+                            name="password"
+                            onChange={e => setForm({...form, password: e.target.value})}
+                            placeholder="Минимум 8 символов"
                         />
                     </div>
 
@@ -211,6 +192,7 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                         <button
                             type="submit"
                             className={styles.saveButton}
+                            onClick={handleSubmit}
                         >
                             Сохранить
                         </button>
@@ -222,8 +204,9 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                             Отмена
                         </button>
                     </div>
-                </form>
-            )}
+                </div>
+            }
+
         </div>
     )
 };

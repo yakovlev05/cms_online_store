@@ -3,7 +3,7 @@ import {UserResponseDto} from "@/src/api/models/response/user";
 import {getAccessToken} from "@/src/util/auth";
 
 
-export async function updateUser(userId: string, changed: UpdateUserRequestDto): Promise<void> {
+export async function updateUser(userId: string, changed: UpdateUserRequestDto): Promise<UserResponseDto> {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/users/${userId}`, {
         method: "PUT",
         headers: {
@@ -14,14 +14,10 @@ export async function updateUser(userId: string, changed: UpdateUserRequestDto):
         body: JSON.stringify(changed)
     });
 
-    if (!response.ok) {
-        if (response.status === 400) {
-            throw new Error("Ошибка валидации данных")
-        } else if (response.status === 404) {
-            throw new Error("Пользователь не найден")
-        } else {
-            throw new Error(`Ошибка обновления пользователя: ${response.status}`);
-        }
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error(`Ошибка обновления пользователя: ${response.status}`);
     }
 }
 
