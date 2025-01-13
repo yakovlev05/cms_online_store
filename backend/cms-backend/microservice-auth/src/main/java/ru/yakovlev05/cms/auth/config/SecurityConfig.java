@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .accessDeniedHandler(((request, response, accessDeniedException) -> response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied"))))
                 .authorizeHttpRequests(request -> request
                         .requestMatchers(HttpMethod.POST, "/api/v1/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/api/v1/auth/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/otp/**").permitAll()
                         .anyRequest().authenticated())
