@@ -130,7 +130,7 @@ export async function confirmPhone(data: ConfirmPhoneRequestDto) {
 
 export async function resetPassword(data: ResetPasswordRequestDto) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/reset-password`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
