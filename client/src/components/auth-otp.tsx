@@ -25,7 +25,7 @@ const AuthOtp = (
     }:
     {
         destination: string;
-        settings: OtpSettings
+        settings?: OtpSettings
     }
 ) => {
     const [otp, setOtp] = useState<AuthOtpProps>({
