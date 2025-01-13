@@ -9,7 +9,7 @@ export default function Profile() {
         <div className={styles.mainContainer}>
             <Header logo='/assets/placeholder/logo.svg'/>
             <div className={styles.profileContainer}>
-                <UserProfile userId=""/>
+                <UserProfile/>
                 <OrderHistory/>
             </div>
             <Footer logo='/assets/placeholder/logo.svg'
