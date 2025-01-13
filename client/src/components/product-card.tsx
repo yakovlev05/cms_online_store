@@ -6,7 +6,7 @@ import Link from "next/link";
 import {addCart, checkIsInCart} from "@/src/api/service/cartService";
 import {ProductResponseDto} from "@/src/api/models/response/catalog";
 import {toast, Toaster} from "react-hot-toast";
-import MiniLoader from "@/src/components/ui/mini-loader"; // Импортируем Link из next/link
+import MiniLoader from "@/src/components/ui/mini-loader";
 
 interface Props {
     price: number;
@@ -20,8 +20,24 @@ interface Props {
 const ProductCard: React.FC<Props> = ({price, oldPrice, name, img, urlName, product}) => {
     const [isInCart, setIsInCart] = useState(false);
     const [isChecking, setIsChecking] = useState(true);
+    const [isAllComponentsInStock, setIsAllComponentsInStock] = useState(true);
+
+    useEffect(() => {
+        // Проверка наличия всех компонентов
+        const allComponentsInStock = product.components.every(component => component.inStock);
+        setIsAllComponentsInStock(allComponentsInStock);
+
+        checkIsInCart(product.urlName)
+            .then(r => {
+                setIsInCart(r)
+                setTimeout(() => setIsChecking(false), 500)
+            })
+            .catch(err => toast.error(err.message));
+    }, [product.urlName, product.components]);
 
     const handleClickAddToCart = () => {
+        if (!isAllComponentsInStock) return;
+
         addCart({productUrlName: urlName}, product)
             .then(() => {
                 setIsInCart(true)
@@ -30,18 +46,14 @@ const ProductCard: React.FC<Props> = ({price, oldPrice, name, img, urlName, prod
             .catch(err => toast.error(err.message));
     }
 
-    useEffect(() => {
-        checkIsInCart(product.urlName)
-            .then(r => {
-                setIsInCart(r)
-                setTimeout(() => setIsChecking(false), 500)
-            })
-            .catch(err => toast.error(err.message));
-    }, [product.urlName]);
-
     return (
         <div className={styles.card}>
             <Toaster/>
+            {!isAllComponentsInStock && !isChecking && (
+                <div className={styles.outOfStockOverlay}>
+                    Уточните наличие в магазине
+                </div>
+            )}
             <Image src={img} className={styles.img} alt='изображение букета' width={256} height={256}/>
             <div className={styles.cardBottom}>
                 <div className={styles.cardText}>
@@ -56,17 +68,43 @@ const ProductCard: React.FC<Props> = ({price, oldPrice, name, img, urlName, prod
                 </div>
 
                 {
-                    !isInCart && !isChecking &&
-                    <button className={styles.buttonCart}>
-                        <Image src='/assets/icon/cart.svg' alt='добавление в корзину' width='28' height='29'
-                               onClick={handleClickAddToCart}/>
+                    !isInCart && !isChecking && isAllComponentsInStock &&
+                    <button
+                        className={styles.buttonCart}
+                        onClick={handleClickAddToCart}
+                    >
+                        <Image
+                            src='/assets/icon/cart.svg'
+                            alt='добавление в корзину'
+                            width='28'
+                            height='29'
+                        />
                     </button>
-
                 }
                 {
                     isInCart && !isChecking &&
                     <button className={`${styles.buttonCart} ${styles.buttonCartInactive}`}>
-                        <Image src='/assets/icon/in_cart.svg' alt='добавление в корзину' width='28' height='29'/>
+                        <Image
+                            src='/assets/icon/in_cart.svg'
+                            alt='добавление в корзину'
+                            width='28'
+                            height='29'
+                        />
+                    </button>
+                }
+
+                {
+                    (!isInCart && !isChecking && !isAllComponentsInStock) &&
+                    <button
+                        className={`${styles.buttonCart} ${styles.buttonCartDisabled}`}
+                        disabled
+                    >
+                        <Image
+                            src='/assets/icon/cart.svg'
+                            alt='добавление в корзину'
+                            width='28'
+                            height='29'
+                        />
                     </button>
                 }
 
