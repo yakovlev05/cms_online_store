@@ -11,14 +11,45 @@ import {useEffect, useState} from "react";
 import {CartResponseDto} from "@/src/api/models/response/cart";
 import {deleteFromCart, getCart, updateCart} from "@/src/api/service/cartService";
 import {toast, Toaster} from "react-hot-toast";
+import {getMyUser} from "@/src/api/service/userService";
+
+export interface DeliveryInfo {
+    dateReceivingInMS: number;
+    timeReceivingInMS: number;
+    type: 'DELIVERY' | 'SELF_CALL';
+    nameCustomer: string;
+    phoneCustomer: string;
+    nameRecipient: string;
+    phoneRecipient: string;
+    comment: string;
+}
 
 export default function CartPage() {
     const [cart, setCart] = useState<CartResponseDto[] | undefined>(undefined);
+    const [deliveryInfo, setDeliveryInfo] = useState<DeliveryInfo>({
+        type: 'DELIVERY',
+        nameCustomer: '',
+        phoneCustomer: '',
+        nameRecipient: '',
+        phoneRecipient: '',
+        comment: '',
+        dateReceivingInMS: 0,
+        timeReceivingInMS: 0
+    });
 
     useEffect(() => {
         getCart()
             .then(r => setCart(r))
             .catch(err => toast.error(err.message));
+
+        getMyUser()
+            .then(r => {
+                setDeliveryInfo(prev => ({
+                    ...prev,
+                    phoneCustomer: r.phoneNumber,
+                    nameCustomer: (r.lastName || '') + (r.firstName || '') + (r.patronymic || '')
+                }))
+            })
     }, []);
 
     const handleDeleteElement = (id: number, productUrlName: string) => {
@@ -111,13 +142,13 @@ export default function CartPage() {
                                handleIncreaseCountAction={handleIncreaseCount}
                                handleDecreaseCountAction={handleDecreaseCount}
                                handleChangeSelectedAction={handleChangeSelected}/>
-                    <DeliveryOptions/>
-                    <CustomerDetails/>
+                    <DeliveryOptions deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo}/>
+                    <CustomerDetails deliveryInfo={deliveryInfo} setDeliveryInfo={setDeliveryInfo}/>
                 </div>
 
                 {/* Правая часть - итоговое окно */}
                 <div>
-                    <SummaryBox cart={cart}/>
+                    <SummaryBox cart={cart} deliveryInfo={deliveryInfo}/>
                 </div>
             </div>
             <Footer

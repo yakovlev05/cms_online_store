@@ -3,7 +3,7 @@
 import React, {useState, useEffect} from 'react';
 import Image from 'next/image';
 import styles from '@/src/styles/profile.module.css';
-import {updateUser, getCurrentUser} from '@/src/api/service/userService';
+import {updateUser, getMyUser} from '@/src/api/service/userService';
 import {UserResponseDto} from '@/src/api/models/response/user';
 import {UpdateUserRequestDto} from '@/src/api/models/request/user';
 
@@ -29,7 +29,7 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
         const fetchUserData = async () => {
             try {
                 setIsLoading(true);
-                const userData = await getCurrentUser(userId);
+                const userData = await getMyUser();
                 setUser(userData);
                 setFormData({
                     firstName: userData.firstName || '',
@@ -164,41 +164,49 @@ const UserProfile: React.FC<UserProfileProps> = ({userId}) => {
                     onSubmit={handleSubmit}
                     className={styles.form}
                 >
-                    <input
-                        className={styles.formInput}
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleInputChange}
-                        placeholder="Фамилия"
-                        required
-                    />
-                    <input
-                        className={styles.formInput}
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleInputChange}
-                        placeholder="Имя"
-                        required
-                    />
-                    <input
-                        className={styles.formInput}
-                        type="text"
-                        name="patronymic"
-                        value={formData.patronymic}
-                        onChange={handleInputChange}
-                        placeholder="Отчество"
-                    />
-                    <input
-                        className={styles.formInput}
-                        type="tel"
-                        name="phoneNumber"
-                        value={formData.phoneNumber}
-                        onChange={handleInputChange}
-                        placeholder="Номер телефона"
-                        required
-                    />
+                    <div>
+                        <label className={styles.formLabel}>ФИО:</label>
+                        <input
+                            className={styles.formInput}
+                            type="text"
+                            name="lastName"
+                            value={formData.lastName}
+                            onChange={handleInputChange}
+                            placeholder="Фамилия"
+                            required
+                        />
+                        <input
+                            className={styles.formInput}
+                            type="text"
+                            name="firstName"
+                            value={formData.firstName}
+                            onChange={handleInputChange}
+                            placeholder="Имя"
+                            required
+                        />
+                        <input
+                            className={styles.formInput}
+                            type="text"
+                            name="patronymic"
+                            value={formData.patronymic}
+                            onChange={handleInputChange}
+                            placeholder="Отчество"
+                        />
+                    </div>
+
+                    <div>
+                        <label className={styles.formLabel}>Номер телефона:</label>
+                        <input
+                            className={styles.formInput}
+                            type="tel"
+                            name="phoneNumber"
+                            value={formData.phoneNumber}
+                            onChange={handleInputChange}
+                            placeholder="Номер телефона"
+                            required
+                        />
+                    </div>
+
                     <div className={styles.formActions}>
                         <button
                             type="submit"

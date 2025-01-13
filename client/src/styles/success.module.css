@@ -1,0 +1,33 @@
+.container{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    background: var(--color-primary-500);
+
+    min-height: 100vh;
+}
+
+.info{
+    flex: 1;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title{
+    font-family: var(--font-open-sans), sans-serif;
+    margin-bottom: 20px;
+}
+
+.url{
+    font-family: var(--font-open-sans), sans-serif;
+}
+
+.url:hover{
+    color: var(--color-button-500);
+}

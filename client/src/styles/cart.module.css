@@ -194,3 +194,15 @@
 .deleteButton:hover {
     background-color: var(--color-secondary-500);
 }
+
+.summaryButton:hover {
+    background-color: var(--color-button-400);
+}
+
+.url{
+    
+}
+
+.url:hover {
+    color: var(--color-button-400);
+}
