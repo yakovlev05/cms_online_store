@@ -42,7 +42,7 @@ const ProductCard: React.FC<Props> = ({price, oldPrice, name, img, urlName, prod
     return (
         <div className={styles.card}>
             <Toaster/>
-            <Image src={img} className={styles.img} alt='изображение букета'/>
+            <Image src={img} className={styles.img} alt='изображение букета' width={256} height={256}/>
             <div className={styles.cardBottom}>
                 <div className={styles.cardText}>
                     <Link href={`/product/${urlName}`} passHref>
