@@ -7,6 +7,7 @@ COPY . .
 #COPY .env.development .env
 ENV NEXT_PUBLIC_BACKEND_URL=""
 ENV IMAGES_HOSTNAME=s3.localhost
+ENV NEXT_PUBLIC_YANDEX_CAPTCHA_KEY=ysc1_QzDZ0lPsWE0ze2SBZ4E8Wmb6xBgcwCclq8IFhcfgb6a599ad
 RUN npm run build
 
 FROM node:22-alpine AS prod
