@@ -126,6 +126,7 @@ services:
       - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
       - YOOKASSA_SHOP_ID=${YOOKASSA_SHOP_ID}
       - YOOKASSA_API_KEY=${YOOKASSA_API_KEY}
+      - YOOKASSA_RETURN_URL=${YOOKASSA_RETURN_URL}
     depends_on:
       - cms-infra-database
       - cms-infra-kafka
