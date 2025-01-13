@@ -30,19 +30,34 @@ const Checkout = () => {
                     if (countOrderRequests === 10) {
                         clearInterval(orderIntervalId);
                         setOrder(order);
+                        toast.error('Таймаут проверки заказа')
                         return;
                     }
 
                     if (order.orderStatus === 'PROCESSING') {
                         return
                     } else if (order.orderStatus === 'PLACED') {
-
-                        getPaymentUrl(orderId)
-                            .then(payment => {
-                                setPayment(payment);
-                                setOrder(order);
-                            })
-                            .catch((err) => toast.error(err.message));
+                        let countPaymentRequests = 0;
+                        
+                        const paymentIntervalId = setInterval(()=>{
+                            
+                            countPaymentRequests++;
+                            if(countPaymentRequests==10){
+                                clearInterval(orderIntervalId);
+                                toast.error('не смогли дождаться получения url оплаты')
+                                return;
+                            }
+                            
+                            getPaymentUrl(orderId)
+                                .then(payment => {
+                                    setPayment(payment);
+                                    setOrder(order);
+                                    clearInterval(paymentIntervalId);
+                                })
+                                .catch((err) => toast.error(err.message));
+                            
+                        }, 1000)
+                        
                         clearInterval(orderIntervalId);
                         return;
                     } else {
