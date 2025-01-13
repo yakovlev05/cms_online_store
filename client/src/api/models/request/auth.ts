@@ -27,3 +27,9 @@ export interface ConfirmPhoneRequestDto {
     phoneNumber: string;
     otpId: string;
 }
+
+export interface ResetPasswordRequestDto {
+    phoneNumber: string;
+    newPassword:string;
+    otpId:string
+}

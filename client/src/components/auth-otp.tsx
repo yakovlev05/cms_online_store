@@ -13,7 +13,21 @@ export interface AuthOtpProps {
     code: string;
 }
 
-const AuthOtp = ({destination}: { destination: string }) => {
+export interface OtpSettings {
+    onlyOtp: boolean;
+    funcFinal: (otpId:string) => void
+}
+
+const AuthOtp = (
+    {
+        destination,
+        settings = {onlyOtp: false, funcFinal: () => console.log('...')}
+    }:
+    {
+        destination: string;
+        settings: OtpSettings
+    }
+) => {
     const [otp, setOtp] = useState<AuthOtpProps>({
         destination: destination,
         captchaToken: "",
@@ -39,7 +53,7 @@ const AuthOtp = ({destination}: { destination: string }) => {
             }
             {
                 otp.step === 'confirmation' &&
-                <AuthOtpConfirmation setOtp={setOtp} otp={otp}/>
+                <AuthOtpConfirmation setOtp={setOtp} otp={otp} settings={settings}/>
             }
         </div>
     )

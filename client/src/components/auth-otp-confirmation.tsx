@@ -1,17 +1,27 @@
 import styles from '@/src/styles/auth-otp-confirmation.module.css'
 import Button from "@/src/components/ui/button";
 import {Dispatch, SetStateAction} from "react";
-import {AuthOtpProps} from "@/src/components/auth-otp";
+import {AuthOtpProps, OtpSettings} from "@/src/components/auth-otp";
 import {checkOtp, confirmPhone, sendOtp} from "@/src/api/service/authService";
 import {toast, Toaster} from "react-hot-toast";
 
 
-const AuthOtpConfirmation = ({setOtp, otp}: { setOtp: Dispatch<SetStateAction<AuthOtpProps>>, otp: AuthOtpProps }) => {
+const AuthOtpConfirmation = ({setOtp, otp, settings}
+                             : {
+    setOtp: Dispatch<SetStateAction<AuthOtpProps>>,
+    otp: AuthOtpProps,
+    settings: OtpSettings
+}) => {
 
     const handleCheck = () => {
         checkOtp({code: otp.code, id: otp.id})
             .then((r) => {
                 if (r.status === 'OK') {
+                    if (settings.onlyOtp) {
+                        toast.success('Код верный')
+                        settings.funcFinal(otp.id)
+                        return;
+                    }
 
                     confirmPhone({otpId: otp.id, phoneNumber: otp.destination})
                         .then(() => {

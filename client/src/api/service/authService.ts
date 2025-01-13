@@ -2,7 +2,7 @@ import {
     CheckOtpRequestDto, ConfirmPhoneRequestDto,
     CreateOtpRequestDto,
     LoginRequestDto,
-    RegistrationRequestDto,
+    RegistrationRequestDto, ResetPasswordRequestDto,
     SendOtpRequestDto
 } from "@/src/api/models/request/auth";
 import {CheckOtpResponseDto, CreateOtpResponseDto, LoginResponseDto} from "@/src/api/models/response/auth";
@@ -127,3 +127,20 @@ export async function confirmPhone(data: ConfirmPhoneRequestDto) {
         throw new Error((await response.json()).message);
     }
 }
+
+export async function resetPassword(data: ResetPasswordRequestDto) {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/auth/reset-password`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+
+    if (response.ok) {
+    } else {
+        throw new Error((await response.json()).message);
+    }
+}
+
