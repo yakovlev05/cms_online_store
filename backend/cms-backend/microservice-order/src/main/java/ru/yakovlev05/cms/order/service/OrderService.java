@@ -6,6 +6,8 @@ import ru.yakovlev05.cms.order.dto.OrderCreateClientResponseDto;
 import ru.yakovlev05.cms.order.dto.OrderInfoClientResponseDto;
 import ru.yakovlev05.cms.order.entity.Order;
 
+import java.util.List;
+
 public interface OrderService {
     OrderCreateClientResponseDto createOrder(OrderClientRequestDto request, UserDetailsImpl userDetails);
 
@@ -14,4 +16,6 @@ public interface OrderService {
     void save(Order order);
 
     OrderInfoClientResponseDto getOrderInfo(String orderId);
+
+    List<OrderInfoClientResponseDto> getMyOrders(String id);
 }

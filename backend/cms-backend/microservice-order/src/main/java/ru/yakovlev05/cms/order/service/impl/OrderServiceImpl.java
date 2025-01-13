@@ -33,6 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
 
+    @Transactional
     @Override
     public OrderCreateClientResponseDto createOrder(OrderClientRequestDto request, UserDetailsImpl userDetails) {
         User user = userDetails == null ? null : userService.getById(userDetails.getId());
@@ -41,6 +42,12 @@ public class OrderServiceImpl implements OrderService {
         order.getProducts().forEach(product -> product.setOrder(order));
 
         orderRepository.save(order);
+
+        if (user != null) {
+            user.getOrders().add(order);
+            userService.save(user);
+        }
+
 
         log.info("Order created with id: {}", order.getId());
 
@@ -65,6 +72,16 @@ public class OrderServiceImpl implements OrderService {
     public OrderInfoClientResponseDto getOrderInfo(String orderId) {
         Order order = getById(orderId);
         return fillDto(order);
+    }
+
+    @Transactional
+    @Override
+    public List<OrderInfoClientResponseDto> getMyOrders(String id) {
+        User user = userService.getById(id);
+        List<Order> orders = orderRepository.findByUser(user);
+        return orders.stream()
+                .map(this::fillDto)
+                .toList();
     }
 
     private BigDecimal getProductsCost(List<OrderClientRequestDto.Product> products) {

@@ -9,6 +9,8 @@ import ru.yakovlev05.cms.order.dto.OrderCreateClientResponseDto;
 import ru.yakovlev05.cms.order.dto.OrderInfoClientResponseDto;
 import ru.yakovlev05.cms.order.service.OrderService;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/orders")
@@ -26,5 +28,10 @@ public class OrderController {
     @GetMapping("/{order-id}")
     public OrderInfoClientResponseDto getOrderInfo(@PathVariable(name = "order-id") String orderId) {
         return orderService.getOrderInfo(orderId);
+    }
+
+    @GetMapping("/my")
+    public List<OrderInfoClientResponseDto> getMyOrders(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return orderService.getMyOrders(userDetails.getId());
     }
 }
