@@ -83,3 +83,10 @@
     background-color: rgba(140, 138, 124, 1);
     cursor: default;
 }
+
+.img {
+    width: 256px;
+    height: 256px;
+    object-fit: cover;
+    object-position: center;
+}
