@@ -14,7 +14,7 @@ const OrderHistory: React.FC = () => {
     useEffect(() => {
         getMyOrders()
             .then(r => setOrders(r))
-            .catch(e => toast.error(e));
+            .catch(e => toast.error(e.message));
     }, []);
 
     return (
@@ -37,7 +37,7 @@ const OrderHistory: React.FC = () => {
                     </Link>
                 </div>
             }
-            
+
             {
                 orders.length > 0 &&
                 orders.map((order, index) => (
