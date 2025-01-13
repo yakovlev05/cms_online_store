@@ -2,7 +2,7 @@ import {LoginRequestDto} from "../models/request/auth.ts";
 import {LoginResponseDto} from "../models/response/auth.ts";
 
 export default async function login(request: LoginRequestDto): Promise<LoginResponseDto> {
-    const response = await fetch('/api/v1/auth/login', {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/auth/login?isClient=false`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',

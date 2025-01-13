@@ -16,7 +16,7 @@ export async function getListComponents(
         params += `&searchQuery=${searchQuery}`;
     }
 
-    const response = await fetch('/api/v1/components?' + params, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/components?` + params, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -36,7 +36,7 @@ export async function getListComponents(
 
 
 export async function deleteComponent(componentName: string) {
-    const response = await fetch(`/api/v1/components/${componentName}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/components/${componentName}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
@@ -53,7 +53,7 @@ export async function deleteComponent(componentName: string) {
 }
 
 export async function updateComponent(componentName: string, data: ComponentRequestDto): Promise<ComponentResponseDto> {
-    const response = await fetch(`/api/v1/components/${componentName}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/components/${componentName}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json',
@@ -73,7 +73,7 @@ export async function updateComponent(componentName: string, data: ComponentRequ
 }
 
 export async function createComponent(data: ComponentRequestDto): Promise<ComponentResponseDto> {
-    const response = await fetch(`/api/v1/components/add`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/components/add`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export async function getListCategories(
 ): Promise<CategoryResponseDto[]> {
     const params = `page=${page}&limit=${limit}&directionSort=${directionSort}&keySort=${keySort}&searchQuery=${searchQuery}`
 
-    const response = await fetch('/api/v1/category?' + params, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/category?` + params, {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
@@ -120,7 +120,7 @@ export async function getListCategories(
 }
 
 export async function deleteCategory(urlName: string) {
-    const response = await fetch(`/api/v1/category/${urlName}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/category/${urlName}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
@@ -137,7 +137,7 @@ export async function deleteCategory(urlName: string) {
 }
 
 export async function updateCategory(urlName: string, data: CategoryRequestDto): Promise<CategoryResponseDto> {
-    const response = await fetch(`/api/v1/category/${urlName}`, {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/category/${urlName}`, {
         method: "PUT",
         headers: {
             'Content-Type': 'application/json',
@@ -157,7 +157,7 @@ export async function updateCategory(urlName: string, data: CategoryRequestDto):
 }
 
 export async function createCategory(data: CategoryRequestDto): Promise<CategoryResponseDto> {
-    const response = await fetch('/api/v1/category/add', {
+    const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/v1/category/add`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
