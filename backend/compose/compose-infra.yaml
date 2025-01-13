@@ -79,6 +79,7 @@ services:
       - cms-manage-kafka-ui
       - cms-infra-s3
       - cms-frontend-client
+      - cms-frontend-admin
     networks:
       - cms-store-network
 

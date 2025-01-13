@@ -3,6 +3,7 @@ name: cms-store
 include:
   - ./backend/docker-compose.yaml
   - ./client/docker-compose.yaml
+  - ./admin/docker-compose.yaml
 
 
 # общая сеть

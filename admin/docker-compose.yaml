@@ -1,0 +1,13 @@
+name: cms-online-admin
+
+services:
+  cms-frontend-admin:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: cms-frontend-admin
+#    ports:
+#      - "80:80"
+    networks:
+      - cms-store-network
