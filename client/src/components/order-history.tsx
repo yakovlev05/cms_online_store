@@ -19,10 +19,10 @@ const OrderHistory: React.FC = () => {
                     </p>
                     <Link
                         // можно указать рандомный адрес для динамики
-                        href="/catalog"
+                        href="/"
                         className={styles.catalogLink}
                     >
-                        Перейти в Каталог
+                        Перейти на главную
                     </Link>
                 </div>
             ) : (
