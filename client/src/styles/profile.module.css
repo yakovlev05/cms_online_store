@@ -43,6 +43,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 15px;
 }
 
 .editButton:hover {
@@ -58,6 +59,12 @@
     gap: 15px;
 }
 
+.infoContainer{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 .formLabel {
     width: 100%;
     text-align: left;
@@ -71,6 +78,7 @@
     border: 1px solid var(--color-primary-50);
     border-radius: 5px;
     font-size: 16px;
+    margin-bottom: 10px;
 }
 
 .formActions {

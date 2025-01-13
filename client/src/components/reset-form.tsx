@@ -1,71 +1,87 @@
 'use client'
 
-import { useState } from 'react';
+import {useState} from 'react';
 import styles from '@/src/styles/auth-form.module.css';
 import Button from "@/src/components/ui/button";
 import Input from './ui/input';
+import AuthOtp from "@/src/components/auth-otp";
+import {resetPassword} from "@/src/api/service/authService";
+import {toast, Toaster} from "react-hot-toast";
+import {useRouter} from "next/navigation";
 
 const PasswordResetForm = () => {
-    const [step, setStep] = useState(1);
+    const router = useRouter();
+    const [step, setStep] = useState<'inputNumber' | 'otp' | 'password'>('inputNumber');
+    const [phoneNumber, setPhoneNumber] = useState<string>('');
+    const [form, setForm] = useState({
+        password: '',
+        confirmPassword: '',
+        otpId: ''
+    })
 
-    const handleNextStep = () => {
-        setStep(step + 1);
-    };
+    const handleChange = () => {
+        resetPassword({
+            otpId: form.otpId,
+            phoneNumber: phoneNumber,
+            newPassword: form.password,
+        })
+            .then(() => {
+                toast.success('Пароль изменён')
+                router.push('/login')
+            })
+            .catch(err => toast.error(err.message));
+    }
 
     return (
         <div>
-            {step === 1 && (
+            <Toaster/>
+            {step === 'inputNumber' && (
                 <div className={styles.container}>
                     <h1 className={styles.title}>Сброс пароля</h1>
                     <div className={styles.inputContainer}>
                         <Input label='Номер телефона:'
-                            inputType='tel'
-                            inputName='phone'
-                            inputAutoComplete='tel'
+                               inputType='tel'
+                               inputName='phone'
+                               inputAutoComplete='tel'
+                               onChange={e => setPhoneNumber(e.target.value)}
                         />
                     </div>
-                    <Button text='Подтвердить номер' onClick={handleNextStep}/>
+                    <Button text='Подтвердить номер' onClick={() => setStep('otp')}/>
                 </div>
             )}
-            {step === 2 && (
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Введите код</h1>
-                    <div className={styles.inputContainer}>
-                        <Input label='Код:'
-                            inputType='text'
-                            inputName='code'
-                            inputAutoComplete='code'
-                        />
+            {
+                step === 'otp' &&
+                <AuthOtp destination={phoneNumber} settings={{
+                    onlyOtp: true, funcFinal: (otpId) => {
+                        setStep('password')
+                        setForm({...form, otpId: otpId})
+                    }
+                }}/>
+            }
+            {
+                step === 'password' && (
+                    <div className={styles.container}>
+                        <h1 className={styles.title}>Сброс пароля</h1>
+                        <div className={styles.inputContainer}>
+                            <Input
+                                label='Новый пароль:'
+                                inputType='password'
+                                inputName='password'
+                                inputAutoComplete='new-password'
+                                onChange={e => setForm({...form, password: e.target.value})}
+                            />
+                            <Input
+                                label='Повторите пароль:'
+                                inputType='password'
+                                inputName='confirmPassword'
+                                inputAutoComplete='new-password'
+                                onChange={e => setForm({...form, confirmPassword: e.target.value})}
+                            />
+                        </div>
+                        <Button text='Сбросить пароль' onClick={handleChange}/>
                     </div>
-                    <Button text='Подтвердить код' onClick={handleNextStep}/>
-                </div>
-            )}
-            {step === 3 && (
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Сброс пароля</h1>
-                    <div className={styles.inputContainer}>
-                        <Input 
-                            label='Новый пароль:' 
-                            inputType='password' 
-                            inputName='password' 
-                            inputAutoComplete='new-password' 
-                        />
-                        <Input 
-                            label='Повторите пароль:' 
-                            inputType='password' 
-                            inputName='confirmPassword' 
-                            inputAutoComplete='new-password' 
-                        />
-                    </div>
-                    <Button text='Сбросить пароль'/>
-                </div>
-            )}
-            {step === 4 && (
-                <div className={styles.container}>
-                    <h1 className={styles.title}>Сброс пароля</h1>
-                    
-                </div>
-            )}
+                )
+            }
         </div>
     );
 };
