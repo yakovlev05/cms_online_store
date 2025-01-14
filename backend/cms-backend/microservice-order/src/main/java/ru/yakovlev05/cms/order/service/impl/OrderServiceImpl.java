@@ -41,10 +41,12 @@ public class OrderServiceImpl implements OrderService {
         Order order = fillOrderFromDto(request, user, productsCost, BigDecimal.ZERO);
         order.getProducts().forEach(product -> product.setOrder(order));
 
-        orderRepository.save(order);
-
         if (user != null) {
             user.getOrders().add(order);
+        }
+
+        orderRepository.save(order);
+        if (user != null) {
             userService.save(user);
         }
 
