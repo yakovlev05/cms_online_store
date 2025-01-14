@@ -40,4 +40,4 @@ captchaYandex:
   serverKey: ${YANDEX_CAPTCHA_SERVER_KEY}
 
 cors:
-  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000,http://localhost:5173}
+  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000,http://localhost:5173,http://admin.localhost/,http://localhost/}

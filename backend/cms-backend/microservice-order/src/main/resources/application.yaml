@@ -40,4 +40,4 @@ jwt:
   refreshTokenValidityInMs: ${REFRESH_TOKEN_VALIDITY_IN_MS:2592000000}
 
 cors:
-  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000,http://localhost:5173}
+  allowedOrigins: ${CORS_ALLOW_URLS:http://localhost:3000,http://localhost:5173,http://admin.localhost/,http://localhost/}
