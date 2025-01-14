@@ -20,8 +20,24 @@ interface ProductProps {
 const ProductDetails: React.FC<ProductProps> = ({name, description, composition, price, img, urlName, product}) => {
     const [isInCart, setIsInCart] = useState(false);
     const [isChecking, setIsChecking] = useState(true);
+    const [isAllComponentsInStock, setIsAllComponentsInStock] = useState(true);
+
+    useEffect(() => {
+        // Проверка наличия всех компонентов
+        const allComponentsInStock = product.components.every(component => component.inStock);
+        setIsAllComponentsInStock(allComponentsInStock);
+
+        checkIsInCart(product.urlName)
+            .then(r => {
+                setIsInCart(r)
+                setTimeout(() => setIsChecking(false), 500)
+            })
+            .catch(err => toast.error(err.message));
+    }, [product.urlName, product.components]);
 
     const handleClickAddToCart = () => {
+        if (!isAllComponentsInStock) return;
+
         addCart({productUrlName: urlName}, product)
             .then(() => {
                 setIsInCart(true)
@@ -30,25 +46,32 @@ const ProductDetails: React.FC<ProductProps> = ({name, description, composition,
             .catch(err => toast.error(err.message));
     }
 
-    useEffect(() => {
-        checkIsInCart(product.urlName)
-            .then(r => {
-                setIsInCart(r)
-                setTimeout(() => setIsChecking(false), 500)
-            })
-            .catch(err => toast.error(err.message));
-    }, [product.urlName]);
-    
     return (
         <div className={styles.productDetails}>
-            <Image className={styles.img} src={img} alt="изображение букета" width={480} height={640}/>
+            <div className={styles.imageContainer}>
+                {!isAllComponentsInStock && !isChecking && (
+                    <div className={styles.outOfStockOverlay}>
+                        Уточните наличие в магазине
+                    </div>
+                )}
+                <Image
+                    className={styles.img}
+                    src={img}
+                    alt="изображение букета"
+                    width={480}
+                    height={640}
+                    style={{
+                        opacity: !isAllComponentsInStock && !isChecking ? 0.5 : 1
+                    }}
+                />
+            </div>
             <div className={styles.productInfo}>
                 <div>
                     <h1 className={styles.h1}>{name}</h1>
                     <span className={styles.price}>{price}₽</span>
                 </div>
                 {
-                    !isChecking && !isInCart &&
+                    !isChecking && !isInCart && isAllComponentsInStock &&
                     <button className={styles.addToCart} onClick={handleClickAddToCart}>В корзину</button>
                 }
 
@@ -58,7 +81,22 @@ const ProductDetails: React.FC<ProductProps> = ({name, description, composition,
                 }
 
                 {
-                isChecking &&
+                    (!isChecking && !isAllComponentsInStock && !isInCart) &&
+                    <button
+                        className={styles.addToCart}
+                        disabled
+                        style={{
+                            backgroundColor: '#ccc',
+                            color: '#666',
+                            cursor: 'not-allowed'
+                        }}
+                    >
+                        Товара нет в наличии
+                    </button>
+                }
+
+                {
+                    isChecking &&
                     <MiniLoader color='#798648' fontSize={44}/>
                 }
                 <p className={styles.desc}>{description}</p>
