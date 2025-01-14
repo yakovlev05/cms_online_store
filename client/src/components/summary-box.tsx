@@ -79,8 +79,12 @@ export default function SummaryBox({cart, deliveryInfo}: {
             <div className={styles.summaryItem}>
                 <span>Товары:</span>
                 <span>
-                    {cart && cart.length > 0
-                        ? cart.map(item => item.count * (item.product.price + item.product.discount))
+                    {cart && cart
+                        .filter(item => item.selected)
+                        .length > 0
+                        ? cart
+                            .filter(item => item.selected)
+                            .map(item => item.count * item.product.discount)
                             .reduce((a, b) => a + b)
                         : 0
                     }₽
@@ -89,8 +93,13 @@ export default function SummaryBox({cart, deliveryInfo}: {
             <div className={styles.summaryItem}>
                 <span>Скидка:</span>
                 <span>
-                    {cart && cart.length > 0
-                        ? cart.map(item => item.count * item.product.discount).reduce((a, b) => a + b)
+                    {cart && cart
+                        .filter(item => item.selected)
+                        .length > 0
+                        ? cart
+                            .filter(item => item.selected)
+                            .map(item => item.count * (item.product.discount - item.product.price))
+                            .reduce((a, b) => a + b)
                         : 0
                     }₽
                 </span>
@@ -104,8 +113,13 @@ export default function SummaryBox({cart, deliveryInfo}: {
                 <h2 className={styles.h2}>Итого</h2>
                 <span>
                     {
-                        cart && cart.length > 0
-                            ? cart.map(item => item.count * item.product.price).reduce((a, b) => a + b)
+                        cart && cart
+                            .filter(item => item.selected)
+                            .length > 0
+                            ? cart
+                                .filter(item => item.selected)
+                                .map(item => item.count * item.product.price)
+                                .reduce((a, b) => a + b)
                             : 0
                     }₽
                 </span>
