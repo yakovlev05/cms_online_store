@@ -9,6 +9,7 @@ export async function createOrder(data: OrderCreateRequestDto): Promise<OrderCre
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            'Authorization': `Bearer ${getAccessToken()}`
         },
         body: JSON.stringify(data),
     })
