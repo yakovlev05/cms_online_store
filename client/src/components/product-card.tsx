@@ -49,12 +49,14 @@ const ProductCard: React.FC<Props> = ({price, oldPrice, name, img, urlName, prod
     return (
         <div className={styles.card}>
             <Toaster/>
-            {!isAllComponentsInStock && !isChecking && (
-                <div className={styles.outOfStockOverlay}>
-                    Уточните наличие в магазине
-                </div>
-            )}
-            <Image src={img} className={styles.img} alt='изображение букета' width={256} height={256}/>
+            <div className={styles.imageContainer}>
+                {!isAllComponentsInStock && !isChecking && (
+                    <div className={styles.outOfStockOverlay}>
+                        Уточните наличие в магазине
+                    </div>
+                )}
+                <Image src={img} className={styles.img} alt='изображение букета' width={256} height={256}/>
+            </div>
             <div className={styles.cardBottom}>
                 <div className={styles.cardText}>
                     <Link href={`/product/${urlName}`} passHref>

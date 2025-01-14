@@ -1,85 +1,85 @@
 .card {
     width: 256px;
     height: 342px;
-    
+
     display: flex;
     flex-direction: column;
-    
+
     border: 1px solid rgba(180, 178, 160, 1);
     border-radius: 12px;
-    
+
     overflow: hidden; /* Для "обрезки" изображение */
 }
 
-.cardBottom{
+.cardBottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     background-color: var(--color-primary-500);
-    
+
     padding: 6px 16px;
 
     flex: 1;
 }
 
-.cardText{
+.cardText {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    
+
     max-width: 175px;
 
     font-family: var(--font-open-sans), sans-serif;
 }
 
-.oldPrice{
+.oldPrice {
     text-decoration: line-through;
 
     color: rgba(180, 178, 160, 1);
-    
+
     margin: 0 0 0 5px;
 }
 
-.buttonCart{
+.buttonCart {
     background-color: rgba(121, 134, 72, 1);
-    
+
     width: 42px;
     height: 42px;
 
-    
+
     border-radius: 10px;
-    
+
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     margin: 0 0 0 5px;
 }
 
-.buttonCart:hover{
+.buttonCart:hover {
     background-color: var(--color-secondary-700);
 }
 
-.priceLabel{
+.priceLabel {
     color: rgba(180, 178, 160, 1);
 }
 
-.name{
+.name {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
-.name:hover{
+.name:hover {
     color: var(--color-secondary-700);
 }
 
-.buttonCartInactive{
+.buttonCartInactive {
     background-color: rgba(140, 138, 124, 1);
 }
 
-.buttonCartInactive:hover{
+.buttonCartInactive:hover {
     background-color: rgba(140, 138, 124, 1);
     cursor: default;
 }
@@ -108,4 +108,8 @@
 .buttonCartDisabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+
+.imageContainer {
+    position: relative;
 }

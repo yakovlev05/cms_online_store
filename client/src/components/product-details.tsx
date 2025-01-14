@@ -81,7 +81,7 @@ const ProductDetails: React.FC<ProductProps> = ({name, description, composition,
                 }
 
                 {
-                    (!isChecking && !isAllComponentsInStock) &&
+                    (!isChecking && !isAllComponentsInStock && !isInCart) &&
                     <button
                         className={styles.addToCart}
                         disabled
