@@ -37,7 +37,7 @@ public class OrderValidationInputListener {
             for (OrderValidationInputEvent.Product product : event.getProductIds()) {
                 Product productInfo = productService.getProductById(product.getOriginalProductId());
 
-                totalCost = totalCost.add(productInfo.getPrice());
+                totalCost = totalCost.add(productInfo.getPrice().multiply(BigDecimal.valueOf(product.getCount())));
                 productsResult.add(OrderValidationResultEvent.Product.builder()
                         .productOrderId(product.getId())
                         .originalId(product.getOriginalProductId())
